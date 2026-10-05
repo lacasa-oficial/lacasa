@@ -442,6 +442,35 @@ dialog.acct::backdrop{background:rgba(4,3,8,.78);backdrop-filter:blur(4px)}
 .acct-top h2{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
 .x{border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--panel-2);padding:4px}
+#acctBody{display:flex;flex-direction:column;gap:14px}
+#acctBody>.btn-v{align-self:flex-start}
+.seg.seg3{grid-template-columns:repeat(3,1fr)}
+.plan-now{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;align-items:center;padding:16px;background:linear-gradient(120deg,rgba(133,108,255,.24),rgba(133,108,255,.05) 70%);border:1px solid rgba(133,108,255,.5)}
+.plan-now.off{background:var(--panel-2);border-color:var(--line)}
+.plan-now .pn-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.plan-now .pk{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--v-hi)}
+.plan-now .pn-t b{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.plan-now .ps{font-size:13.5px;color:var(--ink-2)}
+.plan-now .pn-d{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+.plan-now .pn-d b{font-family:var(--display);font-weight:800;font-size:34px;color:var(--v-hi);text-shadow:0 0 18px var(--v-glow)}
+.plan-now .pn-d span{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.plan-now .pn-bar{grid-column:1/-1;display:block;height:6px;background:var(--panel-3);position:relative}
+.plan-now .pn-bar u{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--v-deep),var(--v))}
+.plan-now .pn-w{grid-column:1/-1;font-size:13px;color:#ffd9a8}
+.pays{display:flex;flex-direction:column;gap:6px}
+.pays h4,.sec-h{font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--v-hi);margin:0}
+.pay{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px;padding:9px 12px;background:var(--panel-2);color:var(--ink-2)}
+.pay b{color:var(--ink)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kv div{background:var(--panel-2);padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.kv span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kv b{font-size:14.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sec-box{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--panel-2);align-items:flex-start}
+.sec-box.danger{border:1px solid rgba(255,92,127,.45);background:rgba(255,92,127,.06)}
+.sec-box.danger .sec-h{color:var(--loss)}
+.sec-box form{width:100%}
+.btn-g.dz{border-color:rgba(255,92,127,.6);color:#ffc2cf}.btn-g.dz:hover{background:var(--loss);border-color:var(--loss);color:#1a0810}
+@media (max-width:480px){.kv{grid-template-columns:1fr}.seg.seg3 button{font-size:11.5px;letter-spacing:.02em;padding:9px 4px}}
 .seg button{border:0;background:transparent;color:var(--muted);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:9px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--v);color:#0B0718}
 .fld{display:flex;flex-direction:column;gap:6px}
@@ -744,7 +773,7 @@ details.renew .steps{padding:12px}
 
 <h4>8. Tus datos personales</h4>
 <p>Guardamos los datos que nos das al registrarte (nombre y apellido, usuario, correo, ubicación y teléfono) y los datos de tus pagos, <b>solo para</b> administrar tu cuenta, verificar tus pagos, darte soporte y avisarte de cambios importantes del servicio. <b>No vendemos ni compartimos tus datos</b> con terceros, salvo con los proveedores técnicos necesarios para que la página funcione (alojamiento, base de datos y verificación de pagos) o cuando una autoridad competente lo exija por ley.</p>
-<p>Puedes pedir que corrijamos o borremos tus datos escribiéndonos por Instagram. Si borras tu cuenta, pierdes el acceso y el tiempo de suscripción que te quede.</p>
+<p>Puedes corregir tus datos y eliminar tu cuenta tú mismo desde <b>Mi cuenta</b>, o pedirlo escribiéndonos por Instagram. Si eliminas tu cuenta se borran tus datos personales y pierdes el acceso y el tiempo de suscripción que te quede. Conservamos solo el registro de los pagos (monto, fecha e ID de Binance), sin tu nombre ni tu correo, para la contabilidad y para evitar el abuso de promociones.</p>
 
 <h4>9. Propiedad del contenido</h4>
 <p>El diseño, la marca LA CASA, el logo, los textos, el modelo estadístico y los pronósticos publicados son propiedad de su creador. No puedes copiarlos, modificarlos ni usarlos con fines comerciales sin permiso por escrito.</p>
@@ -1747,6 +1776,8 @@ if(PUBLIC){
   const plan=()=>!PROF?null:(PROF.completo_until&&new Date(PROF.completo_until)>new Date())?'completo':(PROF.basico_until&&new Date(PROF.basico_until)>new Date())?'basico':null;
   const PUB_DATA=DATA;
   let sb=null, ME=null, PROF=null, VIEW='login', polling=null, PREM=false, RECOVERY=false;
+  let TAB='plan';   // pestaña del panel de usuario: plan | datos | seg
+  let NOTICE='';    // aviso que se muestra una vez sobre el inicio de sesión (por ejemplo, al eliminar la cuenta)
   const PROMO={left:null,used:false};
   const promoOn=()=>PROMO.left>0&&!PROMO.used;
   // cupos que quedan (número público) y si esta cuenta ya usó la promo
@@ -1773,7 +1804,7 @@ if(PUBLIC){
   const active=()=>PROF&&PROF.paid_until&&new Date(PROF.paid_until)>new Date();
   const say=(el,txt,kind)=>{el.innerHTML=txt?`<div class="msg ${kind||''}">${txt}</div>`:'';};
 
-  window.choosePlan=k=>{SEL=(k==='promo'&&!promoOn())?'completo':k;SEL_OPEN=true;if(!ME)VIEW='signup';window.openAccount();};
+  window.choosePlan=k=>{SEL=(k==='promo'&&!promoOn())?'completo':k;SEL_OPEN=true;TAB='plan';if(!ME)VIEW='signup';window.openAccount();};
   function paintBtn(){
     const pl=plan(); window.LC_PLAN=pl; window.LC_UNTIL=pl?fmt(pl==='completo'?PROF.completo_until:PROF.basico_until):null; buildPlanes();
     if(!ME){btn.innerHTML='Entrar';return;}
@@ -1783,6 +1814,7 @@ if(PUBLIC){
   window.openAccount=()=>{ render(); try{dlg.showModal();}catch(e){dlg.setAttribute('open','');} };
   btn.addEventListener('click',window.openAccount);
   $('acctClose').addEventListener('click',()=>dlg.close());
+  dlg.addEventListener('close',()=>{NOTICE='';});
   dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
 
   function render(){
@@ -1823,7 +1855,7 @@ if(PUBLIC){
     }
     if(!ME){
       const SU=VIEW==='signup';
-      body.innerHTML=`<div class="seg" role="group"><button data-v="login" aria-pressed="${!SU}">Iniciar sesión</button><button data-v="signup" aria-pressed="${SU}">Crear cuenta</button></div>
+      body.innerHTML=(NOTICE?`<div class="msg ok">${NOTICE}</div>`:'')+`<div class="seg" role="group"><button data-v="login" aria-pressed="${!SU}">Iniciar sesión</button><button data-v="signup" aria-pressed="${SU}">Crear cuenta</button></div>
       <form id="authForm" class="acct-in" style="padding:0;border:0;background:none;gap:14px;max-height:none;overflow:visible">
         ${SU?`<div class="grid2"><div class="fld"><label for="fn">Nombre</label><input id="fn" autocomplete="given-name" required maxlength="40"></div>
         <div class="fld"><label for="ln">Apellido</label><input id="ln" autocomplete="family-name" required maxlength="40"></div></div>
@@ -1867,7 +1899,12 @@ if(PUBLIC){
     const hello=PROF&&PROF.nombre?`Hola, ${esc(PROF.nombre)}`:esc(ME.email);
     const okBox=on?(PREM?`<div class="msg ok">Tienes el plan <b>${pl==='completo'?'Completo':'Básico'}</b> activo.${pl==='basico'?' Ves la Segura de cada deporte. Para ver todo, pasa al plan Completo.':' Ves todas las combinadas y el análisis de cada partido.'}</div><button class="btn-v cut" id="goApp">Ver los pronósticos</button>`
       :`<div class="msg">Tu plan está activo. Los pronósticos de hoy todavía no se han publicado; aparecen aquí apenas se carguen en la mañana.</div><button class="btn-v cut" id="goApp">Volver a la página</button>`):'';
-    body.innerHTML=`<div class="status"><span>${hello}</span>${on?`<b class="on">${pl==='completo'?'COMPLETO':'BÁSICO'} HASTA ${fmt(pl==='completo'?PROF.completo_until:PROF.basico_until)}</b>`:'<b class="off">SIN PLAN</b>'}</div>
+    const head=`<div class="status"><span>${hello}</span>${on?`<b class="on">${pl==='completo'?'COMPLETO':'BÁSICO'}${forever()?'':' HASTA '+fmt(pl==='completo'?PROF.completo_until:PROF.basico_until)}</b>`:'<b class="off">SIN PLAN</b>'}</div>
+      <div class="seg seg3" role="tablist" aria-label="Mi cuenta">${[['plan','Mi plan'],['datos','Mis datos'],['seg','Seguridad']].map(([k,n])=>`<button type="button" role="tab" data-tab="${k}" aria-pressed="${TAB===k}">${n}</button>`).join('')}</div>`;
+    const foot=`<div class="row2" style="justify-content:space-between"><span class="note">¿Problemas? Escribe a <b style="color:var(--ink)">@lacasa_ve</b> en Instagram.</span><button class="btn-g" id="logout">Cerrar sesión</button></div>`;
+    const common=()=>{ body.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;render();}); $('logout').onclick=async()=>{await sb.auth.signOut();dlg.close();}; };
+    if(TAB!=='plan'){ renderPanel(head,foot); common(); return; }
+    body.innerHTML=head+`${planCard()}
       ${okBox}
       ${on?`<details class="renew"${SEL_OPEN?' open':''}><summary>${pl==='basico'?'Pasar al plan Completo o renovar':'Renovar o sumar tiempo'}</summary>`:''}
       <ol class="steps">
@@ -1880,11 +1917,11 @@ if(PUBLIC){
         <li><b>Confirma tu pago</b><p>Cuando Binance diga que el pago se completó, toca el botón. La activación es automática.</p>
           <button class="btn-v cut" id="verify">Ya pagué, verificar</button><div id="payMsg"></div></li>
       </ol>${on?'</details>':''}
-      <div class="row2" style="justify-content:space-between"><span class="note">¿Problemas? Escribe a <b style="color:var(--ink)">@lacasa_ve</b> en Instagram.</span><button class="btn-g" id="logout">Cerrar sesión</button></div>`;
+      <div id="payList"></div>`+foot;
+    common(); loadPays();
     if($('goApp')) $('goApp').onclick=()=>{dlg.close();show('combo');window.scrollTo({top:0,behavior:'smooth'});};
     body.querySelectorAll('.plan').forEach(b=>b.onclick=()=>{SEL=b.dataset.k;SEL_OPEN=true;render();});
     $('copyPay').onclick=async()=>{try{await navigator.clipboard.writeText(PAY_ID);$('copyPay').textContent='Copiado';}catch(e){$('copyPay').textContent=PAY_ID;}};
-    $('logout').onclick=async()=>{await sb.auth.signOut();dlg.close();};
     $('bidSave').onclick=async()=>{
       const v=$('bid').value.replace(/\D/g,''), m=$('bidMsg');
       if(v.length<5||v.length>15){say(m,'Escribe solo los números de tu Binance ID.','err');return;}
@@ -1893,6 +1930,103 @@ if(PUBLIC){
       PROF.binance_id=v; say(m,'Guardado.','ok');
     };
     $('verify').onclick=()=>verify(true);
+  }
+
+  /* ---------- panel de usuario: plan, datos y seguridad ---------- */
+  const untilOf=()=>{const pl=plan(); return pl?new Date(pl==='completo'?PROF.completo_until:PROF.basico_until):null;};
+  const forever=()=>{const u=untilOf(); return !!u&&u.getFullYear()>=2090;};
+  function planCard(){
+    const pl=plan(), u=untilOf();
+    if(!pl) return `<div class="plan-now off"><div class="pn-t"><span class="pk">Tu plan</span><b>Sin plan activo</b><span class="ps">Elige un plan aquí abajo para ver los pronósticos completos.</span></div></div>`;
+    const ms=u-new Date(), days=Math.max(0,Math.ceil(ms/864e5)), fv=forever();
+    return `<div class="plan-now"><div class="pn-t"><span class="pk">Tu plan</span><b>${pl==='completo'?'Completo':'Básico'}</b><span class="ps">${fv?'Acceso sin fecha de vencimiento.':'Activo hasta el '+fmt(u)}</span></div>
+      <div class="pn-d"><b class="num">${fv?'∞':days}</b><span>${fv?'sin límite':days===1?'día te queda':'días te quedan'}</span></div>
+      ${fv?'':`<i class="pn-bar"><u style="width:${Math.max(2,Math.min(100,days/30*100)).toFixed(0)}%"></u></i>`}
+      ${!fv&&days<=5?`<span class="pn-w">Tu plan vence pronto. Renueva aquí abajo para no perder el acceso.</span>`:''}</div>`;
+  }
+  async function loadPays(){
+    const el=$('payList'); if(!el||!ME) return;
+    let rows=[]; try{ const {data}=await sb.from('payments').select('amount,currency,tx_time,days,plan').order('tx_time',{ascending:false}).limit(12); rows=data||[]; }catch(e){}
+    if(!$('payList')||!rows.length) return;
+    const PN={promo:'Promo de lanzamiento',completo:'Completo',basico:'Básico'};
+    $('payList').innerHTML=`<div class="pays"><h4>Mis pagos</h4>${rows.map(r=>`<div class="pay"><span>${fmt(r.tx_time)}</span><span>${esc(PN[r.plan]||r.plan||'')}${r.days?` · ${r.days} días`:' · sin acreditar'}</span><b class="num">${Number(r.amount)} ${esc(r.currency||'USDT')}</b></div>`).join('')}</div>`;
+  }
+  // comprueba la contraseña actual sin tocar la sesión abierta
+  async function checkPass(pw){
+    try{ const tmp=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'lc-chk'}});
+      const {data,error}=await tmp.auth.signInWithPassword({email:ME.email,password:pw}); return !error&&!!data&&!!data.user&&data.user.id===ME.id; }catch(e){ return false; }
+  }
+  function renderPanel(head,foot){
+    const v=k=>esc(PROF&&PROF[k]||'');
+    if(TAB==='datos'){
+      body.innerHTML=head+`<form id="dForm" class="acct-in" style="padding:0;border:0;background:none;gap:14px;max-height:none;overflow:visible">
+        <div class="grid2"><div class="fld"><label for="d_fn">Nombre</label><input id="d_fn" required maxlength="40" autocomplete="given-name" value="${v('nombre')}"></div>
+        <div class="fld"><label for="d_ln">Apellido</label><input id="d_ln" required maxlength="40" autocomplete="family-name" value="${v('apellido')}"></div></div>
+        <div class="grid2"><div class="fld"><label for="d_loc">Ubicación</label><input id="d_loc" required maxlength="60" placeholder="Ciudad, país" value="${v('ubicacion')}"></div>
+        <div class="fld"><label for="d_tel">Teléfono</label><input id="d_tel" type="tel" required maxlength="20" placeholder="+58 412 1234567" value="${v('telefono')}"></div></div>
+        <div id="dMsg"></div>
+        <button class="btn-v cut" type="submit">Guardar cambios</button></form>
+        <div class="kv"><div><span>Usuario</span><b>${v('usuario')||'—'}</b></div><div><span>Correo</span><b>${esc(ME.email||'')}</b></div>
+        <div><span>Binance ID</span><b>${v('binance_id')||'Sin guardar'}</b></div><div><span>Miembro desde</span><b>${PROF&&PROF.created_at?fmt(PROF.created_at):'—'}</b></div></div>
+        <p class="note">El usuario y el correo no se pueden cambiar. El Binance ID se cambia en <b style="color:var(--ink)">Mi plan</b>. Tus datos se usan solo para administrar tu cuenta.</p>`+foot;
+      $('dForm').onsubmit=async e=>{
+        e.preventDefault(); const m=$('dMsg'), b=e.target.querySelector('button[type=submit]');
+        const tel=$('d_tel').value.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'');
+        if(tel.replace(/\D/g,'').length<10){say(m,'Escribe tu teléfono completo, con código de país.','err');return;}
+        const up={nombre:$('d_fn').value.trim(),apellido:$('d_ln').value.trim(),ubicacion:$('d_loc').value.trim(),telefono:tel};
+        if(!up.nombre||!up.apellido||!up.ubicacion){say(m,'Completa todos los campos.','err');return;}
+        b.disabled=true; say(m,'Guardando…');
+        const {error}=await sb.from('profiles').update(up).eq('id',ME.id); b.disabled=false;
+        if(error){say(m,'No se pudo guardar. Revisa los datos e intenta de nuevo.','err');return;}
+        Object.assign(PROF,up); say(m,'Datos guardados.','ok'); const st=body.querySelector('.status span'); if(st) st.textContent='Hola, '+up.nombre;
+      };
+      return;
+    }
+    // seguridad
+    body.innerHTML=head+`<form id="pwForm" class="acct-in" style="padding:0;border:0;background:none;gap:14px;max-height:none;overflow:visible">
+        <h4 class="sec-h">Cambiar contraseña</h4>
+        <div class="fld"><label for="pw0">Contraseña actual</label><input id="pw0" type="password" autocomplete="current-password" required></div>
+        <div class="grid2"><div class="fld"><label for="pw1">Nueva contraseña</label><input id="pw1" type="password" minlength="8" autocomplete="new-password" required><small>Mínimo 8 caracteres.</small></div>
+        <div class="fld"><label for="pw2">Repite la nueva</label><input id="pw2" type="password" minlength="8" autocomplete="new-password" required></div></div>
+        <div id="pwMsg"></div>
+        <button class="btn-v cut" type="submit">Cambiar contraseña</button></form>
+      <div class="sec-box"><h4 class="sec-h">Sesiones</h4><p class="note">Si entraste desde otro teléfono o computadora y quieres cerrar todo, usa este botón. Tendrás que volver a iniciar sesión.</p>
+        <button type="button" class="btn-g" id="outAll">Cerrar sesión en todos los dispositivos</button></div>
+      <div class="sec-box danger"><h4 class="sec-h">Eliminar cuenta</h4>
+        <p class="note">Se borran tu cuenta y tus datos personales, y pierdes el tiempo que te quede de plan. No se puede deshacer y no hay reembolso. Guardamos solo el registro de tus pagos (monto, fecha e ID de Binance) para la contabilidad.</p>
+        <button type="button" class="btn-g dz" id="delOpen">Eliminar mi cuenta</button>
+        <form id="delForm" hidden style="display:none;flex-direction:column;gap:12px">
+          <div class="fld"><label for="delPw">Escribe tu contraseña para confirmar</label><input id="delPw" type="password" autocomplete="current-password" required></div>
+          <label class="chk"><input type="checkbox" id="delOk" required><span>Entiendo que mi cuenta se borra para siempre.</span></label>
+          <div id="delMsg"></div>
+          <div class="row2"><button type="submit" class="btn-g dz">Sí, eliminar definitivamente</button><button type="button" class="btn-g" id="delNo">Cancelar</button></div>
+        </form></div>`+foot;
+    $('pwForm').onsubmit=async e=>{
+      e.preventDefault(); const m=$('pwMsg'), b=e.target.querySelector('button[type=submit]'), a=$('pw1').value;
+      if(a!==$('pw2').value){say(m,'Las dos contraseñas nuevas no coinciden.','err');return;}
+      if(a===$('pw0').value){say(m,'La nueva contraseña debe ser distinta a la actual.','err');return;}
+      b.disabled=true; say(m,'Un momento…');
+      if(!(await checkPass($('pw0').value))){b.disabled=false;say(m,'La contraseña actual no es correcta.','err');return;}
+      const {error}=await sb.auth.updateUser({password:a}); b.disabled=false;
+      if(error){say(m,/different from the old/i.test(error.message||'')?'La nueva contraseña debe ser distinta a la actual.':/Password should|weak/i.test(error.message||'')?'La contraseña es muy corta o muy fácil.':'No se pudo cambiar. Intenta de nuevo en un minuto.','err');return;}
+      e.target.reset(); say(m,'Listo, tu contraseña quedó cambiada.','ok');
+    };
+    $('outAll').onclick=async()=>{ $('outAll').disabled=true; try{await sb.auth.signOut({scope:'global'});}catch(e){} dlg.close(); };
+    const df=$('delForm'), showDel=on=>{df.hidden=!on; df.style.display=on?'flex':'none'; $('delOpen').hidden=on;};
+    $('delOpen').onclick=()=>{showDel(true); $('delPw').focus();};
+    $('delNo').onclick=()=>{df.reset(); say($('delMsg'),''); showDel(false);};
+    df.onsubmit=async e=>{
+      e.preventDefault(); const m=$('delMsg'), b=df.querySelector('button[type=submit]');
+      if(!$('delOk').checked){say(m,'Marca la casilla para confirmar.','err');return;}
+      b.disabled=true; say(m,'Eliminando tu cuenta…');
+      let r; try{ r=await sb.functions.invoke('eliminar-cuenta',{method:'POST',body:{password:$('delPw').value}}); }catch(err){ r={error:err}; }
+      const d=r&&r.data;
+      if(r.error||!d){b.disabled=false;say(m,'No se pudo eliminar la cuenta ahora. Intenta de nuevo en un minuto.','err');return;}
+      if(!d.ok){b.disabled=false;say(m,esc(d.msg||'No se pudo eliminar la cuenta.'),'err');return;}
+      try{await sb.auth.signOut({scope:'local'});}catch(err){}
+      ME=null; PROF=null; TAB='plan'; VIEW='login'; NOTICE='Tu cuenta fue eliminada. Gracias por haber usado LA CASA.'; await onSession(null);
+      render();
+    };
   }
 
   async function verify(fromClick){
@@ -1907,7 +2041,7 @@ if(PUBLIC){
     if(!d.ok){ if(m) say(m,esc(d.msg||'No se pudo verificar.'),'err'); return; }
     if(d.credited>0){
       clearInterval(polling); polling=null;
-      await loadProfile(); await loadPromo(); await loadPremium(); render();
+      await loadProfile(); await loadPromo(); await loadPremium(); TAB='plan'; render();
       body.insertAdjacentHTML('afterbegin',`<div class="msg ok">¡Pago recibido! ${d.promo?'Entraste con la promo de lanzamiento. ':''}Tu plan ${plan()==='completo'?'Completo':'Básico'} está activo hasta el ${fmt(plan()==='completo'?PROF.completo_until:PROF.basico_until)}.</div>`);
       return;
     }
@@ -1921,7 +2055,7 @@ if(PUBLIC){
 
   async function loadProfile(){
     if(!ME){PROF=null;return;}
-    const {data}=await sb.from('profiles').select('binance_id,paid_until,basico_until,completo_until,nombre,usuario').eq('id',ME.id).maybeSingle();
+    const {data}=await sb.from('profiles').select('binance_id,paid_until,basico_until,completo_until,nombre,apellido,usuario,email,ubicacion,telefono,created_at').eq('id',ME.id).maybeSingle();
     PROF=data||{binance_id:null,paid_until:null};
     const p=plan(); if(p) SEL=p;
   }
