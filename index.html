@@ -255,6 +255,13 @@ details.m>summary:hover,details.m[open]>summary{background:var(--panel-2)}
 .cfoot div+div{border-left:1px solid var(--line)}
 .cfoot span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .cfoot b{font-family:var(--display);font-weight:800;font-size:23px;color:var(--v-hi);text-shadow:0 0 18px var(--v-glow)}
+/* marca en cada combinada: toda captura que se comparta lleva el nombre y la dirección */
+.cbrand{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border-top:1px solid var(--line);margin-top:auto}
+.cfoot+.cbrand,.note+.cbrand,.paywall+.cbrand{margin-top:0}
+.cbrand svg{width:14px;height:auto;flex:none}
+.cbrand b{font-family:var(--display);font-weight:900;font-size:12px;letter-spacing:.16em;color:var(--ink)}
+.cbrand b i{font-style:normal;color:var(--v)}
+.cbrand span{margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.02em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .combo .empty{padding:0 18px 18px;font-size:13.5px;color:var(--muted);margin:0}
 .sporthd{display:flex;align-items:baseline;gap:10px}
 .sporthd h3{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
@@ -638,7 +645,7 @@ details.renew .steps{padding:12px}
       </div>
     </div>
     <div class="foot-bar">
-      <p class="credit"><a href="#" id="termsLink">Términos y condiciones</a> · Creado por <a href="https://www.instagram.com/lgsusoriginal/" target="_blank" rel="noopener">@lgsusoriginal</a></p>
+      <p class="credit"><a href="#" id="termsLink">Términos y condiciones</a></p>
       <p class="legal">© 2026 LA CASA · Contenido informativo para mayores de 18 años. Ningún pronóstico es seguro: apuesta con responsabilidad y solo lo que estés dispuesto a perder.</p>
     </div>
   </div>
@@ -1071,14 +1078,16 @@ function legLi(l,sport,hl){
   const lr=hl?hl.result:null;
   return `<li class="${resCls(lr)}">${legJerseys(l.gid,sport)}<div style="min-width:0"><div class="gm">${esc(gname(l.gid,l.game||(hl&&hl.game)))}${hl&&hl.score?` · <span class="num">${esc(hl.score)}</span>`:''}</div><div class="sel">${esc(l.label)}<small>${esc(l.grp)}</small></div></div><div class="lp"><span class="num">${pct(l.p)}</span><i>${lr==null?'':resTxt(lr).toUpperCase()}</i></div></li>`;
 }
+const SITE=(/^https?:$/.test(location.protocol)&&location.hostname)?(location.host+location.pathname).replace(/\/(index\.html)?$/,''):'lacasa-oficial.github.io/lacasa';
+function cbrand(){return `<div class="cbrand"><svg viewBox="0 0 599 634" aria-hidden="true"><path d="M0 255L257 0L599 338V634H397V356L203 549V634H0Z" fill="#856CFF"/></svg><b>LA <i>CASA</i></b><span>${esc(SITE)}</span></div>`;}
 function comboCard(sport,ct,c,hc){
   const res=hc?hc.result:null, D=1/c.p;
   if(c.locked) return `<article class="combo cut enter"><div class="ch"><div><h3>${cname(ct.k,c.p,true)}</h3><p>${ct.desc(sport)}</p></div><span class="badge ${resCls(res)}">${res==null?'Premium':resTxt(res)}</span></div>
     <ul class="legs">${Array.from({length:c.n||3},()=>`<li class="pend"><span class="jj">${LOCK}</span><div><div class="gm">Selección oculta</div><div class="sel blur">Equipo · Ganador</div></div><div class="lp"><span class="num">··%</span></div></li>`).join('')}</ul>
-    <div class="cfoot"><div><span>Chance de ganar</span><b class="num">${pct(c.p)}</b></div><div><span>Selecciones</span><b class="num">${c.n||3}</b></div></div>${paywall('Las selecciones de esta combinada.')}</article>`;
+    <div class="cfoot"><div><span>Chance de ganar</span><b class="num">${pct(c.p)}</b></div><div><span>Selecciones</span><b class="num">${c.n||3}</b></div></div>${paywall('Las selecciones de esta combinada.')}${cbrand()}</article>`;
   return `<article class="combo cut enter"><div class="ch"><div><h3>${cname(ct.k,c.p,true)}</h3><p>${ct.desc(sport)}</p></div><span class="badge ${resCls(res)}">${resTxt(res)}</span></div><ul class="legs">${c.legs.map((l,i)=>legLi(l,sport,hc&&hc.legs[i])).join('')}</ul>
     <div class="cfoot"><div><span>Chance de ganar</span><b class="num">${pct(c.p)}</b></div><div><span>Selecciones</span><b class="num">${c.legs.length}</b></div></div>
-    <p class="note" style="padding:0 18px 16px">Según el modelo, se gana más o menos 1 de cada ${Math.round(D)} veces.</p></article>`;
+    <p class="note" style="padding:0 18px 16px">Según el modelo, se gana más o menos 1 de cada ${Math.round(D)} veces.</p>${cbrand()}</article>`;
 }
 const ACC={};
 function accAttr(k,def){const o=(k in ACC)?ACC[k]:def; return ` data-acc="${k}"${o?' open':''} ontoggle="ACC[this.dataset.acc]=this.open"`;}
@@ -1146,7 +1155,7 @@ function buildHist(){
     const keys=[...SPORTS.map(s=>s.k),...new Set([...cs.map(c=>c.sport),...rows.map(e=>e.sport)].filter(k=>!SPORTS.some(s=>s.k===k)))].filter(k=>cs.some(c=>c.sport===k)||rows.some(e=>e.sport===k));
     const inner=keys.map(k=>{
       const sp=SPORTS.find(s=>s.k===k), cK=cs.filter(c=>c.sport===k), rK=rows.filter(e=>e.sport===k);
-      const combos=cK.length?`<div class="combos">${cK.map(c=>`<article class="combo cut"><div class="ch"><div><h3 style="font-size:15px">${cname(c.type,c.p,!cK.some(o=>o!==c&&ctier(o.type,o.p)===ctier(c.type,c.p)))}</h3><p class="num">Chance ${pct(c.p)}</p></div><span class="badge ${resCls(c.result)}">${resTxt(c.result)}</span></div><ul class="legs">${c.legs.length?c.legs.map(l=>legLi(l,c.sport,l)).join(''):`<li class="pend"><span class="jj">${LOCK}</span><div><div class="gm">Selecciones visibles para suscriptores hasta que terminen los partidos</div></div><div class="lp"></div></li>`}</ul><div style="height:8px"></div></article>`).join('')}</div>`:'';
+      const combos=cK.length?`<div class="combos">${cK.map(c=>`<article class="combo cut"><div class="ch"><div><h3 style="font-size:15px">${cname(c.type,c.p,!cK.some(o=>o!==c&&ctier(o.type,o.p)===ctier(c.type,c.p)))}</h3><p class="num">Chance ${pct(c.p)}</p></div><span class="badge ${resCls(c.result)}">${resTxt(c.result)}</span></div><ul class="legs">${c.legs.length?c.legs.map(l=>legLi(l,c.sport,l)).join(''):`<li class="pend"><span class="jj">${LOCK}</span><div><div class="gm">Selecciones visibles para suscriptores hasta que terminen los partidos</div></div><div class="lp"></div></li>`}</ul>${cbrand()}</article>`).join('')}</div>`:'';
       const list=rK.length?`<div class="hrows cut">${rK.map(e=>`<div class="hrow"><span class="res ${resCls(e.result)}">${resTxt(e.result).toUpperCase()}</span><div class="g">${esc(e.game)}<small>Pronóstico: ${e.locked?LOCK+'solo suscriptores':esc(e.pick)+' ('+pct(e.p)+')'}</small></div><span class="sc num">${e.score?esc(e.score):'—'}</span>${e.review&&e.result===0?`<div class="rv">${esc(e.review)}</div>`:''}</div>`).join('')}</div>`:'';
       const t=tally(cK), gK=rK.filter(e=>e.result===1||e.result===0);
       return `<details class="sp-box"${accAttr('h-'+d+'-'+k,keys.length===1)}><summary><h3>${sp?sp.name:esc(k)}</h3><span class="dstats">${cK.length?(t.ok+t.no?`<b class="ok">${t.ok} ✓</b><b class="no">${t.no} ✗</b><span class="sub">combinadas</span>`:`<span class="sub">${cK.length} combinada${cK.length===1?'':'s'}</span>`):''}${cK.length&&rK.length?'<span class="sub">·</span>':''}${rK.length?`<span class="sub">${gK.length?r(gK)+' pronósticos':rK.length+' pronóstico'+(rK.length===1?'':'s')+' pendiente'+(rK.length===1?'':'s')}</span>`:''}</span><span class="chev" aria-hidden="true">›</span></summary><div class="sp-in">${combos}${list}</div></details>`;
