@@ -699,7 +699,7 @@ details.renew .steps{padding:12px}
 <p>Podemos actualizar estos términos. Cuando haya cambios importantes lo avisaremos en la página. Si sigues usando LA CASA después de un cambio, se entiende que aceptas la nueva versión.</p>
 
 <h4>13. Contacto</h4>
-<p>Para dudas, soporte o solicitudes sobre tus datos, escríbenos por Instagram a <b>@lgsusoriginal</b>.</p>
+<p>Para dudas, soporte o solicitudes sobre tus datos, escríbenos por Instagram a <b>@lacasa_ve</b>.</p>
 <p><b>Recuerda: LA CASA es estadística pura, sin humo. Informa, no adivina. Ningún pronóstico es seguro.</b></p>
 </template>
 <dialog class="acct" id="termsDlg" aria-labelledby="termsTitle">
@@ -1463,7 +1463,7 @@ if(PUBLIC){
         <li><b>Confirma tu pago</b><p>Cuando Binance diga que el pago se completó, toca el botón. La activación es automática.</p>
           <button class="btn-v cut" id="verify">Ya pagué, verificar</button><div id="payMsg"></div></li>
       </ol>${on?'</details>':''}
-      <div class="row2" style="justify-content:space-between"><span class="note">¿Problemas? Escribe a <b style="color:var(--ink)">@lgsusoriginal</b> en Instagram.</span><button class="btn-g" id="logout">Cerrar sesión</button></div>`;
+      <div class="row2" style="justify-content:space-between"><span class="note">¿Problemas? Escribe a <b style="color:var(--ink)">@lacasa_ve</b> en Instagram.</span><button class="btn-g" id="logout">Cerrar sesión</button></div>`;
     if($('goApp')) $('goApp').onclick=()=>{dlg.close();show('combo');window.scrollTo({top:0,behavior:'smooth'});};
     body.querySelectorAll('.plan').forEach(b=>b.onclick=()=>{SEL=b.dataset.k;SEL_OPEN=true;render();});
     $('copyPay').onclick=async()=>{try{await navigator.clipboard.writeText(PAY_ID);$('copyPay').textContent='Copiado';}catch(e){$('copyPay').textContent=PAY_ID;}};
