@@ -256,6 +256,24 @@ details.m>summary:hover,details.m[open]>summary{background:var(--panel-2)}
 .cfoot div+div{border-left:1px solid var(--line)}
 .cfoot span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .cfoot b{font-family:var(--display);font-weight:800;font-size:23px;color:var(--v-hi);text-shadow:0 0 18px var(--v-glow)}
+/* fútbol: aciertos por competición */
+.cgrp{display:flex;flex-direction:column;gap:6px}
+.cg-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.cg-h h4{font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--v-hi)}
+.cg-h span{font-size:13px;color:var(--muted)}.cg-h b{color:var(--ink);font-size:14px}
+.crow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(60px,1fr) 46px 52px;align-items:center;gap:6px 12px;padding:9px 12px;background:var(--panel)}
+.crow .cn{font-size:14.5px;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .cn em{font-style:normal;font-weight:400;font-size:11px;color:var(--dim);margin-left:8px}
+.crow .bar{display:block;height:6px;background:var(--panel-3);position:relative}
+.crow .bar u{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--v-deep),var(--v))}
+.crow>b{text-align:right;font-family:var(--display);font-weight:800;font-size:14px;color:var(--v-hi)}
+.crow .cq{text-align:right;font-size:12.5px;color:var(--muted)}
+.crow small{grid-column:1/-1;font-size:12px;color:var(--muted)}.crow small b{color:var(--ink-2)}
+.crow.few>b{color:var(--ink-2)}.crow.few .bar u{background:var(--dim)}
+.board-h .cb{font-size:11.5px;color:var(--ink-2);background:var(--v-soft);padding:3px 8px;white-space:nowrap}
+.board-h .cb b{color:var(--v-hi)}
+@media (max-width:560px){.crow{grid-template-columns:minmax(0,1fr) 44px 46px}.crow .bar{grid-column:1/-1;grid-row:2}.crow small{grid-row:3}
+  .board-h{gap:8px}.board-h .cb{margin-left:auto;font-size:11px;padding:3px 6px}.board-h .cb~span:last-child{display:none}.board-h h3{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 /* ranking y probabilidad de campeón */
 .rk{background:var(--panel);display:flex;flex-direction:column}
 .rk-row{display:grid;grid-template-columns:30px 30px minmax(0,1fr) 54px 76px;align-items:center;gap:10px;padding:9px 16px;border-top:1px solid var(--line)}
@@ -1125,21 +1143,82 @@ async function liveTick(){
   buildTicker();
 }
 setInterval(liveTick,45000); document.addEventListener('visibilitychange',()=>{if(!document.hidden) liveTick();});
+/* ---------- fútbol: aciertos por competición (selecciones, ligas y copas) ---------- */
+// Los nombres llegan escritos de varias formas ("Liga de Naciones B", "UEFA Nations League"...): aquí se agrupan.
+function futComp(raw){
+  const base=String(raw||'').split('·')[0].trim(), c=_n(base), has=re=>re.test(c), R=(kind,name,sub)=>({kind,name,sub:sub||null});
+  if(has(/concacaf/)&&has(/naciones|nations/)) return R('sel','Liga de Naciones Concacaf');
+  if(has(/naciones|nations league/)){ const m=c.match(/naciones ([a-d])$/); return R('sel','Liga de Naciones UEFA',m?'Liga '+m[1].toUpperCase():''); }
+  if(has(/amistos|friendly/)) return R('sel','Amistosos');
+  if(has(/eliminatoria|clasificatori|qualif/)) return R('sel','Eliminatorias');
+  if(has(/mundial de clubes|club world/)) return R('copa','Mundial de Clubes');
+  if(has(/mundial|world cup/)) return R('sel','Mundial');
+  if(has(/eurocopa|uefa euro|^euro /)) return R('sel','Eurocopa');
+  if(has(/copa america/)) return R('sel','Copa América');
+  if(has(/copa oro|gold cup/)) return R('sel','Copa Oro');
+  if(has(/africana|afcon|copa de africa/)) return R('sel','Copa Africana');
+  if(has(/champions/)) return R('copa','Champions League');
+  if(has(/europa league/)) return R('copa','Europa League');
+  if(has(/conference/)) return R('copa','Conference League');
+  if(has(/libertadores/)) return R('copa','Copa Libertadores');
+  if(has(/sudamericana/)) return R('copa','Copa Sudamericana');
+  if(has(/\bcopa\b|\bcup\b|coppa|pokal|supercopa/)) return R('copa',base);
+  if(has(/brasil|brasileir/)) return R('liga','Brasileirão (Brasil)');
+  if(has(/argentin/)) return R('liga','Liga Argentina');
+  if(has(/la ?liga|espan/)) return R('liga','LaLiga (España)');
+  if(has(/premier/)) return R('liga','Premier League (Inglaterra)');
+  if(has(/serie a/)) return R('liga','Serie A (Italia)');
+  if(has(/bundesliga/)) return R('liga','Bundesliga (Alemania)');
+  if(has(/ligue 1/)) return R('liga','Ligue 1 (Francia)');
+  if(has(/\bmls\b/)) return R('liga','MLS (EE. UU.)');
+  if(has(/arabia|saudi/)) return R('liga','Liga Saudí');
+  if(has(/futve|venez/)) return R('liga','FUTVE (Venezuela)');
+  return R('liga',base.replace(/\s*\(.*?\)\s*/g,' ').trim()||'Otras');
+}
+function futStats(){
+  const K={sel:['Selecciones',{}],liga:['Ligas',{}],copa:['Copas y torneos de clubes',{}]};
+  const E=H.filter(e=>e.sport==='futbol'&&(e.result===1||e.result===0)&&e.pred&&e.pred.comp).map(e=>({e,c:futComp(e.pred.comp),t:String(e.game||'').split(' vs ').map(_n)}));
+  // Liga de Naciones: si un partido llegó sin división (A, B, C o D), se toma la de sus equipos en otros partidos
+  const div={}; E.forEach(x=>{ if(x.c.name==='Liga de Naciones UEFA'&&x.c.sub) x.t.forEach(t=>{div[t]=x.c.sub;}); });
+  E.forEach(({e,c,t})=>{
+    const rows=K[c.kind][1], r=rows[c.name]=rows[c.name]||{name:c.name,n:0,ok:0,ex:0,sub:{}};
+    r.n++; r.ok+=e.result; r.ex+=e.p||0;
+    if(c.name==='Liga de Naciones UEFA'){ const k=c.sub||(div[t[0]]&&div[t[0]]===div[t[1]]?div[t[0]]:'Sin división'), q=r.sub[k]=r.sub[k]||{name:k,n:0,ok:0}; q.n++; q.ok+=e.result; }
+  });
+  return ['sel','liga','copa'].map(k=>{ const rows=Object.values(K[k][1]).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
+    return {k,name:K[k][0],rows,n:rows.reduce((t,r)=>t+r.n,0),ok:rows.reduce((t,r)=>t+r.ok,0)}; }).filter(g=>g.n);
+}
+function futCompBox(){
+  const gs=futStats(); if(!gs.length) return '';
+  const n=gs.reduce((t,g)=>t+g.n,0), ok=gs.reduce((t,g)=>t+g.ok,0);
+  const wide=!!(window.matchMedia&&matchMedia('(min-width:981px)').matches);
+  const row=r=>{ const few=r.n<5, subs=Object.values(r.sub).sort((a,b)=>(a.name==='Sin división')-(b.name==='Sin división')||a.name.localeCompare(b.name));
+    return `<div class="crow${few?' few':''}" title="El modelo esperaba ${pct0(r.ex/r.n)}"><span class="cn">${esc(r.name)}${few?'<em>pocos partidos</em>':''}</span><i class="bar"><u style="width:${(100*r.ok/r.n).toFixed(0)}%"></u></i><b class="num">${pct0(r.ok/r.n)}</b><span class="cq num">${r.ok}/${r.n}</span>${subs.length>1?`<small>${subs.map(q=>`${esc(q.name)} <b class="num">${pct0(q.ok/q.n)}</b> (${q.ok}/${q.n})`).join(' · ')}</small>`:''}</div>`; };
+  return `<details class="sp-box cbox"${accAttr('fut-comp',wide)}><summary><h3>Aciertos por competición</h3><span class="cnt">${n} pronósticos calificados</span><span class="dstats"><b class="ok">${pct0(ok/n)}</b><span class="sub">${ok}/${n}</span></span><span class="chev" aria-hidden="true">›</span></summary>
+    <div class="sp-in">${gs.map(g=>`<div class="cgrp"><div class="cg-h"><h4>${g.name}</h4><span><b class="num">${pct0(g.ok/g.n)}</b> · ${g.ok}/${g.n}</span></div>${g.rows.map(row).join('')}</div>`).join('')}
+    <p class="note">Cuentan los pronósticos del día de fútbol ya calificados, desde el 27/09/2026. Con menos de 5 partidos el porcentaje todavía dice poco.</p></div></details>`;
+}
+// acierto de la competición de un bloque de partidos (para el encabezado del bloque)
+function futCompBadge(comp){
+  const c=futComp(comp), g=futStats().find(x=>x.k===c.kind), r=g&&g.rows.find(x=>x.name===c.name); if(!r) return '';
+  const q=c.sub&&r.sub[c.sub]&&r.sub[c.sub].n>=5?r.sub[c.sub]:r; if(q.n<5) return '';   // con menos de 5 partidos no se muestra
+  return `<span class="cb" title="Pronósticos acertados en ${esc(q===r?r.name:r.name+' · '+q.name)}">Aciertos <b class="num">${pct0(q.ok/q.n)}</b> · ${q.ok}/${q.n}</span>`;
+}
 function buildSport(s){
   const sec=$('sec-'+s.tab), list=G.filter(x=>x.sport===s.k);
   const head=sportSeal(s)+`<div class="h-sec"><div><div class="kick">${list.length} partido${list.length===1?'':'s'}</div><h2>${s.name}</h2></div>`;
   if(!list.length){
     const PEND=(DATA.pending||[]).includes(s.k);
     const msg=PEND?`Los pronósticos de ${s.name.toLowerCase()} de hoy se publican a las <b>${s.k==='futbol'||s.k==='tenis'?'6:00 AM':'10:45 AM'}</b> (hora de Venezuela).`:s.k==='tenis'?'Hoy no hay partidos del circuito ATP o WTA.':s.k==='mlb'?'Hoy no hay juegos de MLB ni de la LVBP.':s.k==='nba'?'Hoy no hay juegos. La NBA empieza el <b>martes 20 de octubre</b>; la liga venezolana aparece aquí cuando esté en temporada.':s.k==='nfl'?'Hoy no hay partidos de NFL. La NFL juega sobre todo <b>jueves, domingos y lunes</b>.':s.k==='nhl'?'Hoy no hay juegos de la NHL.':'Hoy no hay partidos.';
-    sec.innerHTML=head+`</div><p class="info cut">${msg}</p>`; return;
+    sec.innerHTML=head+`</div><p class="info cut">${msg}</p>`+(s.k==='futbol'?futCompBox():''); return;
   }
   const cnt=k=>list.filter(x=>status(x).k===k).length;
   // Mis equipos: sus partidos salen primero, en un bloque propio
   const mine=list.filter(x=>isFav(s.k,x.home.name)||isFav(s.k,x.away.name));
   const groups={}; if(mine.length) groups['★ Mis equipos']=mine;
   list.filter(x=>!mine.includes(x)).forEach(x=>(groups[x.comp]=groups[x.comp]||[]).push(x));
-  sec.innerHTML=head+`<div class="filters" role="group" aria-label="Filtrar partidos"><button aria-pressed="true" data-f="all">Todos ${list.length}</button><button aria-pressed="false" data-f="fin">Finalizados ${cnt('fin')}</button><button aria-pressed="false" data-f="pre">Por jugar ${cnt('pre')}</button></div></div>`+
-    Object.entries(groups).map(([c,arr])=>`<div class="board cut enter${c==='★ Mis equipos'?' mine':''}"><div class="board-h"><span class="ic">${s.tag}</span><h3>${esc(c)}</h3><span>${arr.length} partido${arr.length>1?'s':''}</span></div>${arr.map(x=>row(x)).join('')}</div>`).join('');
+  sec.innerHTML=head+`<div class="filters" role="group" aria-label="Filtrar partidos"><button aria-pressed="true" data-f="all">Todos ${list.length}</button><button aria-pressed="false" data-f="fin">Finalizados ${cnt('fin')}</button><button aria-pressed="false" data-f="pre">Por jugar ${cnt('pre')}</button></div></div>`+(s.k==='futbol'?futCompBox():'')+
+    Object.entries(groups).map(([c,arr])=>`<div class="board cut enter${c==='★ Mis equipos'?' mine':''}"><div class="board-h"><span class="ic">${s.tag}</span><h3>${esc(c)}</h3>${s.k==='futbol'&&c!=='★ Mis equipos'?futCompBadge(c):''}<span>${arr.length} partido${arr.length>1?'s':''}</span></div>${arr.map(x=>row(x)).join('')}</div>`).join('');
   sec.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{
     sec.querySelectorAll('.filters button').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));
     const f=b.dataset.f;
