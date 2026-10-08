@@ -1251,7 +1251,7 @@ function legLi(l,sport,hl){
   const lr=hl?hl.result:null;
   return `<li class="${resCls(lr)}">${legJerseys(l.gid,sport)}<div style="min-width:0"><div class="gm">${esc(gname(l.gid,l.game||(hl&&hl.game)))}${hl&&hl.score?` · <span class="num">${esc(hl.score)}</span>`:''}</div><div class="sel">${esc(l.label)}<small>${esc(l.grp)}</small></div></div><div class="lp"><span class="num">${pct(l.p)}</span><i>${lr==null?'':resTxt(lr).toUpperCase()}</i></div></li>`;
 }
-const SITE=(/^https?:$/.test(location.protocol)&&location.hostname)?(location.host+location.pathname).replace(/\/(index\.html)?$/,''):'lacasa-oficial.github.io/lacasa';
+const SITE=(/^https?:$/.test(location.protocol)&&location.hostname)?(location.host+location.pathname).replace(/\/(index\.html)?$/,''):'lacasave.com';
 function cbrand(sh){return `<div class="cbrand"><svg viewBox="0 0 599 634" aria-hidden="true"><path d="M0 255L257 0L599 338V634H397V356L203 549V634H0Z" fill="#856CFF"/></svg><b>LA <i>CASA</i></b><span>${esc(SITE)}</span>${sh?shareBtn('combo',sh):''}</div>`;}
 function comboCard(sport,ct,c,hc){
   const res=hc?hc.result:null, D=1/c.p;
