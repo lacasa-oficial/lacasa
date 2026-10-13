@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07060C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LA CASA">
 <meta name="description" content="LA CASA: pronósticos diarios de fútbol, béisbol, baloncesto, NFL, hockey y tenis con estadísticas, noticias y combinadas por deporte.">
 <title>LA CASA</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-70 -48 739 730'%3E%3Crect x='-70' y='-48' width='739' height='730' rx='110' fill='%2307060C'/%3E%3Cpath d='M0 255L257 0L599 338V634H397V356L203 549V634H0Z' fill='%23856CFF'/%3E%3C/svg%3E">
@@ -652,6 +658,17 @@ details.renew .steps{padding:12px}
   .enter{animation:up .45s cubic-bezier(.2,.7,.2,1) both}
   @keyframes up{from{transform:translateY(8px)}to{transform:none}}
 }
+
+/* APP v1 (13/10): aviso para instalar LA CASA como app en el teléfono */
+.inst{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--panel);border:1px solid rgba(133,108,255,.6);box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 30px rgba(133,108,255,.18);max-width:520px;margin:0 auto}
+.inst[hidden]{display:none}
+.inst img{width:44px;height:44px;border-radius:10px;flex:none}
+.inst div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.inst b{font-family:var(--display);font-size:12px;letter-spacing:.08em;color:var(--ink)}
+.inst span{font-size:13px;color:var(--muted);line-height:1.35}
+.inst .go{flex:none;font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:var(--v);color:#0B0817;border:0;padding:10px 12px;cursor:pointer}
+.inst .x{flex:none;background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:4px 6px;cursor:pointer}
+.inst svg{width:14px;height:14px;vertical-align:-2px;fill:none;stroke:var(--ink);stroke-width:2}
 </style>
 
 </head>
@@ -751,11 +768,17 @@ details.renew .steps{padding:12px}
       </div>
     </div>
     <div class="foot-bar">
-      <p class="credit"><a href="#" id="termsLink">Términos y condiciones</a></p>
+      <p class="credit"><a href="#" id="termsLink">Términos y condiciones</a> · <a href="#" id="instLink">Instalar la app</a></p>
       <p class="legal">© 2026 LA CASA · Contenido informativo para mayores de 18 años. Ningún pronóstico es seguro: apuesta con responsabilidad y solo lo que estés dispuesto a perder.</p>
     </div>
   </div>
 </footer>
+<div class="inst" id="inst" hidden role="dialog" aria-label="Instalar la app">
+  <img src="icons/icon-192.png" alt="">
+  <div><b>LA CASA EN TU TELÉFONO</b><span id="instTxt">Instálala como app y entra con un toque.</span></div>
+  <button class="go" id="instGo" type="button">Instalar</button>
+  <button class="x" id="instX" type="button" aria-label="Cerrar">×</button>
+</div>
 
 <template id="tpl-terms"><h3>Términos y condiciones de uso de LA CASA</h3>
 <p><i>Última actualización: 28 de septiembre de 2026.</i></p>
@@ -2178,6 +2201,31 @@ if(PUBLIC){
   s.onerror=()=>{ btn.textContent='Sin conexión'; };
   document.head.appendChild(s);
 }
+</script>
+<script>
+/* APP v1 (13/10): LA CASA se instala como app (PWA). Android: botón Instalar. iPhone: instrucciones de Safari. */
+(function(){
+  if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(function(){});
+  var box=document.getElementById('inst'), txt=document.getElementById('instTxt'), go=document.getElementById('instGo'), x=document.getElementById('instX'), lk=document.getElementById('instLink');
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  var ua=navigator.userAgent, ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1), mobile=ios||/android/i.test(ua);
+  var evt=null, KEY='lc_inst_off';
+  function off(){try{return localStorage.getItem(KEY)==='1';}catch(e){return false;}}
+  function setOff(){try{localStorage.setItem(KEY,'1');}catch(e){}}
+  var share='<svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 13v7h14v-7"/></svg>';
+  function show(force){
+    if(standalone){ if(force) alert('Ya estás usando LA CASA como app.'); return; }
+    if(ios){ txt.innerHTML='En Safari toca '+share+' <b style="font-size:inherit;letter-spacing:0;font-family:inherit">Compartir</b> y luego <b style="font-size:inherit;letter-spacing:0;font-family:inherit">Agregar a inicio</b>.'; go.hidden=true; box.hidden=false; return; }
+    if(evt){ txt.textContent='Instálala como app y entra con un toque.'; go.hidden=false; box.hidden=false; return; }
+    if(force){ txt.textContent='Abre el menú del navegador (⋮) y toca "Instalar app" o "Agregar a pantalla principal".'; go.hidden=true; box.hidden=false; }
+  }
+  window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); evt=e; if(mobile&&!off()) setTimeout(function(){show(false);},4000); });
+  window.addEventListener('appinstalled',function(){ box.hidden=true; setOff(); });
+  go.onclick=function(){ if(!evt) return; evt.prompt(); evt.userChoice.then(function(){ evt=null; box.hidden=true; setOff(); }); };
+  x.onclick=function(){ box.hidden=true; setOff(); };
+  if(lk) lk.onclick=function(e){ e.preventDefault(); show(true); };
+  if(ios&&!standalone&&!off()) setTimeout(function(){show(false);},6000);
+})();
 </script>
 </body>
 </html>
