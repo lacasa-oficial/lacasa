@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="LA CASA">
 <meta name="description" content="LA CASA: pronósticos diarios de fútbol, béisbol, baloncesto, NFL, hockey y tenis con estadísticas, noticias y combinadas por deporte.">
 <title>LA CASA</title>
@@ -659,6 +659,8 @@ details.renew .steps{padding:12px}
   @keyframes up{from{transform:translateY(8px)}to{transform:none}}
 }
 
+/* APP v1 (13/10): en la app del iPhone el contenido empieza debajo de la hora y la batería */
+@media (display-mode: standalone){body{padding-top:env(safe-area-inset-top,0px)}}
 /* APP v1 (13/10): aviso para instalar LA CASA como app en el teléfono */
 .inst{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--panel);border:1px solid rgba(133,108,255,.6);box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 30px rgba(133,108,255,.18);max-width:520px;margin:0 auto}
 .inst[hidden]{display:none}

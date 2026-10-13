@@ -1,7 +1,7 @@
 // LA CASA · service worker (app instalable)
 // La página siempre se pide a internet primero, para que los pronósticos estén al día.
 // Solo si no hay conexión se muestra la última copia guardada.
-const CACHE = "lacasa-v1";
+const CACHE = "lacasa-v2";
 const SHELL = ["/", "/icons/icon-192.png", "/icons/icon-512.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
