@@ -1287,9 +1287,9 @@ function probBar(x){
 function notes(arr,k1,k2){if(!arr||!arr.length) return '';return `<ul class="notes">${arr.map(n=>`<li><span class="tag">${esc(n[k1])}</span><span>${esc(n.text)}</span>${n[k2]?`<span class="eff">${esc(n[k2])}</span>`:''}</li>`).join('')}</ul>`;}
 function blk(t,inner){return inner?`<div class="blk"><h4>${t}</h4>${inner}</div>`:'';}
 function markets(ms,mlb,x){
-  const can=x&&window.LC_PLAN==='completo'&&status(x).k==='pre', L=x&&AR.legs[x.id];
+  const can=x&&window.LC_PLAN==='completo'&&status(x).k==='pre';
   return `${can?'<p class="arma-hint">Toca una opción con <b>+</b> para agregarla a tu combinada.</p>':''}<div class="mkts">${ms.map((g,mi)=>{const best=Math.max(...g.items.map(i=>i.p));
-    return `<div class="mkt cut"><h5>${esc(g.group)}${mlb&&g.items[0].kind==='tot_mlb'?' · con cautela':''}</h5><div class="opts">${g.items.map((i,ii)=>{const ok=can&&ARMA_OK.includes(i.rule&&i.rule.t), on=ok&&L&&L.m===mi&&L.i===ii;
+    return `<div class="mkt cut"><h5>${esc(g.group)}${mlb&&g.items[0].kind==='tot_mlb'?' · con cautela':''}</h5><div class="opts">${g.items.map((i,ii)=>{const ok=can&&ARMA_OK.includes(i.rule&&i.rule.t), on=ok&&legOn(x.id,mi,ii);
       return ok?`<button type="button" class="opt pk ${i.p===best&&g.items.length<=3?'best':''}${on?' sel':''}" data-g="${esc(x.id)}" data-m="${mi}" data-i="${ii}"><span title="${esc(i.label)}">${esc(i.label)}</span><b class="num">${pct(i.p)}</b><i class="plus" aria-hidden="true">${on?'✓':'+'}</i></button>`
         :`<div class="opt ${i.p===best&&g.items.length<=3?'best':''}"><span title="${esc(i.label)}">${esc(i.label)}</span><b class="num">${pct(i.p)}</b></div>`;}).join('')}</div></div>`;}).join('')}</div>`;
 }
@@ -1882,17 +1882,35 @@ const ARMA_OK=['ml','draw','dc','dnb','btts','tot','ttot','hc','range','only','o
 const AR={legs:{}, sport:null, open:{}, mine:null, rank:null, msg:'', busy:false, myBadge:null};
 function armaGames(){ return G.filter(x=>status(x).k==='pre'&&!x.g.locked&&x.g.markets&&x.g.markets.length).sort((a,b)=>a.iso<b.iso?-1:1); }
 function armaMkts(x){ return (x.g.markets||[]).map((m,mi)=>({m,mi,items:m.items.map((it,ii)=>({it,ii})).filter(o=>ARMA_OK.includes(o.it.rule&&o.it.rule.t))})).filter(o=>o.items.length); }
-function armaP(){ const L=Object.values(AR.legs); return L.length?L.reduce((s,l)=>s*l.p,1):null; }
+// MISMO PARTIDO v1: en fútbol se pueden elegir hasta 3 opciones del mismo partido (de mercados distintos).
+// La chance conjunta sale de la tabla de marcadores del modelo (no se multiplican, porque dependen entre sí).
+const ARMA_MAX=6, ARMA_PER_GAME=3;
+function legOn(gid,m,i){ const l=AR.legs[gid+'|'+m]; return !!l&&l.i===i; }
+function gameLegs(gid){ return Object.values(AR.legs).filter(l=>l.gid===gid); }
+function evalRuleJS(r,sh,sa){ const t=r.t, s=r.side;
+  if(t==='range') return sh+sa>=r.lo&&sh+sa<=r.hi; if(t==='odd') return ((sh+sa)%2===1)===r.odd;
+  if(t==='only') return s==='home'?sh>0&&sa===0:sa>0&&sh===0; if(t==='ml') return s==='home'?sh>sa:sa>sh;
+  if(t==='draw') return sh===sa; if(t==='dc') return s==='home'?sh>=sa:sa>=sh;
+  if(t==='hc'){ const d=s==='home'?sh-sa:sa-sh; return d+r.line>0; }
+  if(t==='tot') return r.over?sh+sa>r.line:sh+sa<r.line; if(t==='btts') return (sh>0&&sa>0)===r.yes;
+  if(t==='ttot'){ const v=s==='home'?sh:sa; return r.over?v>r.line:v<r.line; } return false; }
+function fbJoint(lh,la,rules){ const rho=-0.08, f=n=>{let r=1;for(let k=2;k<=n;k++)r*=k;return r;}; let tot=0, ok=0;
+  for(let i=0;i<=11;i++) for(let j=0;j<=11;j++){ let p=Math.exp(-lh)*lh**i/f(i)*Math.exp(-la)*la**j/f(j);
+    if(i===0&&j===0) p*=1-lh*la*rho; else if(i===0&&j===1) p*=1+lh*rho; else if(i===1&&j===0) p*=1+la*rho; else if(i===1&&j===1) p*=1-rho;
+    tot+=p; if(rules.every(r=>evalRuleJS(r,i,j))) ok+=p; } return ok/tot; }
+function gameP(gid){ const L=gameLegs(gid); if(L.length<=1) return L.length?L[0].p:1; const x=BYID[gid];
+  return fbJoint(x.g.xg_home,x.g.xg_away,L.map(l=>x.g.markets[l.m].items[l.i].rule)); }
+function armaP(){ const G_=[...new Set(Object.values(AR.legs).map(l=>l.gid))]; return G_.length?G_.reduce((s,g)=>s*gameP(g),1):null; }
 const armaPts=p=>Math.min(1000,Math.round(100*(1/p-1)));
 function armaToday(){ return (AR.mine||[]).filter(c=>c.day===DATA.date).length; }
 function armaSlip(){
   const L=Object.values(AR.legs), p=armaP(), can=window.LC_PLAN==='completo', left=3-armaToday();
   return `<div class="slip cut" id="slip"><div class="slip-h"><h3>Tu combinada</h3><span class="sub">${can?`Te quedan <b>${Math.max(0,left)}</b> de 3 hoy`:''}</span></div>
-   ${L.length?`<ul class="slip-l">${L.map(l=>`<li><div><small>${esc(l.game)}</small><b>${esc(l.label)}</b><em>${esc(l.grp)}</em></div><span class="num">${pct0(l.p)}</span><button type="button" class="x" data-rm="${esc(l.gid)}" aria-label="Quitar">×</button></li>`).join('')}</ul>`
-     :`<p class="note">Toca una opción de cada partido para agregarla. Mínimo 2, máximo 5, una por partido.</p>`}
+   ${L.length?`<ul class="slip-l">${L.map(l=>`<li><div><small>${esc(l.game)}</small><b>${esc(l.label)}</b><em>${esc(l.grp)}</em></div><span class="num">${pct0(l.p)}</span><button type="button" class="x" data-rm="${esc(l.gid+'|'+l.m)}" aria-label="Quitar">×</button></li>`).join('')}</ul>`
+     :`<p class="note">Toca las opciones para agregarlas. Mínimo 2 y máximo 6. En fútbol puedes elegir hasta 3 del mismo partido (de mercados distintos); en los demás deportes, una por partido.</p>`}
    <div class="slip-f"><div><span>Chance total</span><b class="num">${p?pct(p):'—'}</b></div><div><span>Si aciertas</span><b class="num">${p&&L.length>=2?'+'+armaPts(p)+' pts':'—'}</b></div></div>
    ${AR.msg?`<div class="msg ${AR.msg.k||''}">${AR.msg.t}</div>`:''}
-   ${can?`<button type="button" class="btn-p cut" id="armaSave"${L.length<2||L.length>5||AR.busy||left<=0?' disabled':''}>${AR.busy?'Guardando…':'Guardar combinada'}</button>${L.length?'<button type="button" class="linkbtn" id="armaClr">Vaciar</button>':''}`
+   ${can?`<button type="button" class="btn-p cut" id="armaSave"${L.length<2||L.length>ARMA_MAX||AR.busy||left<=0?' disabled':''}>${AR.busy?'Guardando…':'Guardar combinada'}</button>${L.length?'<button type="button" class="linkbtn" id="armaClr">Vaciar</button>':''}`
      :`<button type="button" class="btn-p cut" onclick="window.choosePlan&&window.choosePlan('completo')">Disponible en el plan Completo</button>`}
    <p class="st-note">Una vez guardada no se puede cambiar. Sumas puntos solo si aciertan todas: mientras menos probable, más puntos.</p></div>`;
 }
@@ -1903,8 +1921,8 @@ function armaPicker(){
   const sps=SPORTS.filter(s=>GS.some(x=>x.sport===s.k)); if(!AR.sport||!sps.some(s=>s.k===AR.sport)) AR.sport=sps[0].k;
   const list=GS.filter(x=>x.sport===AR.sport);
   return `<div class="filters" role="group">${sps.map(s=>`<button type="button" data-asp="${s.k}" aria-pressed="${s.k===AR.sport}">${tic(s.tab,'tic')} ${s.name} <span class="num">${GS.filter(x=>x.sport===s.k).length}</span></button>`).join('')}</div>
-  <div class="apick">${list.map(x=>{ const mk=armaMkts(x), st=status(x), sel=AR.legs[x.id], op=AR.open[x.id], [p,q]=order(x);
-    const chip=(o,mi)=>{const on=sel&&sel.m===mi&&sel.i===o.ii; return `<button type="button" class="ach${on?' on':''}" data-g="${esc(x.id)}" data-m="${mi}" data-i="${o.ii}"><span>${esc(o.it.label)}</span><b class="num">${pct0(o.it.p)}</b></button>`;};
+  <div class="apick">${list.map(x=>{ const mk=armaMkts(x), st=status(x), sel=gameLegs(x.id).length, op=AR.open[x.id], [p,q]=order(x);
+    const chip=(o,mi)=>{const on=legOn(x.id,mi,o.ii); return `<button type="button" class="ach${on?' on':''}" data-g="${esc(x.id)}" data-m="${mi}" data-i="${o.ii}"><span>${esc(o.it.label)}</span><b class="num">${pct0(o.it.p)}</b></button>`;};
     return `<article class="agm cut${sel?' has':''}"><div class="agm-h"><span class="num hr">${esc(st.day?st.day+' ':'')}${esc(st.label)}</span><b>${esc(x[p].name)}</b><em>${x.sport==='futbol'||x.sport==='tenis'?'vs':'@'}</em><b>${esc(x[q].name)}</b><small>${esc(x.comp)}</small></div>
       ${mk.length?`<div class="agrp"><span class="gl">${esc(mk[0].m.group)}</span><div class="achs">${mk[0].items.map(o=>chip(o,mk[0].mi)).join('')}</div></div>
       ${op?mk.slice(1).map(g=>`<div class="agrp"><span class="gl">${esc(g.m.group)}</span><div class="achs">${g.items.map(o=>chip(o,g.mi)).join('')}</div></div>`).join(''):''}
@@ -1938,14 +1956,22 @@ async function armaLoad(){
 }
 function paintMyBadge(){ const b=$('acctBtn'); if(!b) return; const o=b.querySelector('.bdg'); if(o) o.remove(); if(AR.myBadge) b.insertAdjacentHTML('beforeend',badgeSVG(AR.myBadge,16)); }
 function armaToggle(gid,m,i){
-  const x=BYID[gid]; if(!x) return; const cur=AR.legs[x.id];
-  if(cur&&cur.m===m&&cur.i===i) delete AR.legs[x.id];
-  else { if(!cur&&Object.keys(AR.legs).length>=5){ AR.msg={k:'err',t:'Máximo 5 selecciones por combinada.'}; toast('Máximo 5 selecciones por combinada'); return false; }
+  const x=BYID[gid]; if(!x) return; const key=gid+'|'+m, cur=AR.legs[key];
+  const err=t=>{ AR.msg={k:'err',t}; toast(t); return false; };
+  if(cur&&cur.i===i) delete AR.legs[key];
+  else {
+    const multi=x.sport==='futbol', same=gameLegs(gid);
+    if(!multi&&same.length&&!cur) same.forEach(l=>delete AR.legs[l.gid+'|'+l.m]);           // otros deportes: una por partido (se cambia)
+    else if(!cur&&same.length>=ARMA_PER_GAME) return err('Máximo 3 selecciones del mismo partido.');
+    if(!cur&&Object.keys(AR.legs).length>=ARMA_MAX) return err('Máximo 6 selecciones por combinada.');
     const mk=x.g.markets[m], it=mk.items[i], [p,q]=order(x);
-    AR.legs[x.id]={gid:x.id,m,i,p:it.p,label:it.label,grp:mk.group,game:`${x[p].name} ${x.sport==='futbol'||x.sport==='tenis'?'vs':'@'} ${x[q].name}`}; }
+    if(multi&&(same.length&&!cur||same.length>1)&&(it.rule.t==='dnb'||same.some(l=>x.g.markets[l.m].items[l.i].rule.t==='dnb'))) return err('«Apuesta sin empate» no se puede juntar con otra opción del mismo partido.');
+    const prev=cur; AR.legs[key]={gid,m,i,p:it.p,label:it.label,grp:mk.group,game:`${x[p].name} ${x.sport==='futbol'||x.sport==='tenis'?'vs':'@'} ${x[q].name}`};
+    if(gameLegs(gid).length>1&&gameP(gid)<0.03){ if(prev) AR.legs[key]=prev; else delete AR.legs[key]; return err('Esas opciones del mismo partido no pueden darse juntas (o casi nunca).'); }
+  }
   AR.msg=''; armaPaintOpts(gid); armaBar(); return true;
 }
-function armaPaintOpts(gid){ const L=AR.legs[gid]; document.querySelectorAll(`.opt.pk[data-g="${CSS.escape(gid)}"]`).forEach(b=>{const on=!!L&&L.m===+b.dataset.m&&L.i===+b.dataset.i; b.classList.toggle('sel',on); const p=b.querySelector('.plus'); if(p) p.textContent=on?'✓':'+';}); }
+function armaPaintOpts(gid){ document.querySelectorAll(`.opt.pk[data-g="${CSS.escape(gid)}"]`).forEach(b=>{const on=legOn(gid,+b.dataset.m,+b.dataset.i); b.classList.toggle('sel',on); const p=b.querySelector('.plus'); if(p) p.textContent=on?'✓':'+';}); }
 function armaBar(){ let b=$('armaBar'); const n=Object.keys(AR.legs).length;
   if(!b){ b=document.createElement('button'); b.type='button'; b.id='armaBar'; b.className='slipbar gbar cut'; b.onclick=()=>{show('arma'); window.scrollTo({top:0,behavior:'smooth'});}; document.body.appendChild(b); }
   b.hidden=!n||CUR_TAB==='arma';
