@@ -731,6 +731,70 @@ details.renew .steps{padding:12px}
 @media (max-width:640px){.agenda{padding:12px 10px 8px}.ag-hd{display:none}.ag-hd,.ag-r{grid-template-columns:26px 50px minmax(0,1fr) 46px 46px 46px;gap:6px}.ag-r{padding:10px 4px}.ag-r .go{display:none}.ag-r .pc{font-size:12.5px}.ag-r .mt b{font-size:13.5px;flex-basis:100%}.ag-r .mt em,.ag-r .mt small{display:none}.ag-hd,.ag-r{grid-template-columns:26px 46px minmax(0,1fr) 40px 40px 40px}.ag-r .pc.lk{font-size:11px}}
 .fb.long b{font-size:13px}
 
+/* arma tu combinada */
+.arma{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+@media (max-width:1180px){.arma{grid-template-columns:minmax(0,1fr)}}
+.arma-l,.arma-r{display:flex;flex-direction:column;gap:14px;min-width:0}
+.arma-r{position:sticky;top:150px}
+@media (max-width:1180px){.arma-r{position:static}}
+.apick{display:flex;flex-direction:column;gap:10px}
+.agm{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:10px;--cut:10px}
+:root[data-theme="light"] .agm,:root[data-theme="light"] .slip{box-shadow:inset 0 0 0 1px var(--line)}
+.agm.has{box-shadow:inset 3px 0 0 var(--v)}
+.agm-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.agm-h .hr{font-family:var(--display);font-size:12px;color:var(--v-hi);margin-right:4px}
+.agm-h b{font-weight:700;font-size:15px}.agm-h em{font-style:normal;font-size:12px;color:var(--muted)}
+.agm-h small{flex-basis:100%;font-size:12px;color:var(--muted)}
+.agrp{display:flex;flex-direction:column;gap:6px}
+.agrp .gl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px}
+.ach{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);font:inherit;font-size:13px;padding:8px 10px;cursor:pointer;text-align:left;min-width:0;transition:background .15s,border-color .15s,transform .15s}
+.ach span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ach b{font-family:var(--display);font-size:13px;color:var(--v-hi);flex:none}
+.ach:hover{border-color:var(--v)}
+.ach:active{transform:scale(.97)}
+.ach.on{background:var(--v);border-color:var(--v);color:#fff}.ach.on b{color:#fff}
+.amore{align-self:flex-start;font-size:12.5px;padding:0}
+@media (max-width:560px){.achs{grid-template-columns:repeat(auto-fill,minmax(98px,1fr))}.ach{padding:8px;font-size:12.5px}.agm{padding:12px}}
+.slip{background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:12px;--cut:14px;border-top:3px solid var(--v)}
+.slip-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.slip-h h3{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:0}
+.slip-h b{color:var(--v-hi)}
+.slip-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.slip-l li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.slip-l li div{display:flex;flex-direction:column;min-width:0}
+.slip-l small{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slip-l b{font-size:14.5px}.slip-l em{font-style:normal;font-size:11px;color:var(--dim)}
+.slip-l .num{font-family:var(--display);font-weight:700;color:var(--v-hi)}
+.slip-f{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slip-f div{background:var(--panel-2);padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.slip-f span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.slip-f b{font-family:var(--display);font-weight:800;font-size:20px;color:var(--ink)}
+.slip .btn-p{width:100%}.slip .btn-p:disabled{opacity:.5;cursor:not-allowed}.slip .btn-p:disabled::after{display:none}
+.slipbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:40;display:none;justify-content:space-between;align-items:center;gap:10px;border:0;background:var(--v);color:#fff;font:inherit;font-weight:700;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+@media (max-width:1180px){.slipbar{display:flex}}
+.urank .ur{display:grid;grid-template-columns:24px minmax(0,1fr) 62px 66px;gap:8px;align-items:center;padding:8px 6px;border-top:1px solid var(--line);font-size:14px}
+.urank .ur.hd{border-top:0;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-bottom:4px}
+.urank .ur.hd span:nth-child(n+3){text-align:right}
+.urank .n{font-family:var(--display);font-weight:800;color:var(--muted)}
+.urank .ur:nth-of-type(2) .n{color:#E0A51C}
+.urank .u{display:flex;align-items:center;gap:6px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.urank .g{text-align:right;color:var(--muted);font-size:12.5px}
+.urank .pt{text-align:right;font-family:var(--display);font-weight:700}.urank .pt small{font-size:10px;color:var(--muted)}
+.urank .ur.me{background:var(--v-soft);box-shadow:inset 3px 0 0 var(--v)}
+.bdg{flex:none;vertical-align:middle}
+.acct-btn .bdg{margin-left:2px}
+.mc{border-top:1px solid var(--line);padding:10px 0;display:flex;flex-direction:column;gap:6px}
+.mc-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mc ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.mc li{display:flex;flex-direction:column;font-size:13.5px;padding-left:10px;border-left:2px solid var(--line)}
+.mc li.ok{border-left-color:var(--win)}.mc li.no{border-left-color:var(--loss)}
+.mc li small{font-size:11.5px;color:var(--muted)}
+.badge.void{background:var(--panel-3);color:var(--muted)}.badge.pend{background:var(--v-soft);color:var(--v-hi)}
+
+nav.tabs button[hidden]{display:none}
+nav.tabs button .new{font-size:9.5px;font-weight:800;letter-spacing:.1em;background:var(--v);color:#fff;padding:2px 6px}
+nav.tabs button[aria-selected="true"] .new{background:var(--on-v);color:var(--v)}
 /* ficha de equipo */
 #teamBody{display:flex;flex-direction:column;gap:14px}
 .tm-h{display:flex;align-items:center;gap:14px}
@@ -865,6 +929,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
     </div>
     <nav class="tabs" role="tablist" aria-label="Secciones">
       <button role="tab" class="cut" data-t="combo"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><rect x="3" y="11" width="18" height="5" rx="1.5"/><path d="M3 20h12"/></svg>Combinadas</button>
+      <button role="tab" class="cut" data-t="arma"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Arma la tuya <span class="new">NUEVO</span></button>
       <button role="tab" class="cut" data-t="fut"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l4 2.9-1.5 4.7h-5L8 10.4z"/><path d="M12 3v4.5M21 10.4l-5 0M17.5 19.5l-3-4.4M6.5 19.5l3-4.4M3 10.4h5"/></svg>Fútbol <span class="ct" id="n-fut"></span></button>
       <button role="tab" class="cut" data-t="mlb"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 4.2c2 2.2 2 13.4 0 15.6M16.5 4.2c-2 2.2-2 13.4 0 15.6"/></svg>Béisbol <span class="ct" id="n-mlb"></span></button>
       <button role="tab" class="cut" data-t="nba"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3 2.6 3 10.2 0 12.8M18.4 5.6c-3 2.6-3 10.2 0 12.8"/></svg>Baloncesto <span class="ct" id="n-nba"></span></button>
@@ -884,6 +949,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
   <main>
     <div id="promoBar" hidden></div>
     <section class="sec" id="sec-combo" hidden></section>
+    <section class="sec" id="sec-arma" hidden></section>
     <section class="sec" id="sec-fut" hidden></section>
     <section class="sec" id="sec-mlb" hidden></section>
     <section class="sec" id="sec-nba" hidden></section>
@@ -1703,11 +1769,102 @@ function teamSearch(){
 }
 document.addEventListener('change',ev=>{if(ev.target.id!=='tsq') return; const v=ev.target.value.trim(); const t=teamNames().find(o=>_n(o.name)===_n(v))||teamNames().find(o=>nameHit(o.name,v)); if(t){openTeam(t.sport,t.name); ev.target.value='';}});
 
+/* ---------- ARMA TU COMBINADA + RANKING SEMANAL ---------- */
+const BADGE_PAL={bronce:['#F2B27A','#B8642F','#7A3D16'],plata:['#F4F6FA','#A9B2C3','#5E6778'],oro:['#FFE27A','#E0A51C','#8A5A00'],platino:['#E9E4FF','#9C8BFF','#4B34D6']};
+const BADGE_TXT={bronce:'Bronce · top 10 de la semana pasada',plata:'Plata · top 3 de la semana pasada',oro:'Oro · nº 1 de la semana pasada',platino:'Platino · 3 semanas seguidas en el top 3'};
+const SCALLOP=(()=>{let d='';for(let i=0;i<=120;i++){const t=i/120*2*Math.PI, r=41*(1+0.11*Math.cos(12*t)); d+=(i?'L':'M')+(50+r*Math.cos(t)).toFixed(2)+','+(50+r*Math.sin(t)).toFixed(2);} return d+'Z';})();
+let BID=0;
+function badgeSVG(k,s){ const c=BADGE_PAL[k]; if(!c) return ''; const id='bg'+(++BID), HP='M0 255L257 0L599 338V634H397V356L203 549V634H0Z';
+  return `<svg class="bdg" width="${s}" height="${s}" viewBox="0 0 100 100" role="img" aria-label="Insignia ${k}"><title>${BADGE_TXT[k]}</title><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".55" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient><linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><path d="${SCALLOP}" fill="url(#${id})" stroke="${c[2]}" stroke-width="2.5"/><path d="${SCALLOP}" fill="url(#${id}s)"/>${k==='platino'?'<circle cx="50" cy="50" r="30" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>':''}<g transform="translate(31,30) scale(0.0625)"><path d="${HP}" fill="${c[2]}"/></g><g transform="translate(31,29) scale(0.0625)"><path d="${HP}" fill="#fff" fill-opacity=".95"/></g></svg>`; }
+const ARMA_OK=['ml','draw','dc','dnb','btts','tot','ttot','hc','range','only','odd'];
+const AR={legs:{}, sport:null, open:{}, mine:null, rank:null, msg:'', busy:false, myBadge:null};
+function armaGames(){ return G.filter(x=>status(x).k==='pre'&&!x.g.locked&&x.g.markets&&x.g.markets.length).sort((a,b)=>a.iso<b.iso?-1:1); }
+function armaMkts(x){ return (x.g.markets||[]).map((m,mi)=>({m,mi,items:m.items.map((it,ii)=>({it,ii})).filter(o=>ARMA_OK.includes(o.it.rule&&o.it.rule.t))})).filter(o=>o.items.length); }
+function armaP(){ const L=Object.values(AR.legs); return L.length?L.reduce((s,l)=>s*l.p,1):null; }
+const armaPts=p=>Math.min(1000,Math.round(100*(1/p-1)));
+function armaToday(){ return (AR.mine||[]).filter(c=>c.day===DATA.date).length; }
+function armaSlip(){
+  const L=Object.values(AR.legs), p=armaP(), can=window.LC_PLAN==='completo', left=3-armaToday();
+  return `<div class="slip cut" id="slip"><div class="slip-h"><h3>Tu combinada</h3><span class="sub">${can?`Te quedan <b>${Math.max(0,left)}</b> de 3 hoy`:''}</span></div>
+   ${L.length?`<ul class="slip-l">${L.map(l=>`<li><div><small>${esc(l.game)}</small><b>${esc(l.label)}</b><em>${esc(l.grp)}</em></div><span class="num">${pct0(l.p)}</span><button type="button" class="x" data-rm="${esc(l.gid)}" aria-label="Quitar">×</button></li>`).join('')}</ul>`
+     :`<p class="note">Toca una opción de cada partido para agregarla. Mínimo 2, máximo 5, una por partido.</p>`}
+   <div class="slip-f"><div><span>Chance total</span><b class="num">${p?pct(p):'—'}</b></div><div><span>Si aciertas</span><b class="num">${p&&L.length>=2?'+'+armaPts(p)+' pts':'—'}</b></div></div>
+   ${AR.msg?`<div class="msg ${AR.msg.k||''}">${AR.msg.t}</div>`:''}
+   ${can?`<button type="button" class="btn-p cut" id="armaSave"${L.length<2||L.length>5||AR.busy||left<=0?' disabled':''}>${AR.busy?'Guardando…':'Guardar combinada'}</button>${L.length?'<button type="button" class="linkbtn" id="armaClr">Vaciar</button>':''}`
+     :`<button type="button" class="btn-p cut" onclick="window.choosePlan&&window.choosePlan('completo')">Disponible en el plan Completo</button>`}
+   <p class="st-note">Una vez guardada no se puede cambiar. Sumas puntos solo si aciertan todas: mientras menos probable, más puntos.</p></div>`;
+}
+function armaPicker(){
+  const can=window.LC_PLAN==='completo';
+  if(!can) return `<div class="paywall cut"><div><b>Arma tu combinada es parte del plan Completo</b><p>Elige tus propias selecciones con las probabilidades de LA CASA, suma puntos y compite cada semana por las insignias de bronce, plata, oro y platino.</p></div><button type="button" class="btn-v cut" onclick="window.choosePlan&&window.choosePlan('completo')">Ver plan Completo</button></div>`;
+  const GS=armaGames(); if(!GS.length) return `<p class="info cut">No quedan partidos por empezar hoy. Mañana temprano salen los nuevos.</p>`;
+  const sps=SPORTS.filter(s=>GS.some(x=>x.sport===s.k)); if(!AR.sport||!sps.some(s=>s.k===AR.sport)) AR.sport=sps[0].k;
+  const list=GS.filter(x=>x.sport===AR.sport);
+  return `<div class="filters" role="group">${sps.map(s=>`<button type="button" data-asp="${s.k}" aria-pressed="${s.k===AR.sport}">${tic(s.tab,'tic')} ${s.name} <span class="num">${GS.filter(x=>x.sport===s.k).length}</span></button>`).join('')}</div>
+  <div class="apick">${list.map(x=>{ const mk=armaMkts(x), st=status(x), sel=AR.legs[x.id], op=AR.open[x.id], [p,q]=order(x);
+    const chip=(o,mi)=>{const on=sel&&sel.m===mi&&sel.i===o.ii; return `<button type="button" class="ach${on?' on':''}" data-g="${esc(x.id)}" data-m="${mi}" data-i="${o.ii}"><span>${esc(o.it.label)}</span><b class="num">${pct0(o.it.p)}</b></button>`;};
+    return `<article class="agm cut${sel?' has':''}"><div class="agm-h"><span class="num hr">${esc(st.day?st.day+' ':'')}${esc(st.label)}</span><b>${esc(x[p].name)}</b><em>${x.sport==='futbol'||x.sport==='tenis'?'vs':'@'}</em><b>${esc(x[q].name)}</b><small>${esc(x.comp)}</small></div>
+      ${mk.length?`<div class="agrp"><span class="gl">${esc(mk[0].m.group)}</span><div class="achs">${mk[0].items.map(o=>chip(o,mk[0].mi)).join('')}</div></div>
+      ${op?mk.slice(1).map(g=>`<div class="agrp"><span class="gl">${esc(g.m.group)}</span><div class="achs">${g.items.map(o=>chip(o,g.mi)).join('')}</div></div>`).join(''):''}
+      ${mk.length>1?`<button type="button" class="linkbtn amore" data-more="${esc(x.id)}">${op?'Menos opciones':'Más opciones ('+(mk.length-1)+')'}</button>`:''}`:''}</article>`;}).join('')}</div>`;
+}
+function armaRank(){
+  const R=AR.rank;
+  const body=R==null?'<p class="note">Cargando…</p>':!R.length?'<p class="note">Todavía nadie ha armado combinadas esta semana. ¡Sé el primero en el ranking!</p>'
+    :R.map(r=>`<div class="ur${r.yo?' me':''}"><span class="n num">${r.pos}</span><span class="u">${esc(r.usuario)}${r.insignia?badgeSVG(r.insignia,18):''}</span><span class="g num">${r.ganadas}/${r.combos}</span><span class="pt num">${r.pts} <small>pts</small></span></div>`).join('');
+  return `<div class="card cut urank"><h3>Ranking semanal</h3><p class="st-note">De lunes a domingo. Los mejores de la semana ganan su insignia para la siguiente: bronce (top 10), plata (top 3), oro (nº 1) y platino (3 semanas seguidas en el top 3).</p>
+   <div class="ur hd"><span>#</span><span>Usuario</span><span>Acertadas</span><span>Puntos</span></div>${body}</div>`;
+}
+function armaMine(){
+  const M=AR.mine; if(!M||!M.length) return '';
+  return `<div class="card cut"><h3>Mis combinadas</h3>${M.slice(0,10).map(c=>{const r=c.result===1?'ok':c.result===0?'no':c.result===2?'void':'pend';
+    return `<div class="mc"><div class="mc-h"><span class="badge ${r}">${c.result===1?'+'+c.points+' pts':c.result===0?'Falló':c.result===2?'Anulada':'Pendiente'}</span><span class="sub">${esc(fmtDate(c.day))} · chance ${pct(+c.p)} · vale ${c.pts_win} pts</span></div>
+     <ul>${(c.legs||[]).map(l=>`<li class="${l.result==='1'?'ok':l.result==='0'?'no':''}"><span>${esc(l.label)}</span><small>${esc(l.game)}${l.score?' · '+esc(l.score):''}</small></li>`).join('')}</ul></div>`;}).join('')}</div>`;
+}
+function buildArma(){
+  const sec=$('sec-arma'); if(!sec) return;
+  sec.innerHTML=`<div class="h-sec"><div><div class="kick">Nuevo · compite cada semana</div><h2>Arma tu combinada</h2></div><p>Elige tus selecciones con las probabilidades de LA CASA. Si aciertan todas, sumas puntos para el ranking semanal. Son puntos de juego: aquí no se apuesta dinero.</p></div>
+   <div class="arma"><div class="arma-l">${armaPicker()}</div><div class="arma-r">${armaSlip()}${armaRank()}${armaMine()}</div></div>
+   ${Object.keys(AR.legs).length?`<button type="button" class="slipbar cut" id="slipBar"><span>Tu combinada · <b>${Object.keys(AR.legs).length}</b></span><span class="num">${pct(armaP())}${Object.keys(AR.legs).length>=2?' · +'+armaPts(armaP())+' pts':''}</span></button>`:''}`;
+}
+async function armaLoad(){
+  const sb=window.LC_SB; if(!sb) return;
+  try{ const {data,error}=await sb.rpc('lc_ranking'); AR.rank=error?[]:(data||[]); }catch(e){AR.rank=[];}
+  if(window.LC_ME){ try{ const {data}=await sb.rpc('lc_mis_combinadas'); AR.mine=data||[]; }catch(e){} try{ const {data}=await sb.rpc('lc_mi_insignia'); AR.myBadge=data||null; }catch(e){} }
+  else { AR.mine=null; AR.myBadge=null; }
+  if(CUR_TAB==='arma') buildArma(); paintMyBadge();
+}
+function paintMyBadge(){ const b=$('acctBtn'); if(!b) return; const o=b.querySelector('.bdg'); if(o) o.remove(); if(AR.myBadge) b.insertAdjacentHTML('beforeend',badgeSVG(AR.myBadge,16)); }
+window.armaAuth=()=>{ clearTimeout(AR.t); AR.t=setTimeout(()=>{ armaLoad(); if(CUR_TAB==='arma') buildArma(); },300); };
+document.addEventListener('click',async ev=>{
+  const t=ev.target.closest('[data-asp],[data-g],[data-more],[data-rm],#armaSave,#armaClr,#slipBar'); if(!t||!t.closest('#sec-arma')) return;
+  if(t.dataset.asp){ AR.sport=t.dataset.asp; }
+  else if(t.dataset.more){ AR.open[t.dataset.more]=!AR.open[t.dataset.more]; }
+  else if(t.dataset.rm){ delete AR.legs[t.dataset.rm]; AR.msg=''; }
+  else if(t.dataset.g){ const x=BYID[t.dataset.g], m=+t.dataset.m, i=+t.dataset.i, cur=AR.legs[x.id];
+    if(cur&&cur.m===m&&cur.i===i) delete AR.legs[x.id];
+    else { if(!cur&&Object.keys(AR.legs).length>=5){ AR.msg={k:'err',t:'Máximo 5 selecciones por combinada.'}; buildArma(); return; }
+      const mk=x.g.markets[m], it=mk.items[i], [p,q]=order(x);
+      AR.legs[x.id]={gid:x.id,m,i,p:it.p,label:it.label,grp:mk.group,game:`${x[p].name} ${x.sport==='futbol'||x.sport==='tenis'?'vs':'@'} ${x[q].name}`}; }
+    AR.msg=''; }
+  else if(t.id==='armaClr'){ AR.legs={}; AR.msg=''; }
+  else if(t.id==='slipBar'){ const s=$('slip'); if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  else if(t.id==='armaSave'){ const sb=window.LC_SB; if(!sb){AR.msg={k:'err',t:'Sin conexión. Intenta de nuevo.'}; buildArma(); return;}
+    AR.busy=true; buildArma();
+    const legs=Object.values(AR.legs).map(l=>({gid:l.gid,m:l.m,i:l.i}));
+    let r=null; try{ const {data,error}=await sb.rpc('lc_crear_combinada',{p_legs:legs}); r=error?{error:'No se pudo guardar. Intenta de nuevo.'}:data; }catch(e){ r={error:'No se pudo guardar. Intenta de nuevo.'}; }
+    AR.busy=false;
+    if(r&&r.ok){ AR.legs={}; AR.msg={k:'ok',t:`¡Guardada! Si aciertan todas sumas <b>${r.pts_win} puntos</b>.`}; toast('Combinada guardada'); await armaLoad(); }
+    else AR.msg={k:'err',t:esc((r&&r.error)||'No se pudo guardar.')};
+  }
+  buildArma();
+});
+
 /* ---------- navegación ---------- */
-const TABS=['combo','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes'];
+const TABS=['combo','arma','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes'];
 function show(t){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t)));
-  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='combo'; if(t==='combo') animIn($('homeTop')); animIn($('sec-'+t));
+  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='combo'; if(t==='combo') animIn($('homeTop')); if(t==='arma'){buildArma(); armaLoad();} animIn($('sec-'+t));
   const sp=SPORTS.find(x=>x.tab===t); const nk=sp?sp.k:null; if(nk!==SIDE_SPORT){SIDE_SPORT=nk; buildSide();}
   buildStats(); if(t==='rank'&&RK.view===1) buildRank();
   setTimeout(()=>maybeTip(t),350);
@@ -2159,7 +2316,7 @@ document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.targ
 function renderAll(){
   {const t=(DATA.generated||'').match(/(\d{1,2}:\d{2}\s*[AP]M)/i), d=(DATA.date||'').split('-'); $('gen').innerHTML=`<span class="g-long">${esc(DATA.generated||'')}</span><span class="g-short">${d.length===3?d[2]+'/'+d[1]:''}${t?' · '+t[1]:''}</span>`;}
   SPORTS.forEach(s=>$('n-'+s.tab).textContent=(DATA[s.k]||[]).length);
-  buildTicker(); SPORTS.forEach(buildSport); buildCombos(); buildSide(); buildHist(); buildPlanes(); buildRank(); setTimeout(liveTick,800);
+  buildTicker(); SPORTS.forEach(buildSport); buildCombos(); buildSide(); buildHist(); buildPlanes(); buildRank(); if(CUR_TAB==='arma') buildArma(); setTimeout(liveTick,800);
   document.querySelectorAll('[data-open="acct"]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();window.openAccount&&window.openAccount();}));
 }
 setData(DATA);
@@ -2211,7 +2368,8 @@ if(PUBLIC){
 
   window.choosePlan=k=>{SEL=(k==='promo'&&!promoOn())?'completo':k;SEL_OPEN=true;TAB='plan';if(!ME)VIEW='signup';window.openAccount();};
   function paintBtn(){
-    const pl=plan(); window.LC_PLAN=pl; window.LC_UNTIL=pl?fmt(pl==='completo'?PROF.completo_until:PROF.basico_until):null; buildPlanes();
+    window.LC_SB=sb; window.LC_ME=ME;
+    const pl=plan(); window.LC_PLAN=pl; window.LC_UNTIL=pl?fmt(pl==='completo'?PROF.completo_until:PROF.basico_until):null; buildPlanes(); if(window.armaAuth) setTimeout(window.armaAuth,0);
     if(!ME){btn.innerHTML='Entrar';return;}
     btn.classList.toggle('has-pro',!!active());
     btn.innerHTML=active()?`<span class="pro">${plan()==='basico'?'BÁSICO':'PREMIUM'}</span><span class="lbl">Mi cuenta</span>`:'Mi cuenta';
