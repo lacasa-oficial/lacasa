@@ -674,6 +674,27 @@ details.renew .steps{padding:12px}
 .inst .x{flex:none;background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:4px 6px;cursor:pointer}
 .inst svg{width:14px;height:14px;vertical-align:-2px;fill:none;stroke:var(--ink);stroke-width:2}
 
+/* ficha de equipo */
+#teamBody{display:flex;flex-direction:column;gap:14px}
+.tm-h{display:flex;align-items:center;gap:14px}
+.tm-h h2{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase;margin:2px 0}
+.tm-h .sub b{color:var(--v-hi);font-family:var(--display)}
+.tm-strip{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.tm-strip div{display:flex;gap:4px}
+.tm-strip i{font-style:normal;width:24px;height:24px;display:grid;place-items:center;font-size:12px;font-weight:800}
+.tm-strip i.ok{background:var(--win-soft);color:var(--win)}.tm-strip i.no{background:var(--loss-soft);color:var(--loss)}
+#teamBody .hrows{max-height:340px;overflow:auto}
+#teamBody .kpis.k3 .kpi b{font-size:24px}
+@media (max-width:560px){#teamBody .kpis.k3{gap:6px}#teamBody .kpis.k3 .kpi{padding:10px 8px}#teamBody .kpis.k3 .kpi b{font-size:20px}#teamBody .kpis.k3 .kpi span{font-size:9.5px}#teamBody .kpis.k3 .kpi small{font-size:11px}}
+.tbtn .tic{width:15px;height:15px;color:var(--v-hi)}
+.tmlink{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.tmlink:hover{color:var(--v-hi);text-decoration:underline;text-underline-offset:3px}
+.tsearch{display:flex;flex-direction:column;gap:8px;background:var(--panel);padding:14px 16px}
+:root[data-theme="light"] .tsearch{box-shadow:inset 0 0 0 1px var(--line)}
+.tsearch label{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tsearch input{background:var(--bg);border:1px solid var(--line);color:var(--ink);font:inherit;font-size:16px;padding:11px 12px;outline:none}
+.tsearch input:focus{border-color:var(--v)}
+
 /* ================= REDISEÑO · FASE 1 (14/10) ================= */
 /* modo claro: los mismos nombres de color con tonos para fondo blanco */
 :root[data-theme="light"]{color-scheme:light;
@@ -943,6 +964,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
   </div>
 </dialog>
 
+<dialog class="acct" id="teamDlg" aria-label="Ficha del equipo"><div class="acct-in"><div class="acct-top"><h2>Ficha del equipo</h2><button class="x" type="button" id="teamX" aria-label="Cerrar">×</button></div><div id="teamBody"></div></div></dialog>
 <dialog class="tip" id="tip" aria-labelledby="tipT"><div class="tip-card cut">
   <button class="tip-x" type="button" id="tipX" aria-label="Cerrar">×</button>
   <div class="kick"><svg viewBox="0 0 599 634" aria-hidden="true"><path d="M0 255L257 0L599 338V634H397V356L203 549V634H0Z" fill="#856CFF"/></svg><span id="tipK">Ten en cuenta</span></div>
@@ -1139,7 +1161,7 @@ function nota(x){
 }
 function detail(x){
   const g=x.g, r=RES[x.id]; let tiles='';
-  if(g.locked) return `<div class="det">${r&&r.review&&r.result===0?`<div class="why"><b>Por qué falló:</b> ${esc(r.review)}</div>`:''}<div id="lv-${esc(x.id)}">${liveBox(x)}</div>${nota(x)}${x.sport==='futbol'?lineup(x):''}${paywall()}<div class="follow">${favBtn(x.sport,x.home.name,true)}${favBtn(x.sport,x.away.name,true)}</div></div>`;
+  if(g.locked) return `<div class="det">${r&&r.review&&r.result===0?`<div class="why"><b>Por qué falló:</b> ${esc(r.review)}</div>`:''}<div id="lv-${esc(x.id)}">${liveBox(x)}</div>${nota(x)}${x.sport==='futbol'?lineup(x):''}${paywall()}<div class="follow">${favBtn(x.sport,x.home.name,true)}${favBtn(x.sport,x.away.name,true)}${teamBtn(x.sport,x.home.name)}${teamBtn(x.sport,x.away.name)}</div></div>`;
   if(x.sport==='futbol'){
     const adj=v=>v?` (${v>0?'+':''}${v})`:'';
     tiles=`<div class="tile"><span>Goles esperados</span><b class="num">${g.xg_home.toFixed(2)} – ${g.xg_away.toFixed(2)}</b></div><div class="tile"><span>Elo ${esc(g.home)}</span><b class="num">${g.elo_home}${adj(g.adj_home)}</b></div><div class="tile"><span>Elo ${esc(g.away)}</span><b class="num">${g.elo_away}${adj(g.adj_away)}</b></div>`;
@@ -1169,7 +1191,7 @@ function detail(x){
     ${x.sport==='tenis'&&g.sets?`<div class="sub">Resultados en sets más probables: ${g.sets.slice(0,3).map(s=>`<b class="num">${s.s}</b> (${pct(s.p)})`).join(' · ')}</div>`:''}
     ${x.sport==='futbol'&&g.scores?`<div class="sub">Marcadores más probables: ${g.scores.map(s=>`<b class="num">${s.s}</b> (${pct(s.p)})`).join(' · ')}</div>`:''}
     <div class="sub">${where}</div>
-    <div class="follow">${favBtn(x.sport,x.home.name,true)}${favBtn(x.sport,x.away.name,true)}</div>
+    <div class="follow">${favBtn(x.sport,x.home.name,true)}${favBtn(x.sport,x.away.name,true)}${teamBtn(x.sport,x.home.name)}${teamBtn(x.sport,x.away.name)}</div>
   </div>`;
 }
 function row(x,onlySummary){
@@ -1489,7 +1511,7 @@ function buildHist(){
   const pr=a=>a.length?pct0(a.filter(x=>x.result===1).length/a.length):'—';
   const ex=a=>a.length?pct0(a.reduce((s,x)=>s+x.p,0)/a.length):'—';
   let h=`<div class="h-sec"><div><div class="kick">Resultados</div><h2>Historial</h2></div><p>Las combinadas se miden por tipo: las arriesgadas fallan más a propósito, por eso pagan más. "Esperado" es lo que decía el modelo: si el real queda cerca, está bien calibrado.</p></div>
-  <div class="kick" style="margin-bottom:-6px">Combinadas por tipo</div><div class="kpis k3">${tierStats(cDone).map(t=>`<div class="kpi cut"><span>${t.name}</span><b class="num" data-cu>${t.n?pct0(t.real):'—'}</b><small>${t.n?`${t.ok} de ${t.n}<br>esperado ${pct0(t.exp)}`:'aún sin resultados'}</small></div>`).join('')}</div>
+  ${teamSearch()}<div class="kick" style="margin-bottom:-6px">Combinadas por tipo</div><div class="kpis k3">${tierStats(cDone).map(t=>`<div class="kpi cut"><span>${t.name}</span><b class="num" data-cu>${t.n?pct0(t.real):'—'}</b><small>${t.n?`${t.ok} de ${t.n}<br>esperado ${pct0(t.exp)}`:'aún sin resultados'}</small></div>`).join('')}</div>
   <div class="kpis"><div class="kpi cut"><span>Selecciones de combinadas</span><b class="num">${pr(legs)}</b><small>esperado ${ex(legs)}</small></div>
   <div class="kpi cut"><span>Pronósticos del día</span><b class="num">${pr(done)}</b><small>${r(done)} · esperado ${ex(done)}</small></div></div>`;
   const dates=[...new Set([...CH.map(c=>c.date),...H.map(e=>e.date)])].sort().reverse();
@@ -1544,6 +1566,44 @@ function buildPlanes(){
   <p class="note" style="margin-top:16px">Los pronósticos son estimaciones estadísticas, no garantías. Lee los <a href="#" onclick="document.getElementById('termsLink').click();return false;">términos y condiciones</a>.</p>`;
   sec.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>window.choosePlan&&window.choosePlan(b.dataset.plan));
 }
+
+/* ---------- ficha de equipo: cómo le va a cada equipo en LA CASA ---------- */
+function gSides(game){const s=String(game||''); return s.includes(' @ ')?s.split(' @ '):s.split(' vs ');}
+function teamData(sport,name){
+  const has=e=>e.sport===sport&&gSides(e.game).some(n=>nameHit(n,name));
+  const games=H.filter(has).sort((a,b)=>a.date<b.date?1:-1);
+  const done=games.filter(e=>e.result===1||e.result===0);
+  const opp=e=>gSides(e.game).find(n=>!nameHit(n,name))||'';
+  const forT=done.filter(e=>!e.locked&&nameHit(e.pick,name)), vsT=done.filter(e=>!e.locked&&opp(e)&&nameHit(e.pick,opp(e)));
+  const legs=CH.filter(c=>c.sport===sport).flatMap(c=>(c.legs||[]).map(l=>Object.assign({date:c.date},l))).filter(l=>gSides(l.game).some(n=>nameHit(n,name))&&(l.result===1||l.result===0));
+  const today=G.find(x=>x.sport===sport&&x.iso.slice(0,10)===DATA.date&&(nameHit(name,x.home.name)||nameHit(name,x.away.name)));
+  return {games,done,forT,vsT,legs,today};
+}
+function teamNames(){const m={}; H.forEach(e=>gSides(e.game).forEach(n=>{n=n.trim(); if(n&&!/^(Más|Menos|Empate)/.test(n)) m[e.sport+'|'+n]={sport:e.sport,name:n};})); return Object.values(m).sort((a,b)=>a.name.localeCompare(b.name,'es'));}
+function teamBtn(sport,name){return `<button type="button" class="sh-b txt tbtn" data-team="${esc(name)}" data-sp="${esc(sport)}"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true">${TICON.hist}</svg>${esc(name)} en LA CASA</button>`;}
+function openTeam(sport,name){
+  const d=teamData(sport,name), sp=SPORTS.find(s=>s.k===sport)||{name:sport}, rt=ratingOf(sport,name)||Object.values((DATA.rankings||{})[sport]||{}).find(r=>nameHit(r.name,name));
+  const ok=a=>a.filter(e=>e.result===1).length, fr=a=>a.length?`${ok(a)}/${a.length}`:'—', pc=a=>a.length?pct0(ok(a)/a.length):'—';
+  const strip=d.done.slice(0,10).reverse().map(e=>`<i class="${e.result===1?'ok':'no'}" title="${esc(fmtDate(e.date))}">${e.result===1?'✓':'✗'}</i>`).join('');
+  const rows=d.games.slice(0,8).map(e=>`<div class="hrow"><span class="res ${resCls(e.result)}">${resTxt(e.result).toUpperCase()}</span><div class="g">${esc(e.game)}<small>${esc(fmtDate(e.date))} · Pronóstico: ${e.locked?LOCK+'solo suscriptores':esc(e.pick)+' ('+pct0(e.p)+')'}</small></div><span class="sc num">${e.score?esc(e.score):'—'}</span></div>`).join('');
+  $('teamBody').innerHTML=`<div class="tm-h">${jersey(name,rt&&rt.abbr,sport,40)}<div><div class="kick">${esc(sp.name)} · ficha en LA CASA</div><h2>${esc(name)}</h2>${rt?`<span class="sub">Nota LA CASA <b class="num">${rt.nota.toFixed(1)}</b> de 10</span>`:''}</div></div>
+   ${d.done.length?`<div class="kpis k3"><div class="kpi cut"><span>En sus partidos</span><b class="num">${pc(d.done)}</b><small>${fr(d.done)} pronósticos acertados</small></div>
+   <div class="kpi cut"><span>Cuando lo elegimos</span><b class="num">${pc(d.forT)}</b><small>${fr(d.forT)} veces que ganó o cumplió</small></div>
+   <div class="kpi cut"><span>En combinadas</span><b class="num">${pc(d.legs)}</b><small>${fr(d.legs)} selecciones acertadas</small></div></div>
+   <div class="tm-strip"><span>Últimos ${Math.min(10,d.done.length)}</span><div>${strip}</div></div>`:''}
+   ${d.done.length&&d.done.length<5?`<p class="note">Todavía hay pocos partidos de ${esc(name)} para sacar conclusiones.</p>`:''}
+   ${d.games.length?`<h4 class="sec-h">Sus partidos en LA CASA</h4><div class="hrows cut">${rows}</div>`:`<p class="note">LA CASA todavía no ha pronosticado partidos de ${esc(name)}. Desde su primer partido, aquí verás cómo le va.</p>`}
+   <div class="row2">${d.today?`<button type="button" class="btn-v cut" id="tmGo">Ver su partido de hoy</button>`:''}${favBtn(sport,name,true)}</div>`;
+  const go=$('tmGo'); if(go) go.onclick=()=>{$('teamDlg').close(); goGame(d.today.id);};
+  const dl=$('teamDlg'); if(!dl.open) dl.showModal(); $('teamBody').scrollTop=0; animIn($('teamBody'));
+}
+document.addEventListener('click',ev=>{const b=ev.target.closest('[data-team]'); if(!b) return; ev.preventDefault(); ev.stopPropagation(); openTeam(b.dataset.sp,b.dataset.team);},true);
+(function(){const x=$('teamX'), dl=$('teamDlg'); if(x) x.onclick=()=>dl.close(); if(dl) dl.addEventListener('click',e=>{if(e.target===dl) dl.close();});})();
+function teamSearch(){
+  const L=teamNames(); if(!L.length) return '';
+  return `<div class="tsearch cut"><label for="tsq"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Busca un equipo y mira cómo le va en LA CASA</label><input id="tsq" list="tsl" placeholder="Ej.: Real Madrid, Yankees, Sinner" autocomplete="off"><datalist id="tsl">${L.map(t=>`<option value="${esc(t.name)}">${esc((SPORTS.find(s=>s.k===t.sport)||{name:t.sport}).name)}</option>`).join('')}</datalist></div>`;
+}
+document.addEventListener('change',ev=>{if(ev.target.id!=='tsq') return; const v=ev.target.value.trim(); const t=teamNames().find(o=>_n(o.name)===_n(v))||teamNames().find(o=>nameHit(o.name,v)); if(t){openTeam(t.sport,t.name); ev.target.value='';}});
 
 /* ---------- navegación ---------- */
 const TABS=['combo','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes'];
@@ -1753,7 +1813,7 @@ function buildRank(){
   const elo=g.sport==='futbol'||g.sport==='tenis', list=RK.all?g.rows:g.rows.slice(0,20);
   h+=`<div class="rk cut"><div class="rk-row hd"><span>#</span><span></span><span class="l">${g.sport==='tenis'?'Jugador':'Equipo'}</span><span>Nota</span><span class="ex">${elo?'Elo':'Récord'}</span></div>${list.map((r,i)=>{
     const tg=todayGame(g.sport,r.name,r.abbr), mine=isFav(g.sport,r.name);
-    return `<div class="rk-row${i<3?' top':''}${mine?' mine':''}"><span class="pos num">${i+1}</span>${favBtn(g.sport,r.name)}<div class="tmc">${jersey(r.name,r.abbr,g.sport,20)}<div class="nmb"><span class="nm">${esc(r.name)}${tg?`<button type="button" class="hoyb" data-game="${esc(tg.id)}">Juega hoy</button>`:''}</span><i class="bar"><u style="width:${(r.nota*10).toFixed(0)}%"></u></i></div></div><b class="nota num">${r.nota.toFixed(1)}</b><span class="ex num" title="Actualizado el ${fmtDate(r.date)}">${esc(elo?(r.elo!=null?r.elo:'—'):(r.record||'—'))}</span></div>`;}).join('')}</div>`;
+    return `<div class="rk-row${i<3?' top':''}${mine?' mine':''}"><span class="pos num">${i+1}</span>${favBtn(g.sport,r.name)}<div class="tmc">${jersey(r.name,r.abbr,g.sport,20)}<div class="nmb"><span class="nm"><button type="button" class="tmlink" data-team="${esc(r.name)}" data-sp="${esc(g.sport)}">${esc(r.name)}</button>${tg?`<button type="button" class="hoyb" data-game="${esc(tg.id)}">Juega hoy</button>`:''}</span><i class="bar"><u style="width:${(r.nota*10).toFixed(0)}%"></u></i></div></div><b class="nota num">${r.nota.toFixed(1)}</b><span class="ex num" title="Actualizado el ${fmtDate(r.date)}">${esc(elo?(r.elo!=null?r.elo:'—'):(r.record||'—'))}</span></div>`;}).join('')}</div>`;
   h+=`<div class="rk-foot">${g.rows.length>20?`<button type="button" class="btn-g" data-rkall>${RK.all?'Ver solo los 20 primeros':'Ver los '+g.rows.length}</button>`:'<span></span>'}${shareBtn('rank',g.id,'Compartir el top 10')}</div>`;
   h+=`<p class="note">${g.sport==='futbol'?'En fútbol la nota sale del rating Elo del equipo.':g.sport==='mlb'?'En béisbol la nota sale de las carreras anotadas y permitidas, más los últimos 10 juegos.':g.sport==='tenis'?'En tenis la nota sale del rating Elo del jugador.':'La nota sale de la diferencia entre lo que anota y lo que le anotan, mezclada con la temporada anterior al inicio.'} Toca ☆ para seguir a un equipo: sus partidos saldrán primero.</p>`;
   sec.innerHTML=h; rkWire(sec);
