@@ -674,6 +674,63 @@ details.renew .steps{padding:12px}
 .inst .x{flex:none;background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:4px 6px;cursor:pointer}
 .inst svg{width:14px;height:14px;vertical-align:-2px;fill:none;stroke:var(--ink);stroke-width:2}
 
+/* REDISEÑO F2: portada con destacado */
+#homeTop[hidden]{display:none}
+.home-top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;padding-top:22px}
+@media (max-width:980px){.home-top{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:16px}}
+.home-top .hero{margin:0}
+.feat{background:var(--panel);display:flex;flex-direction:column;--cut:18px;min-width:0}
+:root[data-theme="light"] .feat{box-shadow:inset 0 0 0 1px var(--line)}
+.fband{position:relative;display:flex;height:190px;overflow:hidden}
+.fb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--c1);color:var(--tx);padding:30px 10px 12px;text-align:center;min-width:0}
+.fb b{font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.06em;text-transform:uppercase;line-height:1.1;max-width:100%;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fa{clip-path:polygon(0 0,100% 0,84% 100%,0 100%);margin-right:-9%;padding-right:12%}
+.fz{clip-path:polygon(16% 0,100% 0,100% 100%,0 100%);margin-left:-9%;padding-left:12%}
+.crest{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--c2);color:var(--c1);font-family:var(--display);font-weight:900;font-size:14px;letter-spacing:.04em;box-shadow:0 0 0 3px rgba(0,0,0,.18)}
+.fvs{position:absolute;left:50%;top:56%;width:40px;height:40px;transform:translate(-50%,-50%) rotate(45deg);background:var(--v);display:grid;place-items:center;box-shadow:0 0 0 3px var(--panel)}
+.fvs span{transform:rotate(-45deg);font-family:var(--display);font-weight:900;font-size:12px;color:#fff}
+.ftag,.fwhen{position:absolute;top:12px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:rgba(0,0,0,.45);color:#fff;padding:5px 9px;border-radius:7px;max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftag{left:12px}.fwhen{right:12px}
+.fbody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;flex:1}
+.fprob{display:grid;gap:8px}.fprob.c3{grid-template-columns:repeat(3,minmax(0,1fr))}.fprob.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.fprob div{background:var(--panel-2);border-radius:12px;padding:9px 10px;text-align:center;min-width:0}
+.fprob small{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fprob b{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink)}
+.fprob .on{background:var(--v)}.fprob .on small{color:rgba(255,255,255,.85)}.fprob .on b{color:#fff}
+.fpk{font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--v-hi);margin-bottom:8px}
+.fwhy{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.fwhy li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;font-size:13.5px;color:var(--ink-2)}
+.fwhy .tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--panel-3);color:var(--ink);padding:2px 7px;white-space:nowrap}
+.fgo{margin-top:auto;width:100%;height:46px}.fgo .tic{width:17px;height:17px}
+@media (max-width:560px){.fband{height:160px}.fb b{font-size:13px}.crest{width:48px;height:48px;font-size:12px}.fbody{padding:14px}.fprob b{font-size:20px}.ftag{max-width:56%}}
+/* agenda del día */
+.agenda{background:var(--panel);padding:16px 16px 10px;--cut:14px}
+:root[data-theme="light"] .agenda{box-shadow:inset 0 0 0 1px var(--line)}
+.ag-h{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:8px}
+.ag-h h2{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:.08em;text-transform:uppercase}
+.ag-hd,.ag-r{display:grid;grid-template-columns:30px 62px minmax(0,1fr) 62px 62px 62px 18px;align-items:center;gap:8px}
+.ag-hd{padding:6px 8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ag-hd span:nth-child(n+4){text-align:center}
+.ag-r{width:100%;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;text-align:left;padding:10px 8px;cursor:pointer}
+.ag-r:hover{background:var(--panel-2)}
+.ag-r.done{opacity:.6}
+.ag-r .lg{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--v-soft);color:var(--v-hi)}
+.ag-r .hr{display:flex;flex-direction:column;line-height:1.1}
+.ag-r .hr b{font-family:var(--display);font-size:14px;font-weight:700}.ag-r .hr small{font-size:10px;color:var(--muted)}
+.ag-r .hr .lv{display:flex;align-items:center;gap:5px;color:var(--loss);font-size:11px;letter-spacing:.1em}
+.ag-r .hr .lv i{width:7px;height:7px;border-radius:50%;background:var(--loss);animation:lvp 1.4s infinite}
+.ag-r .mt{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px;min-width:0}
+.ag-r .mt b{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ag-r .mt em{font-style:normal;font-size:11px;color:var(--muted)}
+.ag-r .mt small{flex-basis:100%;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ag-r .pc{text-align:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--muted);padding:6px 0;border-radius:9px}
+.ag-r .pc.on{color:var(--ink);background:var(--v-soft);box-shadow:inset 0 0 0 1px rgba(133,108,255,.55)}
+.ag-r .pc.na{opacity:.5}
+.ag-r .pc.lk{grid-column:span 3;font-family:var(--ui);font-size:12px;font-weight:600;color:var(--v-hi);border:1px dashed rgba(133,108,255,.5);border-radius:0}
+.ag-r .go{color:var(--muted)}.ag-r .go .tic{width:16px;height:16px}
+@media (max-width:640px){.agenda{padding:12px 10px 8px}.ag-hd{display:none}.ag-hd,.ag-r{grid-template-columns:26px 50px minmax(0,1fr) 46px 46px 46px;gap:6px}.ag-r{padding:10px 4px}.ag-r .go{display:none}.ag-r .pc{font-size:12.5px}.ag-r .mt b{font-size:13.5px;flex-basis:100%}.ag-r .mt em,.ag-r .mt small{display:none}.ag-hd,.ag-r{grid-template-columns:26px 46px minmax(0,1fr) 40px 40px 40px}.ag-r .pc.lk{font-size:11px}}
+.fb.long b{font-size:13px}
+
 /* ficha de equipo */
 #teamBody{display:flex;flex-direction:column;gap:14px}
 .tm-h{display:flex;align-items:center;gap:14px}
@@ -771,7 +828,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
   .btn-p::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);transform:translateX(-130%);animation:shine 6s 1.5s infinite}
   @keyframes shine{0%,84%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
   /* al entrar a una pestaña: tarjetas escalonadas, barras que se llenan y título palabra por palabra */
-  .anim :is(.hero,.combo,.board,.kpi,.sp-box,.day-box,.hst,.pcard,.how article,.rk-row,.crow,.info){animation:cardIn .45s cubic-bezier(.2,.7,.2,1) both}
+  .anim :is(.hero,.feat,.agenda,.combo,.board,.kpi,.sp-box,.day-box,.hst,.pcard,.how article,.rk-row,.crow,.info){animation:cardIn .45s cubic-bezier(.2,.7,.2,1) both}
   .anim :is(.combo,.board,.kpi,.sp-box,.day-box,.hst,.pcard,.how article,.rk-row,.crow):nth-child(2){animation-delay:.08s}
   .anim :is(.combo,.board,.kpi,.sp-box,.day-box,.hst,.pcard,.how article,.rk-row,.crow):nth-child(3){animation-delay:.16s}
   .anim :is(.combo,.board,.kpi,.sp-box,.day-box,.hst,.pcard,.how article,.rk-row,.crow):nth-child(4){animation-delay:.24s}
@@ -821,6 +878,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
   </div>
 </header>
 
+<div class="wrap" id="homeTop" hidden></div>
 <div class="wrap grid">
   <aside class="stats" id="stats" aria-label="Estadísticas"></aside>
   <main>
@@ -983,7 +1041,7 @@ let H=[], CH=[], RES={};
 /* ---------- franelas: colores de cada equipo (sin logos ni banderas) ---------- */
 // [principal, secundario, patrón opcional: 'rayas' | 'cuadros' | 'banda']
 const KIT_NAT={"Serbia":["#C6363C","#FFFFFF"],"Países Bajos":["#F36C21","#111111"],"Dinamarca":["#C60C30","#FFFFFF"],"Gales":["#D30731","#00A650"],"Austria":["#ED2939","#FFFFFF"],"Kosovo":["#244AA5","#D0A650"],"Gibraltar":["#DA000C","#FFFFFF"],"Andorra":["#10069F","#FEDF00"],"Alemania":["#F4F4F4","#111111"],"Grecia":["#0D5EAF","#FFFFFF"],"Noruega":["#BA0C2F","#00205B"],"Portugal":["#C8102E","#046A38"],"Israel":["#F4F4F4","#0038B8"],"Irlanda":["#169B62","#FFFFFF"],"Irlanda del Norte":["#00843D","#FFFFFF"],"Japón":["#0B2A6F","#FFFFFF"],"Venezuela":["#7A1E2E","#F2C200"],"Bélgica":["#D0021B","#111111"],"Francia":["#1B2A6B","#FFFFFF"],"Turquía":["#E30A17","#FFFFFF"],"Italia":["#1560BD","#FFFFFF"],"España":["#C60B1E","#FFC400"],"Croacia":["#E3001B","#FFFFFF","cuadros"],"Inglaterra":["#F4F4F4","#1B2A6B"],"Escocia":["#0B1F4B","#FFFFFF"],"Argentina":["#75AADB","#FFFFFF","rayas"],"Brasil":["#FEDD00","#009B3A"],"Colombia":["#FCD116","#003893"],"México":["#006847","#FFFFFF"],"Uruguay":["#5CBFEB","#111111"],"Chile":["#D52B1E","#0039A6"],"Ecuador":["#FFD100","#034EA2"],"Perú":["#F4F4F4","#D91023","banda"],"Paraguay":["#D52B1E","#FFFFFF","rayas"],"Bolivia":["#007A3D","#FFFFFF"],"Estados Unidos":["#F4F4F4","#1B2A6B"],"Canadá":["#D52B1E","#FFFFFF"],"Suiza":["#D52B1E","#FFFFFF"],"Suecia":["#FECC00","#005BAC"],"Polonia":["#F4F4F4","#DC143C"],"Ucrania":["#FFD500","#005BBB"],"Hungría":["#CD2A3E","#436F4D"],"Rumania":["#FCD116","#002B7F"],"Chequia":["#D7141A","#11457E"],"Eslovaquia":["#F4F4F4","#0B4EA2"],"Eslovenia":["#F4F4F4","#00A651"],"Islandia":["#02529C","#FFFFFF"],"Finlandia":["#F4F4F4","#002F6C"],"Georgia":["#F4F4F4","#E1261C"],"Lituania":["#FDB913","#006A44"],"Azerbaiyán":["#E4002B","#0092BC"],"Letonia":["#9E3039","#FFFFFF"],"Estonia":["#0072CE","#111111"],"Albania":["#E41E20","#111111"],"Bosnia y Herzegovina":["#002395","#FECB00"],"Montenegro":["#C40308","#D3AE3B"],"Macedonia del Norte":["#D20000","#FFE600"],"Bulgaria":["#F4F4F4","#00966E"],"Chipre":["#0047AB","#FFFFFF"],"Armenia":["#D90012","#F2A800"],"Kazajistán":["#00AFCA","#FEC50C"],"Luxemburgo":["#EF3340","#FFFFFF"],"Malta":["#CF142B","#FFFFFF"],"Moldavia":["#0046AE","#FFD200"],"Liechtenstein":["#002B7F","#CE1126"],"San Marino":["#5EB6E4","#FFFFFF"],"Feroe":["#F4F4F4","#0065BD"],"Bielorrusia":["#C8313E","#4AA657"],"Marruecos":["#C1272D","#006233"],"Senegal":["#F4F4F4","#00853F"],"Nigeria":["#008751","#FFFFFF"],"Egipto":["#CE1126","#FFFFFF"],"Corea del Sur":["#CD2E3A","#111111"],"Australia":["#FFCD00","#00843D"],"Irán":["#F4F4F4","#DA0000"],"Arabia Saudita":["#F4F4F4","#006C35"],"Catar":["#8A1538","#FFFFFF"],"Costa Rica":["#CE1126","#002B7F"],"Panamá":["#DA121A","#FFFFFF"],"Jamaica":["#FED100","#009B3A"],"Honduras":["#F4F4F4","#0073CF"]};
-const KIT_CLUB={"Arsenal":["#EF0107","#FFFFFF"],"Chelsea":["#034694","#FFFFFF"],"Liverpool":["#C8102E","#F6EB61"],"Manchester City":["#6CABDD","#FFFFFF"],"Manchester United":["#DA291C","#111111"],"Tottenham":["#F4F4F4","#132257"],"Newcastle":["#111111","#FFFFFF","rayas"],"Aston Villa":["#670E36","#95BFE5"],"West Ham":["#7A263A","#1BB1E7"],"Everton":["#003399","#FFFFFF"],"Brighton":["#0057B8","#FFFFFF"],"Nottingham Forest":["#DD0000","#FFFFFF"],"Real Madrid":["#F4F4F4","#FEBE10"],"Barcelona":["#A50044","#004D98","rayas"],"Atlético de Madrid":["#CB3524","#FFFFFF","rayas"],"Sevilla":["#F4F4F4","#D81E05"],"Real Betis":["#00954C","#FFFFFF","rayas"],"Villarreal":["#FFE667","#005187"],"Athletic Club":["#EE2523","#FFFFFF","rayas"],"Real Sociedad":["#0067B1","#FFFFFF","rayas"],"Valencia":["#F4F4F4","#111111"],"Inter":["#0068A8","#111111","rayas"],"Milan":["#FB090B","#111111","rayas"],"Juventus":["#111111","#FFFFFF","rayas"],"Napoli":["#12A0D7","#FFFFFF"],"Roma":["#8E1F2F","#F0BC42"],"Lazio":["#87D8F7","#FFFFFF"],"Atalanta":["#1E71B8","#111111","rayas"],"Bayern Múnich":["#DC052D","#FFFFFF"],"Borussia Dortmund":["#FDE100","#111111"],"Bayer Leverkusen":["#E32221","#111111"],"RB Leipzig":["#F4F4F4","#DD0741"],"PSG":["#004170","#DA291C"],"Marsella":["#F4F4F4","#2FAEE0"],"Lyon":["#F4F4F4","#DA0812"],"Mónaco":["#E7171B","#FFFFFF"],"Benfica":["#E83030","#FFFFFF"],"Porto":["#00428C","#FFFFFF","rayas"],"Sporting CP":["#008057","#FFFFFF","rayas"],"Ajax":["#F4F4F4","#D2122E"],"Celtic":["#018749","#FFFFFF","rayas"],"Caracas FC":["#D2112C","#FFFFFF"],"Deportivo Táchira":["#FFD100","#111111","rayas"],"Carabobo":["#7A1E2E","#FFFFFF"],"Deportivo La Guaira":["#F47B20","#1B2A6B"],"Metropolitanos":["#6A2C91","#FFFFFF"],"Monagas":["#1B3F8B","#E30613"],"Academia Puerto Cabello":["#1B3F8B","#FFD100"],"Portuguesa":["#E30613","#FFFFFF"],"Zamora":["#F4F4F4","#111111"],"Estudiantes de Mérida":["#E30613","#FFFFFF","rayas"],"Universidad Central":["#1B3F8B","#FFFFFF"],"Rayo Zuliano":["#1B3F8B","#FFD100"]};
+const KIT_CLUB={"Shakhtar Donetsk":["#F26522","#111111"],"AEK Atenas":["#FFD200","#111111"],"Feyenoord":["#E1001A","#FFFFFF"],"Como":["#1C3F94","#FFFFFF"],"LASK":["#111111","#FFFFFF"],"Fenerbahçe":["#0B1E5B","#FFED00"],"Galatasaray":["#A90432","#FDB912"],"PSV":["#ED1C24","#FFFFFF"],"Club Brujas":["#0067B1","#111111"],"Olympiacos":["#D2001F","#FFFFFF"],"Bodø/Glimt":["#FFD23F","#111111"],"Sporting de Portugal":["#008057","#FFFFFF"],"Arsenal":["#EF0107","#FFFFFF"],"Chelsea":["#034694","#FFFFFF"],"Liverpool":["#C8102E","#F6EB61"],"Manchester City":["#6CABDD","#FFFFFF"],"Manchester United":["#DA291C","#111111"],"Tottenham":["#F4F4F4","#132257"],"Newcastle":["#111111","#FFFFFF","rayas"],"Aston Villa":["#670E36","#95BFE5"],"West Ham":["#7A263A","#1BB1E7"],"Everton":["#003399","#FFFFFF"],"Brighton":["#0057B8","#FFFFFF"],"Nottingham Forest":["#DD0000","#FFFFFF"],"Real Madrid":["#F4F4F4","#FEBE10"],"Barcelona":["#A50044","#004D98","rayas"],"Atlético de Madrid":["#CB3524","#FFFFFF","rayas"],"Sevilla":["#F4F4F4","#D81E05"],"Real Betis":["#00954C","#FFFFFF","rayas"],"Villarreal":["#FFE667","#005187"],"Athletic Club":["#EE2523","#FFFFFF","rayas"],"Real Sociedad":["#0067B1","#FFFFFF","rayas"],"Valencia":["#F4F4F4","#111111"],"Inter":["#0068A8","#111111","rayas"],"Milan":["#FB090B","#111111","rayas"],"Juventus":["#111111","#FFFFFF","rayas"],"Napoli":["#12A0D7","#FFFFFF"],"Roma":["#8E1F2F","#F0BC42"],"Lazio":["#87D8F7","#FFFFFF"],"Atalanta":["#1E71B8","#111111","rayas"],"Bayern Múnich":["#DC052D","#FFFFFF"],"Borussia Dortmund":["#FDE100","#111111"],"Bayer Leverkusen":["#E32221","#111111"],"RB Leipzig":["#F4F4F4","#DD0741"],"PSG":["#004170","#DA291C"],"Marsella":["#F4F4F4","#2FAEE0"],"Lyon":["#F4F4F4","#DA0812"],"Mónaco":["#E7171B","#FFFFFF"],"Benfica":["#E83030","#FFFFFF"],"Porto":["#00428C","#FFFFFF","rayas"],"Sporting CP":["#008057","#FFFFFF","rayas"],"Ajax":["#F4F4F4","#D2122E"],"Celtic":["#018749","#FFFFFF","rayas"],"Caracas FC":["#D2112C","#FFFFFF"],"Deportivo Táchira":["#FFD100","#111111","rayas"],"Carabobo":["#7A1E2E","#FFFFFF"],"Deportivo La Guaira":["#F47B20","#1B2A6B"],"Metropolitanos":["#6A2C91","#FFFFFF"],"Monagas":["#1B3F8B","#E30613"],"Academia Puerto Cabello":["#1B3F8B","#FFD100"],"Portuguesa":["#E30613","#FFFFFF"],"Zamora":["#F4F4F4","#111111"],"Estudiantes de Mérida":["#E30613","#FFFFFF","rayas"],"Universidad Central":["#1B3F8B","#FFFFFF"],"Rayo Zuliano":["#1B3F8B","#FFD100"]};
 const KIT_MLB={NYY:["#132448","#FFFFFF","rayas"],BAL:["#DF4601","#111111"],BOS:["#BD3039","#0C2340"],TB:["#092C5C","#8FBCE6"],TOR:["#134A8E","#E8291C"],CLE:["#0C2340","#E31937"],CWS:["#27251F","#C4CED4"],MIN:["#002B5C","#D31145"],DET:["#0C2340","#FA4616"],KC:["#004687","#BD9B60"],HOU:["#002D62","#EB6E1F"],TEX:["#003278","#C0111F"],SEA:["#0C2C56","#00A3A3"],ATH:["#003831","#EFB21E"],LAA:["#BA0021","#003263"],ATL:["#13274F","#CE1141"],PHI:["#E81828","#FFFFFF","rayas"],MIA:["#00A3E0","#EF3340"],WSH:["#AB0003","#14225A"],NYM:["#002D72","#FF5910"],MIL:["#12284B","#FFC52F"],CHC:["#0E3386","#CC3433"],PIT:["#27251F","#FDB827"],STL:["#C41E3A","#0C2340"],CIN:["#C6011F","#111111"],LAD:["#005A9C","#FFFFFF"],SD:["#2F241D","#FFC425"],ARI:["#A71930","#E3D4AD"],SF:["#FD5A1E","#27251F"],COL:["#33006F","#C4CED4"]};
 const KIT_NBA={ATL:["#E03A3E","#C1D32F"],BOS:["#007A33","#FFFFFF"],BKN:["#111111","#FFFFFF"],CHA:["#1D1160","#00788C"],CHI:["#CE1141","#111111"],CLE:["#860038","#FDBB30"],DAL:["#00538C","#B8C4CA"],DEN:["#0E2240","#FEC524"],DET:["#C8102E","#1D42BA"],GSW:["#1D428A","#FFC72C"],HOU:["#CE1141","#FFFFFF"],IND:["#002D62","#FDBB30"],LAC:["#C8102E","#1D428A"],LAL:["#552583","#FDB927"],MEM:["#5D76A9","#12173F"],MIA:["#98002E","#F9A01B"],MIL:["#00471B","#EEE1C6"],MIN:["#0C2340","#78BE20"],NOP:["#0C2340","#C8102E"],NYK:["#006BB6","#F58426"],OKC:["#007AC1","#EF3B24"],ORL:["#0077C0","#C4CED4"],PHI:["#006BB6","#ED174C"],PHX:["#1D1160","#E56020"],POR:["#E03A3E","#111111"],SAC:["#5A2D81","#63727A"],SAS:["#C4CED4","#111111"],TOR:["#CE1141","#111111"],UTA:["#002B5C","#F9A01B"],WAS:["#002B5C","#E31837"]};
 const KIT_NFL={ARI:["#97233F","#FFFFFF"],ATL:["#A71930","#111111"],BAL:["#241773","#9E7C0C"],BUF:["#00338D","#C60C30"],CAR:["#0085CA","#111111"],CHI:["#0B162A","#C83803"],CIN:["#FB4F14","#111111","rayas"],CLE:["#311D00","#FF3C00"],DAL:["#F4F4F4","#041E42"],DEN:["#FB4F14","#002244"],DET:["#0076B6","#B0B7BC"],GB:["#203731","#FFB612"],HOU:["#03202F","#A71930"],IND:["#002C5F","#FFFFFF"],JAX:["#006778","#D7A22A"],KC:["#E31837","#FFB81C"],LV:["#111111","#A5ACAF"],LAC:["#0080C6","#FFC20E"],LAR:["#003594","#FFA300"],MIA:["#008E97","#FC4C02"],MIN:["#4F2683","#FFC62F"],NE:["#002244","#C60C30"],NO:["#111111","#D3BC8D"],NYG:["#0B2265","#A71930"],NYJ:["#125740","#FFFFFF"],PHI:["#004C54","#A5ACAF"],PIT:["#111111","#FFB612"],SF:["#AA0000","#B3995D"],SEA:["#002244","#69BE28"],TB:["#D50A0A","#34302B"],TEN:["#4B92DB","#0C2340"],WAS:["#5A1414","#FFB612"]};
@@ -1285,7 +1343,7 @@ async function liveTick(){
   liveBusy=false;
   if(!changed.size) return;
   changed.forEach(id=>{const x=BYID[id], el=document.getElementById('m-'+id); if(!x||!el) return; const r=row(x,true); el.querySelector('summary').innerHTML=r.html; el.dataset.st=r.st; const lb=document.getElementById('lv-'+id); if(lb) lb.innerHTML=liveBox(x);});
-  buildTicker();
+  buildTicker(); const ag=$('agenda'); if(ag) ag.outerHTML=agendaHTML();
 }
 setInterval(liveTick,45000); document.addEventListener('visibilitychange',()=>{if(!document.hidden) liveTick();});
 /* ---------- fútbol: aciertos por competición (selecciones, ligas y copas) ---------- */
@@ -1411,6 +1469,46 @@ function comboCard(sport,ct,c,hc){
 const ACC={};
 function accAttr(k,def){const o=(k in ACC)?ACC[k]:def; return ` data-acc="${k}"${o?' open':''} ontoggle="ACC[this.dataset.acc]=this.open"`;}
 function tally(cs){const ok=cs.filter(c=>c.result===1).length,no=cs.filter(c=>c.result===0).length,pe=cs.filter(c=>c.result!==1&&c.result!==0&&c.result!=='void').length; return {ok,no,pe};}
+/* ---------- REDISEÑO F2: portada con partido destacado y agenda del día ---------- */
+function lumi(c){const m=/^#?([0-9a-f]{6})$/i.exec(c||''); if(!m) return /9\d%\)|8\d%\)/.test(c||'')?0.8:0.3; const n=parseInt(m[1],16), r=(n>>16&255)/255, g=(n>>8&255)/255, b=(n&255)/255; return 0.2126*r+0.7152*g+0.0722*b;}
+function ini(t){if(t.abbr) return t.abbr.slice(0,3); const w=String(t.name).replace(/[^A-Za-zÀ-ÿØø ]/g,'').split(/\s+/).filter(Boolean); return (w.length>1?w.map(s=>s[0]).join('').slice(0,3):String(t.name).slice(0,3)).toUpperCase();}
+function todayGames(){return G.filter(x=>x.iso.slice(0,10)===DATA.date||(new Date(x.iso)-new Date())<20*3600e3&&(new Date(x.iso)-new Date())>-4*3600e3).sort((a,b)=>a.iso<b.iso?-1:1);}
+function probs(x){ if(x.g.locked||!x.g.markets||!x.g.markets[0]) return null; const m=x.g.markets[0].items;
+  return x.sport==='futbol'?{home:m[0].p,draw:m[1].p,away:m[2].p}:{home:m[0].p,draw:null,away:m[1].p}; }
+function pickFeatured(){
+  const T=todayGames(), score=x=>(x.sport==='futbol'?3:x.sport==='tenis'?1:0)+(+x.g.nota_home||5)+(+x.g.nota_away||5);
+  const by=a=>a.slice().sort((p,q)=>score(q)-score(p))[0];
+  const pre=T.filter(x=>status(x).k==='pre');
+  return by(pre.filter(x=>!x.g.locked))||by(pre)||by(T.filter(x=>!x.g.locked))||by(T);
+}
+function featuredHTML(){
+  const x=pickFeatured(); if(!x) return '';
+  const [p,q]=order(x), A=x[p], B=x[q], ka=kitFor(A.name,A.abbr,x.sport), kb0=kitFor(B.name,B.abbr,x.sport), kb=(/^hsl/.test(ka[0])&&/^hsl/.test(kb0[0]))?[kb0[0].replace(/hsl\((\d+)/,(m,h)=>'hsl('+((+h+150)%360)),kb0[1]]:kb0, pr=probs(x), st=status(x);
+  const band=(t,k,cls)=>`<div class="fb ${cls}${t.name.length>13?' long':''}" style="--c1:${k[0]};--c2:${k[1]};--tx:${lumi(k[0])>.55?'#111':'#fff'}"><div class="crest">${esc(ini(t))}</div><b>${esc(t.name)}</b></div>`;
+  const when=st.k==='pre'?`${st.day?st.day+' · ':''}${st.label}`:st.k==='live'?'EN VIVO':st.k==='fin'?`FINAL ${st.sh}-${st.sa}`:'EMPEZÓ';
+  let boxes;
+  if(pr){ const cells=x.sport==='futbol'?[[x.home.name,pr.home],['Empate',pr.draw],[x.away.name,pr.away]]:[[A.name,pr[p]],[B.name,pr[q]]], best=Math.max(...cells.map(c=>c[1]));
+    boxes=`<div class="fprob c${cells.length}">${cells.map(c=>`<div class="${c[1]===best?'on':''}"><small>${esc(c[0])}</small><b class="num" data-cu>${pct0(c[1])}</b></div>`).join('')}</div>`; }
+  else boxes=`<div class="fprob c2">${[A,B].map((t,i)=>`<div><small>Nota LA CASA · ${esc(t.name)}</small><b class="num">${(+x.g[i?'nota_'+q:'nota_'+p]||0).toFixed(1)}</b></div>`).join('')}</div><p class="note">${LOCK}Las probabilidades de este partido son para suscriptores.</p>`;
+  const why=(x.g.analysis||[]).slice(0,3).map(a=>{let s=String(a.text||''); s=s.split(/;|\. /)[0]; if(s.length>92) s=s.slice(0,90).replace(/\s\S*$/,'')+'…'; return `<li><span class="tag">${esc(a.factor)}</span><span>${esc(s)}</span></li>`;}).join('');
+  return `<article class="feat cut"><div class="fband">${band(A,ka,'fa')}${band(B,kb,'fz')}<div class="fvs"><span>VS</span></div><div class="ftag">${x.g.free?'Muestra gratis':'Destacado'} · ${esc(x.comp)}</div><div class="fwhen num">${esc(when)}</div></div>
+    <div class="fbody">${boxes}${why?`<div><div class="fpk">Lo que pesa</div><ul class="fwhy">${why}</ul></div>`:''}<button type="button" class="btn-s cut fgo" onclick="goGame('${esc(x.id)}')">Ver análisis completo <svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></article>`;
+}
+function buildHome(){ const el=$('homeTop'); if(!el) return; el.innerHTML=`<div class="home-top">${heroHTML()}${featuredHTML()}</div>`; }
+function agendaHTML(){
+  const T=todayGames(); if(!T.length) return '';
+  const rk={live:0,pre:1,on:2,fin:3,void:4}, L=T.map((x,i)=>[x,i]).sort((a,b)=>(rk[status(a[0]).k]-rk[status(b[0]).k])||a[1]-b[1]).map(a=>a[0]).slice(0,14);
+  const rows=L.map(x=>{const st=status(x), pr=probs(x), sp=SPORTS.find(s=>s.k===x.sport);
+    const tm=st.k==='pre'?`<b class="num">${esc(st.label.split(' ')[0])}</b><small>${esc(st.label.split(' ')[1]||'')}</small>`:st.k==='live'?`<b class="lv"><i></i>VIVO</b>`:st.k==='fin'?`<b class="num">${st.sh}-${st.sa}</b><small>FIN</small>`:st.k==='void'?'<small>SUSP.</small>':'<small>EMPEZÓ</small>';
+    let cells;
+    if(pr){const v=[pr.home,pr.draw,pr.away], best=Math.max(...v.filter(n=>n!=null)); cells=v.map(n=>n==null?'<span class="pc na">—</span>':`<span class="pc num${n===best?' on':''}">${pct0(n)}</span>`).join('');}
+    else cells=`<span class="pc lk">${LOCK}Premium</span>`;
+    return `<button type="button" class="ag-r${st.k==='fin'?' done':''}" onclick="goGame('${esc(x.id)}')"><span class="lg">${tic(sp.tab,'tic')}</span><span class="hr">${tm}</span><span class="mt"><b>${esc(x.home.name)}</b><em>vs</em><b>${esc(x.away.name)}</b><small>${esc(x.comp)}</small></span>${cells}<span class="go"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>`;}).join('');
+  return `<div class="agenda cut" id="agenda"><div class="ag-h"><div><div class="kick">Hoy · hora de Venezuela</div><h2>Agenda del día</h2></div><span class="sub">${T.length} partido${T.length===1?'':'s'}</span></div>
+   <div class="ag-hd"><span></span><span>Hora</span><span>Partido</span><span>Local</span><span>Empate</span><span>Visita</span><span></span></div>${rows}
+   ${T.length>L.length?`<p class="note">Y ${T.length-L.length} más en la pestaña de cada deporte.</p>`:''}</div>`;
+}
+
 /* ---------- REDISEÑO F1: portada ---------- */
 function heroHTML(){
   const d=H.filter(e=>e.result===1||e.result===0), ok=d.filter(e=>e.result===1).length;
@@ -1459,7 +1557,7 @@ function animIn(sec){
 function buildCombos(){
   const _d=H.filter(e=>e.result===1||e.result===0), _ok=_d.filter(e=>e.result===1).length;
   const seal=_d.length>=10?`<a class="seal cut" href="#hist" onclick="show('hist');return false;"><span class="ck">✓</span><b class="num">${pct0(_ok/_d.length)}</b> de aciertos (${_ok}/${_d.length}) · <u>historial público y verificable</u></a>`:'';
-  let h=heroHTML()+`<div class="h-sec" id="comboTop"><div><div class="kick">Del día</div><h2>Combinadas</h2></div><p>Tres combinadas por deporte: una <b>Segura</b> (55% o más de chance), una <b>Media</b> (33% a 55%) y una <b>Arriesgada</b> (15% a 33%).</p></div>`;
+  buildHome(); let h=agendaHTML()+`<div class="h-sec" id="comboTop"><div><div class="kick">Del día</div><h2>Combinadas</h2></div><p>Tres combinadas por deporte: una <b>Segura</b> (55% o más de chance), una <b>Media</b> (33% a 55%) y una <b>Arriesgada</b> (15% a 33%).</p></div>`;
   const firstOn=(SPORTS.find(s=>CT.some(ct=>((DATA.combos||{})[s.k]||{})[ct.k]))||{}).k;
   SPORTS.forEach(s=>{
     const cs=(DATA.combos||{})[s.k]||{}, games=(DATA[s.k]||[]).length;
@@ -1609,7 +1707,7 @@ document.addEventListener('change',ev=>{if(ev.target.id!=='tsq') return; const v
 const TABS=['combo','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes'];
 function show(t){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t)));
-  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; animIn($('sec-'+t));
+  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='combo'; if(t==='combo') animIn($('homeTop')); animIn($('sec-'+t));
   const sp=SPORTS.find(x=>x.tab===t); const nk=sp?sp.k:null; if(nk!==SIDE_SPORT){SIDE_SPORT=nk; buildSide();}
   buildStats(); if(t==='rank'&&RK.view===1) buildRank();
   setTimeout(()=>maybeTip(t),350);
