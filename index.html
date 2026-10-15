@@ -1346,6 +1346,36 @@ function status(x){
 function order(x){return x.sport==='futbol'||x.sport==='tenis'?['home','away']:['away','home'];}
 
 /* ---------- barra superior ---------- */
+/* barra de partidos: se desplaza sola y despacio; se detiene al pasar el mouse o tocarla */
+const TK={pos:0,half:0,until:0,hover:false,last:0,run:false};
+const TK_RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tkSetup(h){
+  const el=$('ticker'); TK.half=0; if(!el||!h||TK_RM) return;
+  if(el.scrollWidth<=el.clientWidth+4){ el.scrollLeft=0; return; }
+  const n=el.children.length;
+  el.insertAdjacentHTML('beforeend',h.replace(/<button /g,'<button tabindex="-1" aria-hidden="true" '));
+  TK.half=el.children[n].offsetLeft-el.children[0].offsetLeft;
+  if(TK.half>0){ TK.pos=((TK.pos%TK.half)+TK.half)%TK.half; el.scrollLeft=TK.pos; }
+  if(!TK.run){ TK.run=true; tkBind(el); requestAnimationFrame(tkLoop); }
+}
+function tkLoop(t){
+  const el=$('ticker');
+  if(el&&TK.half>0&&!TK.hover&&t>TK.until&&!document.hidden){
+    const dt=Math.min(64,t-(TK.last||t)); TK.pos+=dt*0.032; if(TK.pos>=TK.half) TK.pos-=TK.half; el.scrollLeft=TK.pos;
+  }
+  TK.last=t; requestAnimationFrame(tkLoop);
+}
+function tkBind(el){
+  const sync=()=>{ if(TK.half>0){ TK.pos=el.scrollLeft%TK.half; } };
+  el.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') TK.hover=true; });
+  el.addEventListener('pointerleave',e=>{ if(e.pointerType==='mouse'){ TK.hover=false; sync(); } });
+  el.addEventListener('focusin',e=>{ if(e.target.matches&&e.target.matches(':focus-visible')) TK.hover=true; });
+  el.addEventListener('focusout',()=>{ TK.hover=false; sync(); });
+  el.addEventListener('touchstart',()=>{TK.until=Infinity;},{passive:true});
+  el.addEventListener('touchend',()=>{sync();TK.until=performance.now()+3000;},{passive:true});
+  el.addEventListener('wheel',e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ e.preventDefault(); el.scrollLeft+=e.deltaY; } sync(); },{passive:false});
+  el.addEventListener('scroll',()=>{ if(TK.hover||TK.until>performance.now()){ if(TK.half>0&&el.scrollLeft>=TK.half){ el.scrollLeft-=TK.half; } sync(); } },{passive:true});
+}
 function buildTicker(){
   const list=[...G].sort((a,b)=>a.iso.localeCompare(b.iso));
   let lastDay=null, h='';
@@ -1358,6 +1388,7 @@ function buildTicker(){
     h+=`<button class="tk cut${isFav(x.sport,x.home.name)||isFav(x.sport,x.away.name)?' mine':''}" data-go="${esc(x.id)}" aria-label="${esc(x[p].name)} contra ${esc(x[q].name)}"><span class="sp">${x.tag}</span><span class="st ${st.k==='fin'?'fin':st.k==='live'?'live':''}">${esc(st.label)}</span>${jersey(x[p].name,x[p].abbr,x.sport,18)}${mid}${jersey(x[q].name,x[q].abbr,x.sport,18)}</button>`;
   });
   $('ticker').innerHTML=h||'<span class="tk-day">Sin partidos hoy</span>';
+  tkSetup(h);
   document.querySelectorAll('.tk').forEach(b=>b.addEventListener('click',()=>{
     const x=BYID[b.dataset.go]; show(SPORTS.find(s=>s.k===x.sport).tab);
     const el=document.getElementById('m-'+x.id); if(el){el.open=true; el.scrollIntoView({block:'center',behavior:'smooth'});}
