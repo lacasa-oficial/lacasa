@@ -1319,7 +1319,7 @@ const COMP=(s,g)=>s.k==='futbol'?g.comp:s.k==='tenis'?`${g.league||'ATP'}${g.com
 let G=[], BYID={}; const LIVE={};
 function setData(d){
   DATA=d; DATA.nfl=DATA.nfl||[]; DATA.nhl=DATA.nhl||[]; DATA.nba=DATA.nba||[]; DATA.tenis=DATA.tenis||[];
-  H=DATA.history||[]; CH=DATA.combo_history||[]; RES={}; H.forEach(e=>RES[e.id]=e);
+  const HA=DATA.history||[]; H=HA.filter(e=>!e.bajo); CH=DATA.combo_history||[]; RES={}; HA.forEach(e=>RES[e.id]=e);   // MÍNIMO 55: los parejos no cuentan
   G=[]; SPORTS.forEach(s=>(DATA[s.k]||[]).forEach(g=>{
     const fut=s.k==='futbol';
     G.push({id:g.id,sport:s.k,tag:s.tag,g,iso:g.iso,
@@ -1423,11 +1423,11 @@ function pickCell(x,st){
   const lab=(base,dc,done)=>dc?(done?base+' · doble op.':'Doble oportunidad'):base;
   if(x.g.locked){
     const done=st.k==='fin'&&r&&(r.result===1||r.result===0);
-    if(done){const q=split(r.pick); return `<div class="pick"><small>${lab(r.result===1?'Acertó':'Falló',q.dc,true)}</small><b class="${r.result===1?'ok':'no'}" title="${esc(r.pick)}">${esc(q.name)}</b><em>${pct(r.p)}</em></div>`;}
+    if(done){const q=split(r.pick); return `<div class="pick"><small>${lab(r.result===1?'Acertó':'Falló',q.dc,true)}${r.bajo?' · no cuenta':''}</small><b class="${r.result===1?'ok':'no'}" title="${esc(r.pick)}">${esc(q.name)}</b><em>${pct(r.p)}</em></div>`;}
     return `<div class="pick"><small>Pronóstico</small><b class="lockb">${LOCK}Premium</b><em>Suscriptores</em></div>`;
   } const done=st.k==='fin'&&r&&(r.result===1||r.result===0);
   const cls=done?(r.result===1?'ok':'no'):'', q=split(x.g.pick);
-  const base=done?(r.result===1?'Acertó':'Falló'):x.g.free?'Muestra gratis':x.g.parejo&&!q.dc?'Partido parejo':'Pronóstico';
+  const base=done?(r.result===1?'Acertó':'Falló')+(r.bajo?' · no cuenta':''):x.g.free?'Muestra gratis':x.g.bajo?'Parejo · no cuenta':x.g.parejo&&!q.dc?'Partido parejo':'Pronóstico';
   return `<div class="pick"><small>${lab(base,q.dc,done)}</small><b class="${cls}" title="${esc(x.g.pick)}">${esc(q.name)}</b><em>${pct(x.g.pick_p)}${q.dc?' · o empate':''}</em></div>`;
 }
 function probBar(x){
