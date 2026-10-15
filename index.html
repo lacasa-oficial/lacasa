@@ -1283,7 +1283,7 @@ function setData(d){
       away:fut?{name:g.away}:{name:g.away.name,abbr:g.away.abbr},
       comp:COMP(s,g)});
   }));
-  BYID={}; G.forEach(x=>BYID[x.id]=x);
+  BYID={}; G.forEach(x=>BYID[x.id]=x); loadLive();
 }
 function started(x){return new Date(x.iso)<=new Date();}
 function localTime(iso){const d=new Date(iso);return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Caracas'});}
@@ -1483,9 +1483,11 @@ function liveTargets(){
   return G.filter(x=>{const r=RES[x.id]; if(r&&(r.score_home!=null||r.status==='void')) return false;
     const t=new Date(x.iso).getTime(), lv=LIVE[x.id];
     if(lv&&lv.state==='post') return false;
-    return now>=t-10*60000&&now<=t+6*3600000;});
+    return now>=t-10*60000&&now<=t+30*3600000;});
 }
 async function jget(u){const c=new AbortController(), to=setTimeout(()=>c.abort(),12000); try{const r=await fetch(u,{signal:c.signal,cache:'no-store'}); return r.ok?await r.json():null;}catch(e){return null;}finally{clearTimeout(to);}}
+function saveLive(){ try{ const keep={}; Object.entries(LIVE).forEach(([k,v])=>{ if(v&&v.state==='post') keep[k]=v; }); store.set('live-'+(DATA.date||''),JSON.stringify(keep)); }catch(e){} }
+function loadLive(){ try{ const o=JSON.parse(store.get('live-'+(DATA.date||''))||'{}'); Object.entries(o).forEach(([k,v])=>{ if(!LIVE[k]) LIVE[k]=v; }); }catch(e){} }
 function setLive(x,o){const p=LIVE[x.id]; o.sig=JSON.stringify([o.stats||0,o.goals||0]); if(p&&p.state===o.state&&p.sh===o.sh&&p.sa===o.sa&&p.clock===o.clock&&p.sig===o.sig) return false; LIVE[x.id]=o; return true;}
 // estadísticas del partido en vivo (ESPN): posesión, tiros, tiros al arco, córners y faltas
 function espnStats(t){const o={}; (t.statistics||[]).forEach(q=>{o[q.name]=parseFloat(q.displayValue)||0;}); return {pos:o.possessionPct||0,sh:o.totalShots||0,sot:o.shotsOnTarget||0,cor:o.wonCorners||0,fou:o.foulsCommitted||0};}
@@ -1535,6 +1537,25 @@ async function liveESPN(path,list,changed,fut){
   }
 }
 let liveBusy=false;
+async function liveTennis(list,changed){
+  const sets=(me,op)=>{ let w=0; (me.linescores||[]).forEach((s,i)=>{ const a=+s.value, b=+((op.linescores||[])[i]||{}).value; if(a>b&&((a>=6&&a-b>=2)||a===7)) w++; }); return w; };
+  const name=c=>((c.athlete||{}).displayName)||((c.athlete||{}).fullName)||((c.team||{}).displayName)||c.displayName||'';
+  for(const tour of ['atp','wta']) for(const d of [...new Set(list.map(x=>x.iso.slice(0,10).replace(/-/g,'')))]){
+    const j=await jget(`${ESPN}tennis/${tour}/scoreboard?dates=${d}&limit=400`); if(!j) continue;
+    const comps=(j.events||[]).flatMap(ev=>[...(ev.competitions||[]),...(ev.groupings||[]).flatMap(g=>g.competitions||[])]);
+    for(const c of comps){
+      const cs=c.competitors||[]; if(cs.length!==2) continue;
+      const x=list.find(x=>(nameHit(name(cs[0]),x.home.name)&&nameHit(name(cs[1]),x.away.name))||(nameHit(name(cs[1]),x.home.name)&&nameHit(name(cs[0]),x.away.name))); if(!x) continue;
+      const H=nameHit(name(cs[0]),x.home.name)?cs[0]:cs[1], A=H===cs[0]?cs[1]:cs[0];
+      const ty=((c.status||{}).type)||{}, state=ty.state==='post'||ty.completed?'post':ty.state==='in'?'in':'pre'; if(state==='pre') continue;
+      let sh=sets(H,A), sa=sets(A,H);
+      if(state==='post'&&H.winner&&sh<=sa) sh=sa+1; if(state==='post'&&A.winner&&sa<=sh) sa=sh+1;
+      const games=(H.linescores||[]).map((s,i)=>`${s.value}-${((A.linescores||[])[i]||{}).value??0}`).join(' ');
+      if(/retir|walkover|w\/o/i.test(String(ty.description||ty.detail||''))&&state==='post'){ if(setLive(x,{state,sh,sa,clock:'RET.'})) changed.add(x.id); continue; }
+      if(setLive(x,{state,sh,sa,clock:state==='in'?games.slice(-9):''})) changed.add(x.id);
+    }
+  }
+}
 async function liveTick(){
   if(liveBusy||document.hidden) return; const T=liveTargets(); if(!T.length) return;
   liveBusy=true; const changed=new Set();
@@ -1544,12 +1565,14 @@ async function liveTick(){
     const nba=by('nba').filter(x=>(x.g.league||'NBA')==='NBA'); if(nba.length) jobs.push(liveESPN('basketball/nba',nba,changed,false));
     if(by('nfl').length) jobs.push(liveESPN('football/nfl',by('nfl'),changed,false));
     if(by('nhl').length) jobs.push(liveESPN('hockey/nhl',by('nhl'),changed,false));
+    if(by('tenis').length) jobs.push(liveTennis(by('tenis'),changed));
     const slugs={}; by('futbol').forEach(x=>{const m=FUT_SLUG.find(([re])=>re.test(x.g.comp||'')); if(m) (slugs[m[1]]=slugs[m[1]]||[]).push(x);});
     Object.entries(slugs).forEach(([sl,l])=>jobs.push(liveESPN('soccer/'+sl,l,changed,true)));
     await Promise.all(jobs);
   }catch(e){}
   liveBusy=false;
   if(!changed.size) return;
+  saveLive();
   changed.forEach(id=>{const x=BYID[id], el=document.getElementById('m-'+id); if(!x||!el) return; const r=row(x,true); el.querySelector('summary').innerHTML=r.html; el.dataset.st=r.st; const lb=document.getElementById('lv-'+id); if(lb) lb.innerHTML=liveBox(x);});
   buildTicker(); const ag=$('agenda'); if(ag) ag.outerHTML=agendaHTML();
 }
