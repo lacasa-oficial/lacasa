@@ -1150,6 +1150,16 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
 @media (max-width:560px){.pf-hero{grid-template-columns:auto minmax(0,1fr);padding:16px}.pf-lvl{grid-column:1/-1;min-width:0}.it small{display:none}.it b{font-size:11.5px}.pf-weeks{height:96px}}
 
 .acct-av{width:22px;height:22px;border-radius:50%;background:center/cover no-repeat;flex:none;margin-right:6px;display:inline-block;vertical-align:middle}
+
+/* MENÚ v2: grupos con segunda fila */
+nav.tabs .chev{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;margin-left:-2px}
+nav.tabs button[aria-expanded="true"] .chev{transform:rotate(180deg)}
+nav.tabs.sub{position:relative;gap:6px;padding:0 0 12px 18px;margin-top:-4px}
+nav.tabs.sub::before{content:"";position:absolute;left:4px;top:4px;bottom:16px;width:2px;background:var(--v);border-radius:1px;opacity:.6}
+nav.tabs.sub button{font-size:12.5px;padding:7px 13px;background:var(--panel-2);--cut:6px}
+nav.tabs.sub[hidden]{display:none}
+nav.tabs.sub button[aria-selected="true"]{background:var(--v);color:var(--on-v)}
+@media (max-width:640px){nav.tabs.sub{margin:-2px -14px 0;padding:0 14px 10px 26px}nav.tabs.sub::before{left:14px}}
 </style>
 
 </head>
@@ -1172,18 +1182,24 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
     </div>
     <nav class="tabs" role="tablist" aria-label="Secciones">
       <button role="tab" class="cut" data-t="inicio"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>Inicio</button>
-      <button role="tab" class="cut" data-t="combo"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><rect x="3" y="11" width="18" height="5" rx="1.5"/><path d="M3 20h12"/></svg>Combinadas</button>
+      <button class="cut grp" data-g="combo" aria-expanded="false"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><rect x="3" y="11" width="18" height="5" rx="1.5"/><path d="M3 20h12"/></svg>Combinadas <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="cut grp" data-g="dep" aria-expanded="false"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M3 12h18"/></svg>Deportes <span class="ct" id="n-dep"></span> <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button role="tab" class="cut" data-t="rank"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>Ranking</button>
+      <button role="tab" class="cut" data-t="hist"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Historial</button>
+      <button role="tab" class="cut tab-soon" data-t="retos"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Retos diarios <span class="new soon">PRONTO</span></button>
+      <button role="tab" class="cut" data-t="how"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Cómo funciona</button>
+    </nav>
+    <nav class="tabs sub" id="sub-combo" aria-label="Combinadas" hidden>
+      <button role="tab" class="cut" data-t="combo"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><rect x="3" y="11" width="18" height="5" rx="1.5"/><path d="M3 20h12"/></svg>Diarias LA CASA</button>
       <button role="tab" class="cut" data-t="arma"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Arma la tuya <span class="new">NUEVO</span></button>
+    </nav>
+    <nav class="tabs sub" id="sub-dep" aria-label="Deportes" hidden>
       <button role="tab" class="cut" data-t="fut"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l4 2.9-1.5 4.7h-5L8 10.4z"/><path d="M12 3v4.5M21 10.4l-5 0M17.5 19.5l-3-4.4M6.5 19.5l3-4.4M3 10.4h5"/></svg>Fútbol <span class="ct" id="n-fut"></span></button>
       <button role="tab" class="cut" data-t="mlb"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 4.2c2 2.2 2 13.4 0 15.6M16.5 4.2c-2 2.2-2 13.4 0 15.6"/></svg>Béisbol <span class="ct" id="n-mlb"></span></button>
       <button role="tab" class="cut" data-t="nba"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3 2.6 3 10.2 0 12.8M18.4 5.6c-3 2.6-3 10.2 0 12.8"/></svg>Baloncesto <span class="ct" id="n-nba"></span></button>
       <button role="tab" class="cut" data-t="nfl"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5c-1.8-5.8 1-12.7 7.6-14.4 3-.8 5.5-.6 7.4 0 1.8 5.8-1 12.7-7.6 14.4-3 .8-5.5.6-7.4 0z"/><path d="M9 15l6-6M10.5 10.5l1.2 1.2M12.3 8.7l1.2 1.2M8.7 12.3l1.2 1.2"/></svg>NFL <span class="ct" id="n-nfl"></span></button>
       <button role="tab" class="cut" data-t="nhl"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3l-5.5 15H4"/><path d="M4 18v3h6l1-3"/><ellipse cx="17" cy="19" rx="3.5" ry="1.6"/></svg>Hockey <span class="ct" id="n-nhl"></span></button>
       <button role="tab" class="cut" data-t="ten"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6c3.2 3.2 3.2 9.6 0 12.8M18.4 5.6c-3.2 3.2-3.2 9.6 0 12.8"/></svg>Tenis <span class="ct" id="n-ten"></span></button>
-      <button role="tab" class="cut" data-t="rank"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>Ranking</button>
-      <button role="tab" class="cut" data-t="hist"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Historial</button>
-      <button role="tab" class="cut tab-soon" data-t="retos"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Retos diarios <span class="new soon">PRONTO</span></button>
-      <button role="tab" class="cut" data-t="how"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Cómo funciona</button>
     </nav>
   </div>
 </header>
@@ -2527,9 +2543,14 @@ document.addEventListener('click',async ev=>{ const b=ev.target.closest('#flmBtn
 (function(){ const d=$('rachaDlg'); if(d) d.addEventListener('click',e=>{ if(e.target===d) d.close(); }); })();
 
 /* ---------- navegación ---------- */
+// MENÚ v2 (15/10): Combinadas y Deportes agrupan sus pestañas en una segunda fila
+const NAVG={combo:['combo','arma'],dep:['fut','mlb','nba','nfl','nhl','ten']}, NAVG_LAST={dep:null};
 const TABS=['inicio','combo','arma','retos','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes','perfil'];
 function show(t){
-  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t)));
+  document.querySelectorAll('nav.tabs button[data-t]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t)));
+  const grp=Object.keys(NAVG).find(g=>NAVG[g].includes(t)); if(grp==='dep') NAVG_LAST.dep=t;
+  document.querySelectorAll('nav.tabs button[data-g]').forEach(b=>{const on=b.dataset.g===grp; b.setAttribute('aria-selected',String(on)); b.setAttribute('aria-expanded',String(on));});
+  Object.keys(NAVG).forEach(g=>{const n=$('sub-'+g); if(n) n.hidden=g!==grp;});
   TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='inicio'; if(t==='inicio') animIn($('homeTop')); if(t==='arma'){buildArma(); armaLoad();} if(t==='perfil'){buildPerfil(); pfLoad();} armaBar(); animIn($('sec-'+t));
   const sp=SPORTS.find(x=>x.tab===t); const nk=sp?sp.k:null; if(nk!==SIDE_SPORT){SIDE_SPORT=nk; buildSide();}
   buildStats(); if(t==='rank'&&RK.view===1) buildRank();
@@ -2990,12 +3011,14 @@ document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.targ
 
 function renderAll(){
   {const t=(DATA.generated||'').match(/(\d{1,2}:\d{2}\s*[AP]M)/i), d=(DATA.date||'').split('-'); $('gen').innerHTML=`<span class="g-long">${esc(DATA.generated||'')}</span><span class="g-short">${d.length===3?d[2]+'/'+d[1]:''}${t?' · '+t[1]:''}</span>`;}
-  SPORTS.forEach(s=>$('n-'+s.tab).textContent=(DATA[s.k]||[]).length);
+  SPORTS.forEach(s=>$('n-'+s.tab).textContent=(DATA[s.k]||[]).length); {const nd=$('n-dep'); if(nd) nd.textContent=SPORTS.reduce((n,s)=>n+(DATA[s.k]||[]).length,0);}
   buildTicker(); SPORTS.forEach(buildSport); buildInicio(); buildCombos(); buildSide(); buildHist(); buildPlanes(); buildRank(); if(CUR_TAB==='arma') buildArma(); rPaintBtn(); if($('rachaDlg')&&$('rachaDlg').open) rDraw(); setTimeout(liveTick,800);
   document.querySelectorAll('[data-open="acct"]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();window.openAccount&&window.openAccount();}));
 }
 setData(DATA);
-document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.t)));
+document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.g){ const g=b.dataset.g; if(NAVG[g].includes(CUR_TAB)) return; const first=g==='dep'?(NAVG_LAST.dep||(SPORTS.find(x=>(DATA[x.k]||[]).length)||SPORTS[0]).tab):NAVG[g][0]; show(first); return; }
+  show(b.dataset.t); }));
 $('planBtn').addEventListener('click',()=>{show('planes');window.scrollTo({top:0,behavior:'smooth'});});
 renderAll();
 const hs=location.hash.slice(1);
