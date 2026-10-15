@@ -1160,6 +1160,16 @@ nav.tabs.sub button{font-size:12.5px;padding:7px 13px;background:var(--panel-2);
 nav.tabs.sub[hidden]{display:none}
 nav.tabs.sub button[aria-selected="true"]{background:var(--v);color:var(--on-v)}
 @media (max-width:640px){nav.tabs.sub{margin:-2px -14px 0;padding:0 14px 10px 26px}nav.tabs.sub::before{left:14px}}
+
+/* perfil público */
+.ulink{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:rgba(133,108,255,.45);text-underline-offset:3px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ulink:hover{color:var(--v-hi)}
+dialog.udl{width:min(520px,calc(100% - 24px))}
+.ucard{position:relative;background:var(--panel);border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 40px);overflow:auto}
+.ucard .uh{display:flex;align-items:center;gap:14px;padding-right:30px}
+.ucard .uh h3{margin:0 0 6px;font-family:var(--display);font-size:20px;display:flex;align-items:center;gap:8px;word-break:break-all}
+.ucard .ux{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);cursor:pointer;font-size:14px}
+.udl .it small{display:none}.udl .it b{font-size:11px}
 </style>
 
 </head>
@@ -1399,6 +1409,7 @@ nav.tabs.sub button[aria-selected="true"]{background:var(--v);color:var(--on-v)}
 <dialog class="rdl" id="rachaDlg" aria-label="LA RACHA"><div class="rin"><div class="rtop"><h2>LA RACHA</h2><div style="display:flex;gap:8px;align-items:center"><span class="cr cut" title="Tus créditos"><span class="coin"></span><span id="rCr">0</span></span><button class="x" type="button" id="rX" aria-label="Cerrar">×</button></div></div><div id="rBody" style="display:flex;flex-direction:column;gap:12px"></div></div></dialog>
 <div class="rtip cut" id="rTip" hidden role="dialog" aria-label="Tu racha está apagada"><b>🔥 Tu racha está apagada</b><p>Hay preguntas de hoy esperando por ti. Responde y no pierdas la racha.</p><div class="row2"><button type="button" class="btn-v cut" id="rTipGo">Jugar ahora</button><button type="button" class="btn-g" id="rTipX">Luego</button></div></div>
 <dialog class="tdl" id="teamDlg" aria-label="Ficha del equipo"><div id="teamBody"></div></dialog>
+<dialog class="tdl udl" id="userDlg" aria-label="Perfil del usuario"><div id="userBody"></div></dialog>
 <dialog class="tip" id="tip" aria-labelledby="tipT"><div class="tip-card cut">
   <button class="tip-x" type="button" id="tipX" aria-label="Cerrar">×</button>
   <div class="kick"><svg viewBox="0 0 599 634" aria-hidden="true"><path d="M0 255L257 0L599 338V634H397V356L203 549V634H0Z" fill="#856CFF"/></svg><span id="tipK">Ten en cuenta</span></div>
@@ -2241,7 +2252,7 @@ function armaPicker(){
 function armaRank(){
   const R=AR.rank;
   const body=R==null?'<p class="note">Cargando…</p>':!R.length?'<p class="note">Todavía nadie ha armado combinadas esta semana. ¡Sé el primero en el ranking!</p>'
-    :R.map(r=>`<div class="ur${r.yo?' me':''}"><span class="n num">${r.pos}</span><span class="u">${esc(r.usuario)}${r.insignia?badgeSVG(r.insignia,18):''}</span><span class="g num">${r.ganadas}/${r.combos}</span><span class="pt num">${r.pts} <small>pts</small></span></div>`).join('');
+    :R.map(r=>`<div class="ur${r.yo?' me':''}"><span class="n num">${r.pos}</span><span class="u"><button type="button" class="ulink" data-user="${esc(r.usuario)}">${esc(r.usuario)}</button>${r.insignia?badgeSVG(r.insignia,18):''}</span><span class="g num">${r.ganadas}/${r.combos}</span><span class="pt num">${r.pts} <small>pts</small></span></div>`).join('');
   return `<div class="card cut urank"><h3>Ranking semanal</h3><p class="st-note">De lunes a domingo. Los mejores de la semana ganan su insignia para la siguiente: bronce (top 10), plata (top 3), oro (nº 1) y platino (3 semanas seguidas en el top 3).</p>
    <div class="ur hd"><span>#</span><span>Usuario</span><span>Acertadas</span><span>Puntos</span></div>${body}</div>`;
 }
@@ -2284,9 +2295,9 @@ const PF_LOGROS=[
   ['podio','podio',[],'Podio','Top 3 de una semana',d=>d.mejor_pos!=null&&d.mejor_pos<=3,()=>0],
   ['campeon','copa',['oro',true],'Campeón','Nº 1 de una semana',d=>d.mejor_pos===1,()=>0,1],
   ['pleno','cuadro',[],'Pleno','Combinada perfecta de 4+',d=>!!d.arma.pleno,()=>0,1],
-  ['constante','reloj',[],'Constante','7 días seguidos jugando',d=>pfRun(d.dias_jugados)>=7,d=>pfRun(d.dias_jugados)/7],
+  ['constante','reloj',[],'Constante','7 días seguidos jugando',d=>(d.run??pfRun(d.dias_jugados))>=7,d=>(d.run??pfRun(d.dias_jugados))/7],
   ['cincuenta','cubo',[],'Medio centenar','50 combinadas',d=>d.arma.n>=50,d=>d.arma.n/50],
-  ['seis','globo',[],'Seis deportes','Acierta en los 6',d=>Object.values(pfSports(d)).filter(v=>v.ok>0).length>=6,d=>Object.values(pfSports(d)).filter(v=>v.ok>0).length/6,1],
+  ['seis','globo',[],'Seis deportes','Acierta en los 6',d=>(d.dep_ok??Object.values(pfSports(d)).filter(v=>v.ok>0).length)>=6,d=>(d.dep_ok??Object.values(pfSports(d)).filter(v=>v.ok>0).length)/6,1],
   ['leyenda','copa',['oro',false,true],'Leyenda','Racha de 30',d=>d.racha.mejor>=30,d=>d.racha.mejor/30,1]];
 const pfXP=d=>(d.arma.pts||0)+10*(d.arma.n||0)+20*(d.racha.ok||0)+5*(d.racha.resp||0);
 const pfLvl=xp=>{const l=Math.floor(Math.sqrt(xp/40))+1; return {l,cur:xp-40*(l-1)**2,need:40*l*l-40*(l-1)**2};};
@@ -2431,6 +2442,27 @@ function lgUnlock(L){
   o.classList.remove('on'); void o.offsetWidth; o.classList.add('on'); setTimeout(lgConfetti,500); $('lgOk').focus();
 }
 
+// PERFIL PÚBLICO v1 (15/10): al tocar un nombre del ranking se ve solo su nombre, puntos, logros y marco
+async function openUser(u){
+  const sb=window.LC_SB, dl=$('userDlg'), body=$('userBody'); if(!dl||!u) return;
+  if(!sb||!window.LC_ME){ toast('Entra a tu cuenta para ver los perfiles.'); return; }
+  body.innerHTML='<div class="ucard"><p class="pf-note">Cargando…</p></div>'; if(!dl.open) dl.showModal();
+  let d=null; try{ const r=await sb.rpc('lc_usuario_publico',{p_u:u}); d=r.data; }catch(e){}
+  if(!d){ body.innerHTML='<div class="ucard"><p class="pf-note">No encontramos ese perfil.</p><button type="button" class="btn-g" id="uX">Cerrar</button></div>'; $('uX').onclick=()=>dl.close(); return; }
+  const L=pfLvl(pfXP(d)), fr=d.insignia==='fundador'?'fundador':'base';
+  const L12=PF_LOGROS.map(([k,o,a,n,ds,ok,pr])=>({o,a,n,ds,on:ok(d),pr:Math.max(0,Math.min(1,pr(d)||0))})), got=L12.filter(x=>x.on).length;
+  const item=x=>`<div class="it${x.on?'':' off'}" title="${esc(x.n)}: ${esc(x.ds)}">${POBJ[x.o](...x.a)}<b>${esc(x.n)}</b>${x.on?'':`<span class="pr"><i style="width:${Math.round(x.pr*100)}%"></i></span>`}</div>`;
+  body.innerHTML=`<div class="ucard">
+    <button type="button" class="ux" id="uX" aria-label="Cerrar">✕</button>
+    <div class="uh">${pfAvatar({usuario:d.usuario},fr)}<div><h3>${esc(d.usuario)} ${d.insignia?badgeSVG(d.insignia,22):''}</h3><span class="pf-chip v">Nivel ${L.l}</span>${d.yo?' <span class="pf-chip">Eres tú</span>':''}</div></div>
+    <div class="pf-mini"><div><b class="num">${fmtN(d.arma.pts)}</b><span>puntos</span></div><div><b class="num" style="color:#FF8A3D">${d.racha.mejor}</b><span>mejor racha</span></div><div><b class="num" style="color:var(--win)">${d.arma.ganadas}</b><span>combinadas ganadas</span></div></div>
+    <div class="pf-hd"><h3>Logros</h3><span>${got} de ${L12.length}</span></div>
+    <div class="vit">${[0,4,8].map(i=>`<div class="shelf">${L12.slice(i,i+4).map(item).join('')}</div>`).join('')}</div></div>`;
+  $('uX').onclick=()=>dl.close();
+}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-user]'); if(!b) return; e.preventDefault(); e.stopPropagation(); openUser(b.dataset.user);},true);
+(function(){const dl=$('userDlg'); if(dl) dl.addEventListener('click',e=>{if(e.target===dl) dl.close();});})();
+
 function buildArma(){
   const sec=$('sec-arma'); if(!sec) return;
   sec.innerHTML=`<div class="h-sec"><div><div class="kick">Nuevo · compite cada semana</div><h2>Arma tu combinada</h2></div><p>Elige tus selecciones con las probabilidades de LA CASA. Si aciertan todas, sumas puntos para el ranking semanal. Son puntos de juego: aquí no se apuesta dinero.</p></div>
@@ -2512,7 +2544,7 @@ function rHoy(){ const qs=rQs(); if(!qs.length) return '<p class="info cut">Las 
     <div class="ryn"><button type="button" data-rq="${q.id}" data-rs="1" aria-pressed="${si===true}"${open?'':' disabled'}>SÍ</button><button type="button" data-rq="${q.id}" data-rs="0" aria-pressed="${si===false}"${open?'':' disabled'}>NO</button></div>
     <div class="rhint">${RS.hint[q.id]||!open?`<span>LA CASA dice <b>Sí ${Math.round(q.p*100)}%</b></span><span class="hb"><i style="width:${q.p*100}%"></i></span>`:`<button type="button" data-rh="${q.id}">Ver la pista de LA CASA</button>`}</div>${st}</div></article>`; }).join('')+
    '<p class="rlegal">Cada acierto suma 1 a tu racha y 10 créditos; un fallo deja la racha en 0. Las preguntas se cierran cuando empieza el partido y se califican con el marcador final.</p>'; }
-function rLiga(){ const L=RS.liga||[]; return `<p class="rlegal">Gana el que más acierta de lunes a domingo. Los 3 primeros reciben 500 créditos el lunes.</p><div class="rlg cut">${L.length?L.map(x=>`<div class="rlr${x.yo?' me':''}"><span class="p">${x.pos}</span><span>${esc(x.u)}</span><b>${x.ac} ✓</b></div>`).join(''):'<p class="rlegal" style="padding:12px 14px">Todavía nadie ha respondido esta semana. ¡Empieza tú!</p>'}</div>`; }
+function rLiga(){ const L=RS.liga||[]; return `<p class="rlegal">Gana el que más acierta de lunes a domingo. Los 3 primeros reciben 500 créditos el lunes.</p><div class="rlg cut">${L.length?L.map(x=>`<div class="rlr${x.yo?' me':''}"><span class="p">${x.pos}</span><span><button type="button" class="ulink" data-user="${esc(x.u)}">${esc(x.u)}</button></span><b>${x.ac} ✓</b></div>`).join(''):'<p class="rlegal" style="padding:12px 14px">Todavía nadie ha respondido esta semana. ¡Empieza tú!</p>'}</div>`; }
 function rCol(){ return `<div class="rgrid">${RCOL.map(([n,need,a,b])=>`<div class="rit cut${RS.mejor>=need?'':' lock'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${SHIRT}" fill="${a}" stroke="${b}" stroke-width=".8"/></svg><b>${n}</b><span>${RS.mejor>=need?'Desbloqueada':'Racha de '+need}</span></div>`).join('')}</div><p class="rlegal">Las franelas se desbloquean con tu mejor racha.</p>`; }
 function rCan(){ return `<div class="rsp cut"><h3>1 mes · Plan Básico</h3><p>La Segura de cada deporte, todos los días.</p><button type="button" data-rc="basico"${RS.creditos<5000?' disabled':''}><span class="coin"></span>5.000</button></div>
   <div class="rsp cut"><h3>1 mes · Plan Completo</h3><p>Las 3 combinadas, el análisis completo y Arma la tuya.</p><button type="button" data-rc="completo"${RS.creditos<15000?' disabled':''}><span class="coin"></span>15.000</button></div>
