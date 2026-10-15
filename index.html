@@ -1040,6 +1040,116 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
 }
 
 .ts{min-height:65px}.ts:empty{min-height:0}
+
+/* ---------- MI PERFIL ---------- */
+.pf{display:flex;flex-direction:column;gap:16px}
+.pf-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--line);padding:22px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
+.pf-hero::before{content:"";position:absolute;right:-60px;top:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(133,108,255,.32),transparent 65%);pointer-events:none}
+.pf-hero>*{position:relative}
+.pf-avc{display:flex;flex-direction:column;align-items:center;gap:8px}
+.pf-av{width:104px;height:104px;position:relative;display:grid;place-items:center;flex:none}
+.pf-av .face{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--v-deep),var(--v)) center/cover;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:28px;color:#fff;overflow:hidden}
+.pf-av svg.fr{position:absolute;inset:0;width:100%;height:100%}
+.pf-upl{font-size:12px;font-weight:700;color:var(--v-hi);border:1px solid var(--v);background:var(--v-soft);padding:4px 10px;cursor:pointer;white-space:nowrap}
+.pf-upl:hover,.pf-upl:focus-within{background:var(--v);color:#fff}
+.pf-who{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pf-who h2{font-family:var(--display);font-size:clamp(20px,3.4vw,28px);font-weight:900;display:flex;align-items:center;gap:10px;flex-wrap:wrap;word-break:break-all;margin:0}
+.pf-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pf-chip{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--line);color:var(--ink-2)}
+.pf-chip.v{border-color:var(--v);color:var(--v-hi);background:var(--v-soft)}
+.pf-chip.g{border-color:#E0A51C;color:#E8B33A}
+.pf-sub{font-size:13px;color:var(--muted)}.pf-sub b{color:var(--ink-2)}
+.pf-lvl{display:flex;flex-direction:column;gap:6px;min-width:190px}
+.pf-lvl .t{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--muted)}
+.pf-lvl .t b{font-family:var(--display);font-size:22px;color:var(--ink)}
+.pf-bar{height:8px;background:var(--panel-3);border-radius:4px;overflow:hidden}.pf-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--v-deep),var(--v-hi));border-radius:4px}
+.pf-lvl small{font-size:12px;color:var(--muted)}
+.pf-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.pf-kpi{background:var(--panel);border:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.pf-kpi b{font-family:var(--display);font-size:24px;font-weight:900}.pf-kpi span{font-size:12.5px;color:var(--muted)}
+.pf-two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pf-card{background:var(--panel);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.pf-hd{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pf-hd h3{margin:0;font-family:var(--display);font-size:14px;text-transform:uppercase;letter-spacing:.1em}
+.pf-hd span{font-size:12.5px;color:var(--muted)}
+.pf-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pf-mini div{background:var(--panel-2);padding:10px 12px;display:flex;flex-direction:column}
+.pf-mini b{font-family:var(--display);font-size:19px}.pf-mini span{font-size:12px;color:var(--muted)}
+.pf-weeks{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;align-items:end;height:110px}
+.pf-wk{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.pf-wk i{width:100%;max-width:26px;background:linear-gradient(180deg,var(--v-hi),var(--v-deep));border-radius:3px 3px 0 0;min-height:3px}
+.pf-wk.best i{background:linear-gradient(180deg,#FFC24B,#E0A51C)}
+.pf-wk span{font-size:10.5px;color:var(--muted)}.pf-wk em{font-style:normal;font-size:10.5px;font-family:var(--display);color:var(--ink-2)}
+.pf-cal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;max-width:380px}
+.pf-cal i{aspect-ratio:1;border-radius:4px;background:var(--panel-3)}
+.pf-cal i.ok{background:var(--win)}.pf-cal i.no{background:var(--loss)}.pf-cal i.pen{background:var(--v)}.pf-cal i.today{outline:2px solid #FF8A3D;outline-offset:1px}
+.pf-leg{display:flex;gap:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.pf-leg span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.pf-fl{display:flex;align-items:center;gap:14px}.pf-fl svg{width:42px;height:52px;flex:none}
+.pf-fl b{font-family:var(--display);font-size:34px;font-weight:900;color:#FF8A3D;line-height:1}.pf-fl span{font-size:13px;color:var(--ink-2)}
+.pf-note{font-size:13px;color:var(--ink-2)}
+/* vitrina de logros */
+.vit{position:relative;background:linear-gradient(180deg,#1A1430,#0D0A1A 70%);border:1px solid #2E2650;border-radius:6px;padding:14px 12px 6px;box-shadow:inset 0 0 0 6px #120E22,inset 0 0 40px rgba(0,0,0,.6);overflow:hidden}
+.vit::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.07) 0 12%,transparent 12% 30%,rgba(255,255,255,.04) 30% 34%,transparent 34%);pointer-events:none}
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;position:relative;padding-bottom:16px;margin-bottom:14px}
+.shelf::after{content:"";position:absolute;left:-12px;right:-12px;bottom:0;height:12px;background:linear-gradient(180deg,rgba(200,190,255,.35),rgba(120,100,220,.12) 30%,rgba(10,8,20,.9));box-shadow:0 8px 14px rgba(0,0,0,.55)}
+.vit .shelf:last-child{margin-bottom:6px}
+.it{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;position:relative;min-width:0}
+.it::before{content:"";position:absolute;top:-14px;left:50%;width:120%;height:150px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,rgba(255,236,190,.16),transparent 65%);pointer-events:none}
+.it svg{width:100%;max-width:104px;height:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
+.it b{font-size:12.5px;line-height:1.15;color:#F2EFFF}.it small{font-size:11px;color:#8E86B3;line-height:1.2}
+.it.off svg{filter:grayscale(1) brightness(.32) contrast(1.2)}.it.off b{color:#8E86B3}
+.it .pr{width:70%;height:4px;background:#2A2344;border-radius:2px;overflow:hidden}.it .pr i{display:block;height:100%;background:#856CFF}
+/* historial */
+.pf-tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);overflow-x:auto}
+.pf-tabs button{font:inherit;font-weight:700;font-size:13.5px;background:none;border:0;color:var(--muted);padding:8px 12px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.pf-tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--v)}
+.pf-list{display:flex;flex-direction:column;gap:8px}
+.pf-row{background:var(--panel-2);border:1px solid var(--line);padding:12px 14px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.pf-res{font-family:var(--display);font-size:10.5px;font-weight:900;padding:4px 8px;letter-spacing:.06em;white-space:nowrap}
+.pf-res.ok{background:var(--win-soft);color:var(--win)}.pf-res.no{background:var(--loss-soft);color:var(--loss)}.pf-res.pen{background:var(--v-soft);color:var(--v-hi)}
+.pf-row .g b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pf-row .g small{font-size:12px;color:var(--muted)}
+.pf-row .pts{font-family:var(--display);font-weight:800;text-align:right}.pf-row .pts small{display:block;font-family:var(--ui);font-size:11px;color:var(--muted);font-weight:500}
+.pf-legs{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pf-legs span{font-size:12px;padding:3px 8px;background:var(--panel-3);color:var(--ink-2)}
+.pf-legs span.ok{color:var(--win)}.pf-legs span.no{color:var(--loss);text-decoration:line-through}
+.pf-sh,.mc-sh{font:inherit;font-size:12px;font-weight:700;padding:4px 10px;border:1px solid var(--v);background:var(--v-soft);color:var(--ink);cursor:pointer;margin-left:auto}
+.pf-empty{font-size:13.5px;color:var(--muted);padding:10px 0}
+/* marcos (en gris mientras se diseñan) */
+.pf-shop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.pf-fr{background:#18181C;border:1px solid #2C2C33;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.pf-fr .pf-av{width:84px;height:84px;filter:grayscale(1) brightness(.7)}.pf-fr .pf-av .face{width:66px;height:66px;font-size:22px}
+.pf-fr b{font-size:14px;color:#9A9AA3}.pf-fr .pr{font-family:var(--display);font-size:13px;color:#77777F}
+.pf-fr button{font:inherit;font-weight:700;font-size:12.5px;width:100%;padding:7px;background:#222228;border:1px solid #3A3A42;color:#8A8A93}
+.pf-soon{font-size:11px;font-weight:700;letter-spacing:.1em;background:#3A3A42;color:#C8C8D0;padding:2px 7px;margin-left:6px;vertical-align:2px}
+/* logro desbloqueado */
+.lg-toast{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));z-index:120;display:flex;align-items:center;gap:12px;background:#120E22;border:1px solid #3A3070;border-radius:12px;padding:10px 16px 10px 10px;box-shadow:0 12px 30px rgba(0,0,0,.5);transform:translateX(130%);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);max-width:calc(100vw - 32px)}
+.lg-toast.on{transform:none}.lg-toast svg{width:46px;height:56px;flex:none}
+.lg-toast small{display:block;font-size:11px;letter-spacing:.12em;color:#A895FF;font-weight:700}.lg-toast b{color:#F2EFFF;font-size:14px}
+.lg-ov{position:fixed;inset:0;z-index:130;display:grid;place-items:center;background:rgba(5,4,10,.84);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;padding:16px}
+.lg-ov.on{opacity:1;pointer-events:auto}
+.lg-unl{position:relative;width:min(380px,100%);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;color:#F2EFFF}
+.lg-rays{position:absolute;top:-30px;left:50%;width:420px;height:420px;margin-left:-210px;background:repeating-conic-gradient(rgba(255,216,107,.18) 0 8deg,transparent 8deg 22deg);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 25%,transparent 68%);mask:radial-gradient(circle,#000 25%,transparent 68%);animation:lgspin 14s linear infinite;pointer-events:none}
+@keyframes lgspin{to{transform:rotate(360deg)}}
+.lg-unl .obj{width:170px;position:relative;transform:scale(.2) rotate(-12deg);opacity:0}
+.lg-ov.on .lg-unl .obj{animation:lgpop .7s cubic-bezier(.2,.9,.3,1.35) .15s forwards}
+@keyframes lgpop{to{transform:none;opacity:1}}
+.lg-unl .obj svg{width:100%;height:auto;filter:drop-shadow(0 0 30px rgba(255,216,107,.45))}
+.lg-unl .k{font-family:var(--display);font-size:12px;letter-spacing:.24em;color:#FFD86B;opacity:0}
+.lg-unl h3{font-family:var(--display);font-size:26px;opacity:0;margin:0}
+.lg-unl p{color:#C9C2EA;font-size:15px;opacity:0;margin:0}
+.lg-ov.on .lg-unl .k,.lg-ov.on .lg-unl h3,.lg-ov.on .lg-unl p,.lg-ov.on .lg-unl .act{animation:lgup .5s ease-out forwards}
+.lg-ov.on .lg-unl .k{animation-delay:.55s}.lg-ov.on .lg-unl h3{animation-delay:.7s}.lg-ov.on .lg-unl p{animation-delay:.82s}.lg-ov.on .lg-unl .act{animation-delay:.95s}
+@keyframes lgup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.lg-unl .act{display:flex;gap:8px;opacity:0;margin-top:6px}
+.lg-unl .act button{font:inherit;font-weight:700;font-size:14px;padding:10px 16px;border:1px solid #856CFF;cursor:pointer;background:#856CFF;color:#0B0817}
+.lg-unl .act button.sec{background:transparent;color:#F2EFFF}
+.lg-cf{position:fixed;inset:0;pointer-events:none;z-index:131}
+@media (prefers-reduced-motion:reduce){.lg-rays{animation:none}.lg-ov.on .lg-unl .obj,.lg-ov.on .lg-unl .k,.lg-ov.on .lg-unl h3,.lg-ov.on .lg-unl p,.lg-ov.on .lg-unl .act{animation:none;opacity:1;transform:none}}
+@media (max-width:820px){.pf-two{grid-template-columns:minmax(0,1fr)}.pf-kpis,.pf-shop{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.pf-hero{grid-template-columns:auto minmax(0,1fr);padding:16px}.pf-lvl{grid-column:1/-1;min-width:0}.it small{display:none}.it b{font-size:11.5px}.pf-weeks{height:96px}}
+
+.acct-av{width:22px;height:22px;border-radius:50%;background:center/cover no-repeat;flex:none;margin-right:6px;display:inline-block;vertical-align:middle}
 </style>
 
 </head>
@@ -1095,6 +1205,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
     <section class="sec" id="sec-rank" hidden></section>
     <section class="sec" id="sec-hist" hidden></section>
     <section class="sec" id="sec-planes" hidden></section>
+    <section class="sec" id="sec-perfil" hidden></section>
     <section class="sec" id="sec-retos" hidden>
       <div class="h-sec"><div><div class="kick">Muy pronto</div><h2>Retos diarios</h2></div><p>Juegos cortos cada día para poner a prueba tu ojo estadístico y sumar puntos al ranking semanal.</p></div>
       <div class="soonbox cut"><svg class="tic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><div><b>Estamos preparando los retos.</b><p>Mientras tanto, arma tu combinada y sube en el ranking semanal.</p></div><button type="button" class="btn-v cut" onclick="show('arma');window.scrollTo({top:0,behavior:'smooth'})">Arma la tuya</button></div>
@@ -2121,9 +2232,189 @@ function armaRank(){
 function armaMine(){
   const M=AR.mine; if(!M||!M.length) return '';
   return `<div class="card cut"><h3>Mis combinadas</h3>${M.slice(0,10).map(c=>{const r=c.result===1?'ok':c.result===0?'no':c.result===2?'void':'pend';
-    return `<div class="mc"><div class="mc-h"><span class="badge ${r}">${c.result===1?'+'+c.points+' pts':c.result===0?'Falló':c.result===2?'Anulada':'Pendiente'}</span><span class="sub">${esc(fmtDate(c.day))} · chance ${pct(+c.p)} · vale ${c.pts_win} pts</span></div>
+    return `<div class="mc"><div class="mc-h"><span class="badge ${r}">${c.result===1?'+'+c.points+' pts':c.result===0?'Falló':c.result===2?'Anulada':'Pendiente'}</span><span class="sub">${esc(fmtDate(c.day))} · chance ${pct(+c.p)} · vale ${c.pts_win} pts</span><button type="button" class="mc-sh" data-share="mia" data-sa="${c.id}">Compartir imagen</button></div>
      <ul>${(c.legs||[]).map(l=>`<li class="${l.result==='1'?'ok':l.result==='0'?'no':''}"><span>${esc(l.label)}</span><small>${esc(l.game)}${l.score?' · '+esc(l.score):''}</small></li>`).join('')}</ul></div>`;}).join('')}</div>`;
 }
+
+/* ---------- MI PERFIL v1 (15/10): cifras, vitrina de logros, historial, foto y marcos ---------- */
+const PF={d:null,tab:'arma',busy:false};
+let PGID=0;
+const PG={oro:['#FFF1B0','#E7B12A','#8A5A00'],plata:['#FFFFFF','#B9C1D0','#5E6778'],bronce:['#F8C9A0','#B8642F','#6E3412'],mor:['#C9BCFF','#856CFF','#3A24B8'],mad:['#8A5A34','#5C3820','#2E1A0C']};
+function pgr(c,d){const id='pg'+(++PGID);return [id,`<linearGradient id="${id}" x1="0" y1="0" x2="${d==='h'?1:0}" y2="1"><stop offset="0" stop-color="${PG[c][0]}"/><stop offset=".55" stop-color="${PG[c][1]}"/><stop offset="1" stop-color="${PG[c][2]}"/></linearGradient>`];}
+const PHP='M0 255L257 0L599 338V634H397V356L203 549V634H0Z';
+const pbase=(w)=>{const [m,dm]=pgr('mad');const [o,d2]=pgr('oro','h');return `<defs>${dm}${d2}</defs><rect x="${50-w/2}" y="104" width="${w}" height="14" rx="2" fill="url(#${m})"/><rect x="${50-w/2+8}" y="108" width="${w-16}" height="5" rx="1" fill="url(#${o})"/>`;};
+const PSVG=b=>`<svg viewBox="0 0 100 120" aria-hidden="true">${b}</svg>`;
+const STAR=(x,y,s,c)=>`<path transform="translate(${x},${y}) scale(${s})" d="M10 0l3 6.5 7 1-5 5 1.2 7L10 16.2 3.8 19.5 5 12.5 0 7.5l7-1z" fill="${c}"/>`;
+const POBJ={
+  banderin:()=>{const [p,d]=pgr('mor','h');return PSVG(`<defs>${d}</defs><rect x="22" y="8" width="4" height="96" rx="2" fill="#C9C2EA"/><circle cx="24" cy="8" r="4" fill="#FFD86B"/><path d="M26 14L88 34L26 56Z" fill="url(#${p})"/><g transform="translate(36,26) scale(0.026)"><path d="${PHP}" fill="#fff"/></g>${pbase(36)}`);},
+  medalla:(c,n)=>{const [g,d]=pgr(c,'h');return PSVG(`<defs>${d}</defs><path d="M30 4H44L56 50H42Z" fill="#856CFF"/><path d="M70 4H56L44 50H58Z" fill="#4B34D6"/><circle cx="50" cy="72" r="26" fill="url(#${g})" stroke="${PG[c][2]}" stroke-width="2"/><circle cx="50" cy="72" r="19" fill="none" stroke="${PG[c][2]}" stroke-opacity=".6" stroke-width="1.5"/><text x="50" y="80" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="20" fill="${PG[c][2]}">${n}</text><path d="M34 60A20 20 0 0 1 48 50" stroke="#fff" stroke-opacity=".6" stroke-width="2.5" fill="none" stroke-linecap="round"/>`);},
+  copa:(c,star,flame)=>{const [g,d]=pgr(c,'h');return PSVG(`<defs>${d}</defs>${flame?'<path d="M50 2C56 12 66 16 62 26 59 34 41 34 38 26 34 16 46 12 50 2Z" fill="#FF8A3D"/><path d="M50 14C53 19 57 21 55 26 54 29 46 29 45 26 43 21 48 19 50 14Z" fill="#FFF1C9"/>':''}<path d="M26 30H74V48C74 66 63 76 50 78 37 76 26 66 26 48Z" fill="url(#${g})" stroke="${PG[c][2]}" stroke-width="1.5"/><path d="M27 36C12 36 12 58 30 62M73 36C88 36 88 58 70 62" fill="none" stroke="url(#${g})" stroke-width="5" stroke-linecap="round"/><rect x="45" y="78" width="10" height="12" fill="url(#${g})"/><rect x="34" y="90" width="32" height="8" rx="2" fill="url(#${g})"/><path d="M33 38C33 52 38 62 46 68" stroke="#fff" stroke-opacity=".55" stroke-width="3" fill="none" stroke-linecap="round"/>${star?STAR(40,42,1,PG[c][2]):''}${pbase(46)}`);},
+  placa:(t)=>{const [w,dw]=pgr('mad');const [o,d]=pgr('bronce','h');return PSVG(`<defs>${dw}${d}</defs><rect x="16" y="14" width="68" height="88" rx="8" fill="url(#${w})" stroke="#2E1A0C" stroke-width="2"/><rect x="22" y="20" width="56" height="76" rx="5" fill="none" stroke="#B08050" stroke-opacity=".5"/><rect x="26" y="38" width="48" height="30" rx="2" fill="url(#${o})"/><text x="50" y="58" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="12" fill="#5A2A0A">${t}</text>${STAR(45,24,.5,'#FFD86B')}<circle cx="30" cy="84" r="2.5" fill="#B08050"/><circle cx="70" cy="84" r="2.5" fill="#B08050"/>`);},
+  cuadro:()=>{const [o,d]=pgr('oro','h');return PSVG(`<defs>${d}</defs><rect x="12" y="12" width="76" height="92" rx="3" fill="url(#${o})" stroke="#8A5A00" stroke-width="2"/><rect x="20" y="20" width="60" height="76" fill="#F6F0DC"/><text x="50" y="35" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="6" textLength="52" lengthAdjust="spacingAndGlyphs" fill="#3A24B8">CUADRO DE HONOR</text><rect x="28" y="44" width="44" height="3" fill="#C9BFA0"/><rect x="32" y="51" width="36" height="3" fill="#C9BFA0"/><rect x="28" y="58" width="44" height="3" fill="#C9BFA0"/><circle cx="62" cy="80" r="10" fill="#856CFF"/><g transform="translate(55.5,73.5) scale(0.022)"><path d="${PHP}" fill="#fff"/></g><text x="34" y="83" font-family="Orbitron,Arial Black" font-weight="900" font-size="9" fill="#3A24B8">4/4</text>`);},
+  podio:()=>{const [o,d1]=pgr('oro');const [p,d2]=pgr('plata');const [b,d3]=pgr('bronce');return PSVG(`<defs>${d1}${d2}${d3}</defs>${STAR(40,18,1,'#FFD86B')}<rect x="36" y="52" width="28" height="66" fill="url(#${o})"/><rect x="10" y="70" width="26" height="48" fill="url(#${p})"/><rect x="64" y="82" width="26" height="36" fill="url(#${b})"/><text x="50" y="76" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="16" fill="#8A5A00">1</text><text x="23" y="92" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="13" fill="#5E6778">2</text><text x="77" y="102" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="13" fill="#6E3412">3</text>`);},
+  reloj:()=>{const [o,d]=pgr('oro','h');return PSVG(`<defs>${d}</defs><rect x="26" y="10" width="48" height="8" rx="2" fill="url(#${o})"/><rect x="26" y="94" width="48" height="8" rx="2" fill="url(#${o})"/><rect x="29" y="18" width="4" height="76" fill="url(#${o})"/><rect x="67" y="18" width="4" height="76" fill="url(#${o})"/><path d="M36 18H64C64 40 52 48 52 56 52 64 64 72 64 94H36C36 72 48 64 48 56 48 48 36 40 36 18Z" fill="rgba(220,230,255,.18)" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/><path d="M41 30H59C57 40 51 46 50 50 49 46 43 40 41 30Z" fill="#FFC24B"/><path d="M50 58V86M38 90C42 80 58 80 62 90Z" fill="#FFC24B" stroke="#FFC24B" stroke-width="1.5"/><text x="50" y="114" text-anchor="middle" font-family="Orbitron,Arial Black" font-weight="900" font-size="9" fill="#FFD86B">7 DÍAS</text>`);},
+  cubo:()=>PSVG(`<path d="M24 34L36 24H80L68 34Z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.45)"/><path d="M68 34L80 24V82L68 92Z" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.4)"/><rect x="24" y="34" width="44" height="58" fill="rgba(200,210,255,.08)" stroke="rgba(255,255,255,.5)"/><circle cx="46" cy="66" r="15" fill="#F7F3EA" stroke="#D6CCB8"/><path d="M36 56C41 62 41 70 36 76M56 56C51 62 51 70 56 76" fill="none" stroke="#E0455C" stroke-width="1.6" stroke-dasharray="2 2"/>${pbase(52)}`),
+  globo:()=>{const id='pg'+(++PGID);let st='';for(let i=0;i<6;i++){const a=i/6*Math.PI*2-Math.PI/2;st+=STAR(50+Math.cos(a)*36-5,50+Math.sin(a)*36-5,.5,'#FFD86B');}return PSVG(`<defs><radialGradient id="${id}" cx=".35" cy=".3"><stop offset="0" stop-color="#E0D8FF"/><stop offset=".5" stop-color="#856CFF"/><stop offset="1" stop-color="#2A1A80"/></radialGradient></defs><circle cx="50" cy="50" r="26" fill="url(#${id})"/><ellipse cx="50" cy="50" rx="26" ry="9" fill="none" stroke="#fff" stroke-opacity=".35"/><path d="M50 24V76" stroke="#fff" stroke-opacity=".25"/>${st}<path d="M42 78H58L62 100H38Z" fill="#E7B12A"/>${pbase(44)}`);}
+};
+// días seguidos jugando (máximo)
+function pfRun(days){ let best=0,run=0,prev=null; (days||[]).forEach(d=>{const t=new Date(d+'T12:00:00Z').getTime(); run=prev!==null&&t-prev===864e5?run+1:1; best=Math.max(best,run); prev=t;}); return best; }
+function pfSports(d){ const m={}; Object.entries(d.deportes||{}).forEach(([k,v])=>{const s={fut:'futbol',ten:'tenis'}[k]||k; m[s]=m[s]||{n:0,ok:0}; m[s].n+=v.n; m[s].ok+=v.ok;}); return m; }
+const PF_LOGROS=[
+  ['primera','banderin',[],'Primera combinada','Armaste tu primera',d=>d.arma.n>=1,d=>Math.min(1,d.arma.n)],
+  ['r5','medalla',['bronce',5],'Racha de 5','5 aciertos seguidos',d=>d.racha.mejor>=5,d=>d.racha.mejor/5],
+  ['r10','medalla',['plata',10],'Racha de 10','10 aciertos seguidos',d=>d.racha.mejor>=10,d=>d.racha.mejor/10],
+  ['r20','medalla',['oro',20],'Racha de 20','20 aciertos seguidos',d=>d.racha.mejor>=20,d=>d.racha.mejor/20],
+  ['top10','placa',['TOP 10'],'Top 10','Top 10 de una semana',d=>d.mejor_pos!=null&&d.mejor_pos<=10,()=>0],
+  ['podio','podio',[],'Podio','Top 3 de una semana',d=>d.mejor_pos!=null&&d.mejor_pos<=3,()=>0],
+  ['campeon','copa',['oro',true],'Campeón','Nº 1 de una semana',d=>d.mejor_pos===1,()=>0,1],
+  ['pleno','cuadro',[],'Pleno','Combinada perfecta de 4+',d=>!!d.arma.pleno,()=>0,1],
+  ['constante','reloj',[],'Constante','7 días seguidos jugando',d=>pfRun(d.dias_jugados)>=7,d=>pfRun(d.dias_jugados)/7],
+  ['cincuenta','cubo',[],'Medio centenar','50 combinadas',d=>d.arma.n>=50,d=>d.arma.n/50],
+  ['seis','globo',[],'Seis deportes','Acierta en los 6',d=>Object.values(pfSports(d)).filter(v=>v.ok>0).length>=6,d=>Object.values(pfSports(d)).filter(v=>v.ok>0).length/6,1],
+  ['leyenda','copa',['oro',false,true],'Leyenda','Racha de 30',d=>d.racha.mejor>=30,d=>d.racha.mejor/30,1]];
+const pfXP=d=>(d.arma.pts||0)+10*(d.arma.n||0)+20*(d.racha.ok||0)+5*(d.racha.resp||0);
+const pfLvl=xp=>{const l=Math.floor(Math.sqrt(xp/40))+1; return {l,cur:xp-40*(l-1)**2,need:40*l*l-40*(l-1)**2};};
+const pfAvURL=d=>d.avatar_v&&window.LC_SBURL?`${window.LC_SBURL}/storage/v1/object/public/avatars/${d.id}.jpg?v=${d.avatar_v}`:null;
+const PF_FR={
+  base:()=>`<circle cx="52" cy="52" r="47" fill="none" stroke="#3A3060" stroke-width="3"/>`,
+  fundador:()=>`<circle cx="52" cy="52" r="47" fill="none" stroke="#E0A51C" stroke-width="5"/><circle cx="52" cy="52" r="41" fill="none" stroke="#FFD86B" stroke-width="1.2"/><g transform="translate(43,1) scale(0.03)"><path fill="#FFD86B" d="${PHP}"/></g>`,
+  neon:()=>`<circle cx="52" cy="52" r="47" fill="none" stroke="#856CFF" stroke-width="4"/><circle cx="52" cy="52" r="42" fill="none" stroke="#A895FF" stroke-width="1" stroke-dasharray="3 5"/>`,
+  fuego:()=>{let s='<circle cx="52" cy="52" r="46" fill="none" stroke="#FF8A3D" stroke-width="4"/>';for(let i=0;i<12;i++){const a=i/12*Math.PI*2,x=52+Math.cos(a)*48,y=52+Math.sin(a)*48;s+=`<path d="M${x} ${y-7}q5 6 0 12q-5-6 0-12z" fill="${i%2?'#FFC24B':'#FF5C2E'}" transform="rotate(${a*180/Math.PI+90} ${x} ${y})"/>`;}return s;},
+  estadio:()=>{let s='<circle cx="52" cy="52" r="47" fill="none" stroke="#3BE8A8" stroke-width="3"/>';for(let i=0;i<24;i++){const a=i/24*Math.PI*2;s+=`<circle cx="${52+Math.cos(a)*47}" cy="${52+Math.sin(a)*47}" r="2.4" fill="#F2EFFF"/>`;}return s;}
+};
+function pfAvatar(d,fr){ const u=pfAvURL(d), ini=esc((d.usuario||'?').slice(0,2).toUpperCase());
+  return `<div class="pf-av"><span class="face"${u?` style="background-image:url('${u}')"`:''}>${u?'':ini}</span><svg class="fr" viewBox="0 0 104 104" aria-hidden="true">${PF_FR[fr]()}</svg></div>`; }
+const PF_SPN={futbol:'Fútbol',mlb:'Béisbol',nba:'NBA',nfl:'NFL',nhl:'Hockey',tenis:'Tenis'};
+function pfGid(gid){ const x=BYID[gid]; if(x) return gname(gid); const r=String(gid||'').split('-').slice(4).join('-').replace(/_/g,' '); if(r.includes('@')) return r.replace('@',' @ '); const p=r.split('-'); return p.length===2?p[0]+' vs '+p[1]:r; }
+function pfMotivo(m,a){ m=String(m||''); if(m.startsWith('ok:')) return 'Acierto en LA RACHA'; const r=/^racha(\d+)/.exec(m); if(r) return 'Premio por racha de '+r[1]; if(m.startsWith('liga:')) return 'Top 3 de la liga semanal'; if(a<0||/canje/.test(m)) return 'Canje por plan'+(/completo/.test(m)?' Completo':/basico/.test(m)?' Básico':''); return m; }
+function pfList(){
+  const d=PF.d;
+  if(PF.tab==='arma'){ if(!d.combos.length) return '<p class="pf-empty">Todavía no has armado combinadas. Entra a «Arma la tuya» y crea la primera.</p>';
+    return d.combos.map(c=>{const r=c.result===1?'ok':c.result===0?'no':'pen';
+      return `<div class="pf-row"><span class="pf-res ${r}">${r==='ok'?'ACIERTO':r==='no'?'FALLO':c.result===2?'ANULADA':'EN JUEGO'}</span><div class="g"><b>Combinada de ${(c.legs||[]).length}</b><small>${esc(fmtDate(c.day))} · chance ${pct(+c.p)}</small></div><div class="pts num">${c.result===1?'+'+c.points:c.result===0?'0':c.pts_win}<small>${c.result==null?'puntos posibles':'puntos'}</small></div>
+      <div class="pf-legs">${(c.legs||[]).map(l=>`<span class="${l.result==='1'?'ok':l.result==='0'?'no':''}">${esc(l.label)}</span>`).join('')}<button type="button" class="pf-sh" data-share="mia" data-sa="${c.id}">Compartir imagen</button></div></div>`;}).join(''); }
+  if(PF.tab==='racha'){ const U=d.racha.ultimas||[]; if(!U.length) return '<p class="pf-empty">Todavía no has respondido LA RACHA. Toca el fueguito de arriba para jugar.</p>';
+    const Q={}; (DATA.racha||[]).forEach(q=>Q[q.id]=q);
+    return U.map(a=>{const r=a.result===1?'ok':a.result===0?'no':'pen'; const q=Q[a.qid];
+      return `<div class="pf-row"><span class="pf-res ${r}">${r==='ok'?'ACIERTO':r==='no'?'FALLO':'EN JUEGO'}</span><div class="g"><b>${esc(q?q.t:pfGid(a.gid))}</b><small>${esc(fmtDate(a.day))} · respondiste ${a.si?'SÍ':'NO'}</small></div><div class="pts num">${a.result===1?'+10':'0'}<small>créditos</small></div></div>`;}).join(''); }
+  const M=d.movs||[]; if(!M.length) return '<p class="pf-empty">Aquí verás los créditos que ganas en LA RACHA y tus canjes.</p>';
+  return M.map(m=>`<div class="pf-row"><span class="pf-res ${m.amount<0?'pen':'ok'}">${m.amount<0?'CANJE':'GANADO'}</span><div class="g"><b>${esc(pfMotivo(m.motivo,m.amount))}</b><small>${esc(fmtDate(String(m.created_at).slice(0,10)))}</small></div><div class="pts num">${m.amount>0?'+':''}${fmtN(m.amount)}<small>créditos</small></div></div>`).join('');
+}
+function buildPerfil(){
+  const sec=$('sec-perfil'); if(!sec) return;
+  if(!window.LC_ME){ sec.innerHTML=`<div class="pf"><div class="pf-card"><h3 style="margin:0">Mi perfil</h3><p class="pf-note">Entra a tu cuenta para ver tu perfil, tus logros y tu historial.</p><button type="button" class="btn-v cut" style="align-self:flex-start" onclick="window.openAccount&&window.openAccount()">Entrar</button></div></div>`; return; }
+  const d=PF.d; if(!d){ sec.innerHTML=`<div class="pf"><div class="pf-card"><p class="pf-note">${PF.err?'No se pudo cargar tu perfil. Intenta de nuevo en un momento.':'Cargando tu perfil…'}</p></div></div>`; return; }
+  const xp=pfXP(d), L=pfLvl(xp), sp=pfSports(d), fav=Object.entries(sp).sort((a,b)=>b[1].n-a[1].n)[0];
+  const selP=d.sel.n?Math.round(d.sel.ok/d.sel.n*100)+'%':'—', fr=d.insignia==='fundador'?'fundador':'base';
+  const pl=window.LC_PLAN, plTxt=pl==='completo'?'Plan Completo':pl==='basico'?'Plan Básico':'Sin plan';
+  const desde=d.desde?new Date(d.desde).toLocaleDateString('es-VE',{month:'short',year:'numeric'}):'';
+  // semanas (8, de lunes a domingo)
+  const mon=x=>{const t=new Date(x+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)); return t.toISOString().slice(0,10);};
+  const W0=mon(DATA.date||todayCCS), WK=[]; for(let i=7;i>=0;i--){const t=new Date(W0+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()-7*i); const k=t.toISOString().slice(0,10); const s=(d.semanas||[]).find(w=>w.w===k); WK.push([i?k.slice(8,10)+'/'+(+k.slice(5,7)):'Esta',s?s.pts:0]);}
+  const mx=Math.max(1,...WK.map(w=>w[1]));
+  // últimos 30 días de LA RACHA
+  const cal=[]; for(let i=29;i>=0;i--){const t=new Date((DATA.date||todayCCS)+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()-i); const k=t.toISOString().slice(0,10); cal.push(`<i class="${(d.racha.dias||{})[k]||''}${i===0?' today':''}" title="${k.slice(8,10)}/${k.slice(5,7)}"></i>`);}
+  const rP=d.racha.calificadas?Math.round(d.racha.ok/d.racha.calificadas*100)+'%':'—';
+  const nextM=[5,10,20,30].find(m=>m>d.racha.actual), nextR={5:100,10:300,20:'1.000',30:'2.000'}[nextM];
+  const L12=PF_LOGROS.map(([k,o,a,n,ds,ok,pr])=>({k,o,a,n,ds,on:ok(d),pr:Math.max(0,Math.min(1,pr(d)||0))})), got=L12.filter(x=>x.on).length;
+  const item=x=>`<div class="it${x.on?'':' off'}" title="${esc(x.n)}: ${esc(x.ds)}">${POBJ[x.o](...x.a)}<b>${esc(x.n)}</b><small>${esc(x.ds)}</small>${x.on?'':`<span class="pr"><i style="width:${Math.round(x.pr*100)}%"></i></span>`}</div>`;
+  sec.innerHTML=`<div class="pf">
+   <section class="pf-hero cut" aria-label="Tu perfil">
+     <div class="pf-avc">${pfAvatar(d,fr)}<label class="pf-upl" for="pfFoto">${d.avatar_v?'Cambiar foto':'Subir foto'}</label><input type="file" id="pfFoto" accept="image/*" hidden>${d.avatar_v?'<button type="button" class="linkbtn" id="pfFotoDel" style="font-size:11.5px">Quitar foto</button>':''}</div>
+     <div class="pf-who"><h2>${esc(d.usuario)} ${d.insignia&&typeof badgeSVG==='function'?badgeSVG(d.insignia,24):''}</h2>
+       <div class="pf-chips">${d.insignia==='fundador'?'<span class="pf-chip g">Fundador</span>':''}<span class="pf-chip v">${plTxt}</span>${desde?`<span class="pf-chip">Desde ${esc(desde)}</span>`:''}</div>
+       ${fav?`<p class="pf-sub">Deporte favorito: <b>${esc(PF_SPN[fav[0]]||fav[0])}</b></p>`:''}</div>
+     <div class="pf-lvl"><div class="t"><span>Nivel</span><b>${L.l}</b></div><div class="pf-bar"><i style="width:${Math.round(L.cur/L.need*100)}%"></i></div><small>${fmtN(L.cur)} / ${fmtN(L.need)} XP para el nivel ${L.l+1}</small></div>
+   </section>
+   <div class="pf-kpis">
+     <div class="pf-kpi"><b class="num">${fmtN(d.arma.pts)}</b><span>puntos en Arma la tuya</span></div>
+     <div class="pf-kpi"><b class="num" style="color:var(--win)">${selP}</b><span>aciertos en tus selecciones</span></div>
+     <div class="pf-kpi"><b class="num" style="color:#FF8A3D">${d.racha.mejor}</b><span>mejor racha</span></div>
+     <div class="pf-kpi"><b class="num" style="color:#E8B33A">${fmtN(d.creditos)}</b><span>créditos disponibles</span></div>
+   </div>
+   <div class="pf-two">
+     <section class="pf-card cut" aria-label="Arma la tuya"><div class="pf-hd"><h3>Arma la tuya</h3><button type="button" class="linkbtn" data-pft="arma">Ver historial</button></div>
+       <div class="pf-mini"><div><b class="num">${d.arma.n}</b><span>combinadas</span></div><div><b class="num" style="color:var(--win)">${d.arma.ganadas}</b><span>ganadas</span></div><div><b class="num">${d.mejor_pos?d.mejor_pos+'º':d.pos_semana?d.pos_semana+'º':'—'}</b><span>${d.mejor_pos?'mejor puesto semanal':'puesto esta semana'}</span></div></div>
+       <span class="pf-hd"><span>Puntos por semana</span></span>
+       <div class="pf-weeks">${WK.map(([l,v])=>`<div class="pf-wk${v===mx&&v>0?' best':''}"><em>${v}</em><i style="height:${Math.max(3,v/mx*78)}%"></i><span>${l}</span></div>`).join('')}</div>
+       ${d.mejor_combo?`<p class="pf-note">Tu mejor combinada: <b>${d.mejor_combo.n} de ${d.mejor_combo.n}</b> el ${esc(fmtDate(d.mejor_combo.day))} · <b style="color:var(--win)">+${d.mejor_combo.points} pts</b></p>`:'<p class="pf-note">Cuando ganes una combinada, aquí aparece la mejor.</p>'}
+     </section>
+     <section class="pf-card cut" aria-label="LA RACHA"><div class="pf-hd"><h3 style="color:#FF8A3D">LA RACHA</h3><button type="button" class="linkbtn" data-pft="racha">Ver respuestas</button></div>
+       <div class="pf-fl"><svg viewBox="-160 -220 320 380" aria-hidden="true"><path fill="#FF5C2E" d="M0-210C52-116 150-52 120 52 93 168-93 168-120 52-150-52-30-94 0-210Z"/><path fill="#FF8A3D" d="M0-60C33 10 95 30 76 100 57 170-57 170-76 100-95 30-19 0 0-60Z"/><path fill="#FFF1C9" d="M0 40C16 75 45 85 36 120 27 155-27 155-36 120-45 85-9 70 0 40Z"/></svg>
+         <div><b class="num">${d.racha.actual}</b><span> ${d.racha.actual===1?'acierto seguido':'aciertos seguidos'} ahora mismo</span>${nextM?`<br><span style="color:var(--muted);font-size:12.5px">Te ${nextM-d.racha.actual===1?'falta 1':'faltan '+(nextM-d.racha.actual)} para el premio de +${nextR}</span>`:''}</div></div>
+       <div class="pf-mini"><div><b class="num">${d.racha.resp}</b><span>respuestas</span></div><div><b class="num" style="color:var(--win)">${rP}</b><span>aciertos</span></div><div><b class="num">${d.racha.liga_pos?d.racha.liga_pos+'º':'—'}</b><span>en la liga semanal</span></div></div>
+       <span class="pf-hd"><span>Últimos 30 días</span></span>
+       <div class="pf-cal">${cal.join('')}</div>
+       <div class="pf-leg"><span style="--c:var(--win)">Acertaste todo</span><span style="--c:var(--loss)">Fallaste alguna</span><span style="--c:var(--v)">En juego</span><span style="--c:var(--panel-3)">No jugaste</span></div>
+     </section>
+   </div>
+   <section class="pf-card cut" aria-label="Logros"><div class="pf-hd"><h3>Logros</h3><span>${got} de ${L12.length}</span></div>
+     <div class="vit">${[0,4,8].map(i=>`<div class="shelf">${L12.slice(i,i+4).map(item).join('')}</div>`).join('')}</div></section>
+   <section class="pf-card cut" id="pfHist" aria-label="Historial">
+     <div class="pf-tabs" role="tablist">${[['arma','Mis combinadas'],['racha','Mis respuestas de LA RACHA'],['cred','Mis créditos']].map(([k,n])=>`<button type="button" role="tab" aria-selected="${PF.tab===k}" data-pft="${k}">${n}</button>`).join('')}</div>
+     <div class="pf-list">${pfList()}</div></section>
+   <section class="pf-card cut" aria-label="Marcos"><div class="pf-hd"><h3>Marcos para tu perfil<span class="pf-soon">PRONTO</span></h3><span>Se comprarán con créditos de LA RACHA</span></div>
+     <div class="pf-shop">${[['neon','Neón morado',1000],['fuego','Fuego',2500],['estadio','Estadio',5000]].map(([k,n,p])=>`<div class="pf-fr">${pfAvatar(d,k)}<b>${n}</b><span class="pr">${fmtN(p)} créditos</span><button type="button" disabled>Pronto</button></div>`).join('')}<div class="pf-fr"><div class="pf-av"><span class="face" style="background:#2A2A30;color:#77777F">?</span><svg class="fr" viewBox="0 0 104 104" aria-hidden="true"><circle cx="52" cy="52" r="47" fill="none" stroke="#55555C" stroke-width="3" stroke-dasharray="6 6"/></svg></div><b>Más marcos</b><span class="pr">En diseño</span><button type="button" disabled>Pronto</button></div></div></section>
+  </div>`;
+  const f=$('pfFoto'); if(f) f.onchange=e=>pfUpload(e.target.files[0]);
+  const fd=$('pfFotoDel'); if(fd) fd.onclick=pfDelFoto;
+}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-pft]'); if(!b||!PF.d) return; PF.tab=b.dataset.pft; buildPerfil(); const h=$('pfHist'); if(h&&!b.closest('.pf-tabs')) h.scrollIntoView({behavior:'smooth',block:'start'});});
+async function pfLoad(){
+  const sb=window.LC_SB; if(!sb||!window.LC_ME){ PF.d=null; pfPaintAv(); if(CUR_TAB==='perfil') buildPerfil(); return; }
+  try{ const {data,error}=await sb.rpc('lc_perfil'); if(error||!data||!data.login){ PF.err=true; if(CUR_TAB==='perfil') buildPerfil(); return; } PF.d=data; PF.err=false; }catch(e){ PF.err=true; if(CUR_TAB==='perfil') buildPerfil(); return; }
+  if(CUR_TAB==='perfil') buildPerfil();
+  pfCheckLogros(); pfPaintAv();
+}
+window.pfLoad=pfLoad;
+// foto en el botón de la cuenta
+function pfPaintAv(){ const b=$('acctBtn'); if(!b) return; const o=b.querySelector('.acct-av'); if(o) o.remove(); const u=PF.d&&pfAvURL(PF.d); if(u) b.insertAdjacentHTML('afterbegin',`<span class="acct-av" style="background-image:url('${u}')"></span>`); }
+// subir foto: se recorta en cuadrado y se reduce a 256 px (pesa ~20 KB)
+async function pfUpload(file){
+  const sb=window.LC_SB, me=window.LC_ME; if(!file||!sb||!me) return;
+  if(!/^image\//.test(file.type)){ toast('Elige una imagen.'); return; }
+  try{
+    const url=URL.createObjectURL(file), im=await new Promise((ok,ko)=>{const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=url;});
+    const s=Math.min(im.width,im.height), c=document.createElement('canvas'); c.width=c.height=256; c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,256,256); URL.revokeObjectURL(url);
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.85));
+    toast('Subiendo tu foto…');
+    const {error}=await sb.storage.from('avatars').upload(me.id+'.jpg',blob,{upsert:true,contentType:'image/jpeg',cacheControl:'3600'});
+    if(error){ toast('No se pudo subir la foto. Intenta con otra imagen.'); return; }
+    const {data:v}=await sb.rpc('lc_set_avatar',{p_on:true}); if(PF.d) PF.d.avatar_v=v;
+    toast('Listo, tu foto quedó guardada.'); buildPerfil(); pfPaintAv();
+  }catch(e){ toast('No se pudo leer esa imagen.'); }
+}
+async function pfDelFoto(){
+  const sb=window.LC_SB, me=window.LC_ME; if(!sb||!me) return;
+  try{ await sb.storage.from('avatars').remove([me.id+'.jpg']); await sb.rpc('lc_set_avatar',{p_on:false}); if(PF.d) PF.d.avatar_v=null; buildPerfil(); pfPaintAv(); toast('Foto quitada.'); }catch(e){}
+}
+// logros nuevos: aviso pequeño o ventana grande (como en las consolas). La primera vez solo se guardan, sin avisos.
+function pfCheckLogros(){
+  const d=PF.d; if(!d) return; const key='lc-logros-'+d.id, seen=new Set(String(store.get(key)||'').split(',').filter(Boolean)), first=store.get(key)===null;
+  const now=PF_LOGROS.filter(L=>L[5](d)), fresh=now.filter(L=>!seen.has(L[0]));
+  store.set(key,now.map(L=>L[0]).join(','));
+  if(first||!fresh.length) return;
+  const big=fresh.find(L=>L[7]); if(big) setTimeout(()=>lgUnlock(big),900);
+  fresh.filter(L=>L!==big).forEach((L,i)=>setTimeout(()=>lgToast(L),(big?5200:900)+i*4300));
+}
+function lgToast(L){ let t=$('lgToast'); if(!t){ t=document.createElement('div'); t.id='lgToast'; t.className='lg-toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  t.innerHTML=`${POBJ[L[1]](...L[2])}<div><small>LOGRO DESBLOQUEADO</small><b>${esc(L[3])}</b></div>`; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('on'),3800); }
+function lgConfetti(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; let c=$('lgCf'); if(!c){ c=document.createElement('canvas'); c.id='lgCf'; c.className='lg-cf'; document.body.appendChild(c); }
+  const x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+  const P=Array.from({length:140},()=>({x:c.width/2,y:c.height*.38,vx:(Math.random()-.5)*14,vy:-Math.random()*13-4,r:Math.random()*6+3,c:['#FFD86B','#856CFF','#3BE8A8','#FF8A3D','#F2EFFF'][Math.random()*5|0],a:Math.random()*6})); let f=0;
+  (function go(){ x.clearRect(0,0,c.width,c.height); P.forEach(p=>{p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore();}); if(++f<170) requestAnimationFrame(go); else x.clearRect(0,0,c.width,c.height); })(); }
+function lgUnlock(L){
+  let o=$('lgOv'); if(!o){ o=document.createElement('div'); o.id='lgOv'; o.className='lg-ov'; o.setAttribute('role','dialog'); o.setAttribute('aria-modal','true'); o.setAttribute('aria-label','Logro desbloqueado');
+    o.innerHTML='<div class="lg-unl"><div class="lg-rays"></div><div class="obj" id="lgObj"></div><span class="k">¡LOGRO DESBLOQUEADO!</span><h3 id="lgN"></h3><p id="lgD"></p><div class="act"><button type="button" id="lgOk">Ver mi vitrina</button><button type="button" class="sec" id="lgX">Cerrar</button></div></div>';
+    document.body.appendChild(o);
+    const close=()=>o.classList.remove('on');
+    o.addEventListener('click',e=>{ if(e.target===o) close(); }); $('lgX').onclick=close;
+    $('lgOk').onclick=()=>{ close(); show('perfil'); setTimeout(()=>{const v=document.querySelector('#sec-perfil .vit'); if(v) v.scrollIntoView({behavior:'smooth',block:'center'});},300); };
+    addEventListener('keydown',e=>{ if(e.key==='Escape') close(); }); }
+  $('lgObj').innerHTML=POBJ[L[1]](...L[2]); $('lgN').textContent=L[3]; $('lgD').textContent=L[4];
+  o.classList.remove('on'); void o.offsetWidth; o.classList.add('on'); setTimeout(lgConfetti,500); $('lgOk').focus();
+}
+
 function buildArma(){
   const sec=$('sec-arma'); if(!sec) return;
   sec.innerHTML=`<div class="h-sec"><div><div class="kick">Nuevo · compite cada semana</div><h2>Arma tu combinada</h2></div><p>Elige tus selecciones con las probabilidades de LA CASA. Si aciertan todas, sumas puntos para el ranking semanal. Son puntos de juego: aquí no se apuesta dinero.</p></div>
@@ -2161,7 +2452,7 @@ function armaBar(){ let b=$('armaBar'); const n=Object.keys(AR.legs).length;
   if(n){ const p=armaP(); b.innerHTML=`<span>Tu combinada · <b>${n}</b> selecci${n===1?'ón':'ones'}</span><span class="num">${pct(p)}${n>=2?' · +'+armaPts(p)+' pts':''} · Ver →</span>`; }
 }
 document.addEventListener('click',ev=>{ const b=ev.target.closest('.opt.pk[data-g]'); if(!b||b.closest('#sec-arma')) return; ev.preventDefault(); armaToggle(b.dataset.g,+b.dataset.m,+b.dataset.i); });
-window.armaAuth=()=>{ clearTimeout(AR.t); AR.t=setTimeout(()=>{ armaLoad(); rLoad(); if(CUR_TAB==='arma') buildArma(); },300); };
+window.armaAuth=()=>{ clearTimeout(AR.t); AR.t=setTimeout(()=>{ armaLoad(); rLoad(); pfLoad(); if(CUR_TAB==='arma') buildArma(); },300); };
 document.addEventListener('click',async ev=>{
   const t=ev.target.closest('[data-asp],[data-g],[data-more],[data-rm],#armaSave,#armaClr,#slipBar'); if(!t||!t.closest('#sec-arma')) return;
   if(t.dataset.asp){ AR.sport=t.dataset.asp; }
@@ -2236,10 +2527,10 @@ document.addEventListener('click',async ev=>{ const b=ev.target.closest('#flmBtn
 (function(){ const d=$('rachaDlg'); if(d) d.addEventListener('click',e=>{ if(e.target===d) d.close(); }); })();
 
 /* ---------- navegación ---------- */
-const TABS=['inicio','combo','arma','retos','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes'];
+const TABS=['inicio','combo','arma','retos','fut','mlb','nba','nfl','nhl','ten','rank','hist','how','planes','perfil'];
 function show(t){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t)));
-  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='inicio'; if(t==='inicio') animIn($('homeTop')); if(t==='arma'){buildArma(); armaLoad();} armaBar(); animIn($('sec-'+t));
+  TABS.forEach(k=>$('sec-'+k).hidden=k!==t); store.set('tab',t); CUR_TAB=t; $('homeTop').hidden=t!=='inicio'; if(t==='inicio') animIn($('homeTop')); if(t==='arma'){buildArma(); armaLoad();} if(t==='perfil'){buildPerfil(); pfLoad();} armaBar(); animIn($('sec-'+t));
   const sp=SPORTS.find(x=>x.tab===t); const nk=sp?sp.k:null; if(nk!==SIDE_SPORT){SIDE_SPORT=nk; buildSide();}
   buildStats(); if(t==='rank'&&RK.view===1) buildRank();
   setTimeout(()=>maybeTip(t),350);
@@ -2583,6 +2874,15 @@ const SH_ICO='<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
 function shareBtn(kind,arg,label){return `<button type="button" class="sh-b${label?' txt':''}" data-share="${esc(kind)}" data-sa="${esc(arg)}" title="Compartir como imagen"${label?'':' aria-label="Compartir como imagen"'}>${SH_ICO}${label?`<span>${esc(label)}</span>`:''}</button>`;}
 function shareSpec(kind,arg){
   const SPN=k=>{const s=SPORTS.find(x=>x.k===k); return s?s.name:k;};
+  if(kind==='mia'){
+    const c=(AR.mine||[]).concat((PF.d&&PF.d.combos)||[]).find(x=>String(x.id)===String(arg)); if(!c) return null;
+    const who=(PF.d&&PF.d.usuario)||(window.LC_ME&&window.LC_ME.email||'').split('@')[0]||'';
+    const rv=v=>v==='1'||v===1?1:v==='0'||v===0?0:v==='void'?'void':null, res=c.result===1?1:c.result===0?0:c.result===2?'void':null;
+    return {type:'combo',file:'lacasa-mi-combinada-'+c.day,kicker:(who?'@'+who+' · ':'')+'Arma la tuya · '+fmtDate(c.day),title:'Mi combinada',
+      badge:res!==null?{t:res===1?'+'+c.points+' PTS':resTxt(res).toUpperCase(),c:resCls(res)}:null,
+      legs:(c.legs||[]).map(l=>({game:(l.game||gname(l.gid))+(l.score?' · '+l.score:''),sel:l.label,grp:l.grp||'',p:pct(l.p),res:rv(l.result)})),
+      foot:[['Chance de ganar',pct(+c.p)],[res===1?'Puntos ganados':'Vale',(res===1?'+'+c.points:c.pts_win)+' pts']]};
+  }
   if(kind==='combo'){
     const [date,sport,type]=String(arg).split('|');
     const hc=CH.find(c=>c.date===date&&c.sport===sport&&c.type===type), tc=date===DATA.date?((DATA.combos||{})[sport]||{})[type]:null;
@@ -2759,7 +3059,7 @@ if(PUBLIC){
 
   window.choosePlan=k=>{SEL=(k==='promo'&&!promoOn())?'completo':k;SEL_OPEN=true;TAB='plan';if(!ME)VIEW='signup';window.openAccount();};
   function paintBtn(){
-    window.LC_SB=sb; window.LC_ME=ME;
+    window.LC_SB=sb; window.LC_ME=ME; window.LC_SBURL=SB_URL;
     const pl=plan(); window.LC_PLAN=pl; window.LC_UNTIL=pl?fmt(pl==='completo'?PROF.completo_until:PROF.basico_until):null; buildPlanes(); if(window.armaAuth) setTimeout(window.armaAuth,0);
     if(!ME){btn.innerHTML='Entrar';return;}
     btn.classList.toggle('has-pro',!!active());
@@ -2860,9 +3160,10 @@ if(PUBLIC){
     const okBox=on?(PREM?`<div class="msg ok">Tienes el plan <b>${pl==='completo'?'Completo':'Básico'}</b> activo.${pl==='basico'?' Ves la Segura de cada deporte. Para ver todo, pasa al plan Completo.':' Ves todas las combinadas y el análisis de cada partido.'}</div><button class="btn-v cut" id="goApp">Ver los pronósticos</button>`
       :`<div class="msg">Tu plan está activo. Los pronósticos de hoy todavía no se han publicado; aparecen aquí apenas se carguen en la mañana.</div><button class="btn-v cut" id="goApp">Volver a la página</button>`):'';
     const head=`<div class="status"><span>${hello}</span>${on?`<b class="on">${pl==='completo'?'COMPLETO':'BÁSICO'}${forever()?'':' HASTA '+fmt(pl==='completo'?PROF.completo_until:PROF.basico_until)}</b>`:'<b class="off">SIN PLAN</b>'}</div>
+      <button type="button" class="btn-v cut" id="goPf" style="width:100%">Ver mi perfil, logros e historial</button>
       <div class="seg seg3" role="tablist" aria-label="Mi cuenta">${[['plan','Mi plan'],['datos','Mis datos'],['seg','Seguridad']].map(([k,n])=>`<button type="button" role="tab" data-tab="${k}" aria-pressed="${TAB===k}">${n}</button>`).join('')}</div>`;
     const foot=`<div class="row2" style="justify-content:space-between"><span class="note">¿Problemas? Escribe a <b style="color:var(--ink)">@lacasa_ve</b> en Instagram.</span><button class="btn-g" id="logout">Cerrar sesión</button></div>`;
-    const common=()=>{ body.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;render();}); $('logout').onclick=async()=>{await sb.auth.signOut();dlg.close();}; };
+    const common=()=>{ if($('goPf')) $('goPf').onclick=()=>{dlg.close(); show('perfil'); window.scrollTo({top:0,behavior:'smooth'});}; body.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;render();}); $('logout').onclick=async()=>{await sb.auth.signOut();dlg.close();}; };
     if(TAB!=='plan'){ renderPanel(head,foot); common(); return; }
     body.innerHTML=head+`${planCard()}
       ${okBox}
