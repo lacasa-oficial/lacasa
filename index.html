@@ -1170,6 +1170,16 @@ dialog.udl{width:min(520px,calc(100% - 24px))}
 .ucard .uh h3{margin:0 0 6px;font-family:var(--display);font-size:20px;display:flex;align-items:center;gap:8px;word-break:break-all}
 .ucard .ux{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);cursor:pointer;font-size:14px}
 .udl .it small{display:none}.udl .it b{font-size:11px}
+
+/* periodos */
+.per-btn{font-size:13px;font-weight:700;color:var(--v-hi);margin-top:10px;display:inline-block}
+.per-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);padding:14px 16px;font-size:14px}
+.per-head small{color:var(--muted);font-size:12.5px}.per-head .per-btn{margin-top:0}
+.ucard.per{gap:10px}
+.per-r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;background:var(--panel-2);border:1px solid var(--line);padding:10px 12px}
+.per-r span{font-weight:700;font-size:14px}.per-r span em{font-style:normal;font-size:11px;color:var(--v-hi);margin-left:6px;text-transform:uppercase;letter-spacing:.08em}
+.per-r b{font-family:var(--display);font-size:18px;grid-row:span 2;align-self:center}.per-r small{font-size:12px;color:var(--muted)}
+.per-r.now{border-color:var(--v)}
 </style>
 
 </head>
@@ -1953,14 +1963,43 @@ function agendaHTML(){
    ${T.length>L.length?`<p class="note">Y ${T.length-L.length} más en la pestaña de cada deporte.</p>`:''}</div>`;
 }
 
+/* ---------- PERIODOS v1 (15/10): los porcentajes de la página cuentan la SEMANA (lunes a domingo) y se resumen por mes.
+   El historial completo no se borra: las semanas y meses anteriores se ven en «Semanas y meses anteriores». ---------- */
+function mondayOf(d){const t=new Date(d+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)); return t.toISOString().slice(0,10);}
+const addDays=(d,n)=>{const t=new Date(d+'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10);};
+const WK0=()=>mondayOf(DATA.date||todayCCS), MO0=()=>(DATA.date||todayCCS).slice(0,7);
+const graded=a=>a.filter(e=>e.result===1||e.result===0);
+const HW=()=>H.filter(e=>e.date>=WK0()), CHW=()=>CH.filter(c=>c.date>=WK0());
+const HM=()=>H.filter(e=>e.date.slice(0,7)===MO0()), CHM=()=>CH.filter(c=>c.date.slice(0,7)===MO0());
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const mesName=m=>MESES[+m.slice(5,7)-1]+' '+m.slice(0,4);
+const wkLabel=w=>`${fmtDate(w).slice(0,5)} al ${fmtDate(addDays(w,6)).slice(0,5)}`;
+function perStats(es,cs){const d=graded(es), ok=d.filter(e=>e.result===1).length, c=graded(cs), cok=c.filter(x=>x.result===1).length; return {n:d.length,ok,cn:c.length,cok};}
+function openPeriods(){
+  const rowsW={}, rowsM={};
+  H.forEach(e=>{const w=mondayOf(e.date),m=e.date.slice(0,7); (rowsW[w]=rowsW[w]||{e:[],c:[]}).e.push(e); (rowsM[m]=rowsM[m]||{e:[],c:[]}).e.push(e);});
+  CH.forEach(c=>{const w=mondayOf(c.date),m=c.date.slice(0,7); (rowsW[w]=rowsW[w]||{e:[],c:[]}).c.push(c); (rowsM[m]=rowsM[m]||{e:[],c:[]}).c.push(c);});
+  const line=(t,o,now)=>{const st=perStats(o.e,o.c); return `<div class="per-r${now?' now':''}"><span>${t}${now?' <em>en curso</em>':''}</span><b class="num">${st.n?pct0(st.ok/st.n):'—'}</b><small>${st.ok}/${st.n} pronósticos · ${st.cok}/${st.cn} combinadas</small></div>`;};
+  const W=Object.keys(rowsW).sort().reverse(), M=Object.keys(rowsM).sort().reverse();
+  let dl=$('perDlg'); if(!dl){ dl=document.createElement('dialog'); dl.className='tdl'; dl.id='perDlg'; dl.setAttribute('aria-label','Semanas y meses anteriores'); document.body.appendChild(dl); dl.addEventListener('click',e=>{if(e.target===dl) dl.close();}); }
+  dl.innerHTML=`<div class="ucard per"><button type="button" class="ux" aria-label="Cerrar" onclick="this.closest('dialog').close()">✕</button>
+    <h3 style="margin:0;font-family:var(--display)">Semanas y meses</h3><p class="pf-note" style="margin:0">El contador de la página vuelve a cero cada lunes. Aquí queda todo lo anterior, sin borrar nada.</p>
+    <div class="pf-hd"><h3>Por mes</h3></div>${M.map(m=>line(mesName(m).replace(/^./,c=>c.toUpperCase()),rowsM[m],m===MO0())).join('')}
+    <div class="pf-hd"><h3>Por semana</h3></div>${W.map(w=>line('Semana del '+wkLabel(w),rowsW[w],w===WK0())).join('')}</div>`;
+  if(!dl.open) dl.showModal();
+}
+window.openPeriods=openPeriods;
+const perBtn=(t='Semanas y meses anteriores')=>`<button type="button" class="linkbtn per-btn" onclick="openPeriods()">${t} →</button>`;
 /* ---------- REDISEÑO F1: portada ---------- */
 function heroHTML(){
-  const d=H.filter(e=>e.result===1||e.result===0), ok=d.filter(e=>e.result===1).length;
-  const seg=tierStats(CH.filter(c=>c.result===1||c.result===0))[0];
+  let d=graded(HW()), cs=CHW(), when='esta semana';
+  if(d.length<10){ const pw=addDays(WK0(),-7); d=graded(H.filter(e=>e.date>=pw&&e.date<WK0())); cs=CH.filter(c=>c.date>=pw&&c.date<WK0()); when='la semana pasada'; }
+  const ok=d.filter(e=>e.result===1).length;
+  const seg=tierStats(graded(cs))[0];
   const nsp=SPORTS.filter(s=>(DATA[s.k]||[]).length).length;
   const st=[];
-  if(d.length>=10) st.push([pct0(ok/d.length),`aciertos en ${d.length} pronósticos`]);
-  if(seg&&seg.n>=5) st.push([pct0(seg.real),'Seguras acertadas']);
+  if(d.length>=10) st.push([pct0(ok/d.length),`aciertos ${when} (${ok}/${d.length})`]);
+  if(seg&&seg.n>=3) st.push([pct0(seg.real),`Seguras acertadas ${when}`]);
   st.push([String(nsp),nsp===1?'deporte hoy':'deportes hoy']);
   const sec=window.LC_PLAN?`<button class="btn-s cut" type="button" onclick="show('hist');window.scrollTo({top:0,behavior:'smooth'})">Ver historial</button>`
     :`<button class="btn-s cut" type="button" onclick="$('planBtn').click()">Planes desde 3 USDT</button>`;
@@ -2000,8 +2039,8 @@ function animIn(sec){
 
 function buildInicio(){ buildHome(); const s=$('sec-inicio'); if(s) s.innerHTML=agendaHTML()||'<p class="info cut">Hoy no hay partidos cargados todavía.</p>'; }
 function buildCombos(){
-  const _d=H.filter(e=>e.result===1||e.result===0), _ok=_d.filter(e=>e.result===1).length;
-  const seal=_d.length>=10?`<a class="seal cut" href="#hist" onclick="show('hist');return false;"><span class="ck">✓</span><b class="num">${pct0(_ok/_d.length)}</b> de aciertos (${_ok}/${_d.length}) · <u>historial público y verificable</u></a>`:'';
+  const _d=graded(HW()), _ok=_d.filter(e=>e.result===1).length;
+  const seal=_d.length>=5?`<a class="seal cut" href="#hist" onclick="show('hist');return false;"><span class="ck">✓</span><b class="num">${pct0(_ok/_d.length)}</b> de aciertos esta semana (${_ok}/${_d.length}) · <u>historial público y verificable</u></a>`:'';
   let h=`<div class="h-sec" id="comboTop"><div><div class="kick">Del día</div><h2>Combinadas</h2></div><p>Tres combinadas por deporte: una <b>Segura</b> (55% o más de chance), una <b>Media</b> (33% a 55%) y una <b>Arriesgada</b> (15% a 33%).</p></div>`;
   const firstOn=(SPORTS.find(s=>CT.some(ct=>((DATA.combos||{})[s.k]||{})[ct.k]))||{}).k;
   SPORTS.forEach(s=>{
@@ -2027,17 +2066,17 @@ function gauge(real,exp){
   return `<svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--panel-3)" stroke-width="9"/><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--v)" stroke-width="9" stroke-dasharray="${(v*C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 46 46)"/>${exp!=null?`<line x1="46" y1="2" x2="46" y2="16" style="stroke:var(--ink)" stroke-width="2.5" transform="rotate(${(e*360).toFixed(1)} 46 46)"/>`:''}</svg>`;
 }
 let SIDE_SPORT=null;
-function sportStats(k){const d=H.filter(e=>(e.result===1||e.result===0)&&(!k||e.sport===k)); const ok=d.filter(e=>e.result===1).length; return {d,ok,n:d.length};}
-function sportSeal(s){const st=sportStats(s.k); if(st.n<3) return ''; return `<a class="seal cut" href="#hist" onclick="show('hist');return false;"><span class="ck">✓</span><b class="num">${pct0(st.ok/st.n)}</b> de aciertos en ${s.name.toLowerCase()} (${st.ok}/${st.n}) · <u>ver historial</u></a>`;}
+function sportStats(k){const d=HW().filter(e=>(e.result===1||e.result===0)&&(!k||e.sport===k)); const ok=d.filter(e=>e.result===1).length; return {d,ok,n:d.length};}
+function sportSeal(s){const st=sportStats(s.k); if(st.n<3) return ''; return `<a class="seal cut" href="#hist" onclick="show('hist');return false;"><span class="ck">✓</span><b class="num">${pct0(st.ok/st.n)}</b> de aciertos en ${s.name.toLowerCase()} esta semana (${st.ok}/${st.n}) · <u>ver historial</u></a>`;}
 function buildSide(){
   const SP=SIDE_SPORT?SPORTS.find(s=>s.k===SIDE_SPORT):null;
-  const done=H.filter(e=>(e.result===1||e.result===0)&&(!SP||e.sport===SP.k));
+  const done=HW().filter(e=>(e.result===1||e.result===0)&&(!SP||e.sport===SP.k));
   const hits=done.filter(e=>e.result===1).length;
   const real=done.length?hits/done.length:null, exp=done.length?done.reduce((s,e)=>s+e.p,0)/done.length:null;
-  const cDone=CH.filter(c=>(c.result===1||c.result===0)&&(!SP||c.sport===SP.k));
-  const gen=sportStats(null);
-  let h=`<div class="card cut"><h3>Rendimiento${SP?' · '+SP.name:''}</h3><div class="gauge">${gauge(real,exp)}<div><div class="gv num" data-cu>${real==null?'—':pct0(real)}</div><div class="gl">pronósticos acertados (${hits}/${done.length})</div><div class="gl">La marca blanca es lo que esperaba el modelo: ${exp==null?'—':pct0(exp)}</div></div></div>
-    <div class="mini">${tierStats(cDone).map(t=>`<div class="row"><span>Combinadas ${t.name.toLowerCase()}</span><b class="num">${t.n?`${pct0(t.real)} · ${t.ok}/${t.n}`:'—'}</b></div>`).join('')}${SP&&gen.n?`<div class="row"><span>General (todos los deportes)</span><b class="num">${pct0(gen.ok/gen.n)} · ${gen.ok}/${gen.n}</b></div>`:''}</div></div>`;
+  const cDone=CHW().filter(c=>(c.result===1||c.result===0)&&(!SP||c.sport===SP.k));
+  const gen=sportStats(null), mo=perStats(HM().filter(e=>!SP||e.sport===SP.k),CHM().filter(c=>!SP||c.sport===SP.k));
+  let h=`<div class="card cut"><h3>Rendimiento${SP?' · '+SP.name:''} · esta semana</h3><div class="gauge">${gauge(real,exp)}<div><div class="gv num" data-cu>${real==null?'—':pct0(real)}</div><div class="gl">pronósticos acertados (${hits}/${done.length})</div><div class="gl">La marca blanca es lo que esperaba el modelo: ${exp==null?'—':pct0(exp)}</div></div></div>
+    <div class="mini">${tierStats(cDone).map(t=>`<div class="row"><span>Combinadas ${t.name.toLowerCase()}</span><b class="num">${t.n?`${pct0(t.real)} · ${t.ok}/${t.n}`:'—'}</b></div>`).join('')}${SP&&gen.n?`<div class="row"><span>General (todos los deportes)</span><b class="num">${pct0(gen.ok/gen.n)} · ${gen.ok}/${gen.n}</b></div>`:''}<div class="row"><span>Mes de ${MESES[+MO0().slice(5,7)-1]}</span><b class="num">${mo.n?`${pct0(mo.ok/mo.n)} · ${mo.ok}/${mo.n}`:'—'}</b></div></div>${perBtn()}</div>`;
   const today=[]; SPORTS.forEach(s=>CT.forEach(ct=>{const c=((DATA.combos||{})[s.k]||{})[ct.k]; if(c) today.push({s,ct,c,hc:histCombo(s.k,ct.k,DATA.date)});}));
   if(today.length) h+=`<div class="card cut"><h3>Combinadas de hoy</h3><div class="mini">${today.map(t=>`<div class="row"><span>${t.s.name} · ${cname(t.ct.k,t.c.p,true)} <span class="num" style="color:var(--muted)">${pct(t.c.p)}</span></span><b class="${resCls(t.hc?t.hc.result:null)}">${resTxt(t.hc?t.hc.result:null).toUpperCase()}</b></div>`).join('')}</div></div>`;
   h+=favCard();
@@ -2048,13 +2087,14 @@ function buildSide(){
 /* ---------- historial ---------- */
 function fmtDate(d){return d.split('-').reverse().join('/');}
 function buildHist(){
-  const done=H.filter(e=>e.result===1||e.result===0), cDone=CH.filter(c=>c.result===1||c.result===0);
-  const legs=CH.flatMap(c=>c.legs).filter(l=>l.result===1||l.result===0);
+  const done=graded(HW()), cDone=graded(CHW());
+  const legs=CHW().flatMap(c=>c.legs).filter(l=>l.result===1||l.result===0);
+  const mo=perStats(HM(),CHM());
   const r=a=>a.length?`${a.filter(x=>x.result===1).length}/${a.length}`:'—';
   const pr=a=>a.length?pct0(a.filter(x=>x.result===1).length/a.length):'—';
   const ex=a=>a.length?pct0(a.reduce((s,x)=>s+x.p,0)/a.length):'—';
   let h=`<div class="h-sec"><div><div class="kick">Resultados</div><h2>Historial</h2></div><p>Las combinadas se miden por tipo: las arriesgadas fallan más a propósito, por eso pagan más. "Esperado" es lo que decía el modelo: si el real queda cerca, está bien calibrado.</p></div>
-  ${teamSearch()}<div class="kick" style="margin-bottom:-6px">Combinadas por tipo</div><div class="kpis k3">${tierStats(cDone).map(t=>`<div class="kpi cut"><span>${t.name}</span><b class="num" data-cu>${t.n?pct0(t.real):'—'}</b><small>${t.n?`${t.ok} de ${t.n}<br>esperado ${pct0(t.exp)}`:'aún sin resultados'}</small></div>`).join('')}</div>
+  ${teamSearch()}<div class="per-head cut"><div><b>Esta semana</b> · del ${wkLabel(WK0())}<br><small>Los porcentajes vuelven a cero cada lunes. Mes de ${MESES[+MO0().slice(5,7)-1]}: <b class="num">${mo.n?pct0(mo.ok/mo.n):'—'}</b> (${mo.ok}/${mo.n} pronósticos · ${mo.cok}/${mo.cn} combinadas)</small></div>${perBtn('Ver semanas y meses anteriores')}</div><div class="kick" style="margin-bottom:-6px">Combinadas por tipo · esta semana</div><div class="kpis k3">${tierStats(cDone).map(t=>`<div class="kpi cut"><span>${t.name}</span><b class="num" data-cu>${t.n?pct0(t.real):'—'}</b><small>${t.n?`${t.ok} de ${t.n}<br>esperado ${pct0(t.exp)}`:'aún sin resultados'}</small></div>`).join('')}</div>
   <div class="kpis"><div class="kpi cut"><span>Selecciones de combinadas</span><b class="num">${pr(legs)}</b><small>esperado ${ex(legs)}</small></div>
   <div class="kpi cut"><span>Pronósticos del día</span><b class="num">${pr(done)}</b><small>${r(done)} · esperado ${ex(done)}</small></div></div>`;
   const dates=[...new Set([...CH.map(c=>c.date),...H.map(e=>e.date)])].sort().reverse();
@@ -2645,7 +2685,7 @@ function mlbSeries(j){
 function perfCard(){
   const rows=SPORTS.map(s=>({s,st:sportStats(s.k)})).filter(r=>r.st.n>0);
   if(!rows.length) return '';
-  return stCard('Aciertos por deporte',rows.map(r=>`<div class="sbar"><span>${r.s.name}</span><i><u style="width:${(100*r.st.ok/r.st.n).toFixed(0)}%"></u></i><b>${pct0(r.st.ok/r.st.n)} <small style="color:var(--muted);font-weight:400">${r.st.ok}/${r.st.n}</small></b></div>`).join('')+`<p class="st-note">Pronósticos del día acertados desde el 27/09/2026. Todo está en el historial.</p>`);
+  return stCard('Aciertos por deporte · esta semana',rows.map(r=>`<div class="sbar"><span>${r.s.name}</span><i><u style="width:${(100*r.st.ok/r.st.n).toFixed(0)}%"></u></i><b>${pct0(r.st.ok/r.st.n)} <small style="color:var(--muted);font-weight:400">${r.st.ok}/${r.st.n}</small></b></div>`).join('')+`<p class="st-note">Pronósticos acertados desde el lunes ${fmtDate(WK0()).slice(0,5)}. El contador vuelve a cero cada lunes.</p>${perBtn()}`);
 }
 async function buildStats(){
   const el=$('stats'); if(!el) return; const seq=++stSeq, t=CUR_TAB;
