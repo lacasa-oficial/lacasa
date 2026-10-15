@@ -2150,7 +2150,8 @@ document.addEventListener('click',async ev=>{
 /* ---------- LA RACHA ---------- */
 const FLAME=`<svg viewBox="0 0 86 104" aria-hidden="true"><defs><linearGradient id="rfg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF5C2E"/><stop offset=".6" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FFC94D"/></linearGradient><linearGradient id="rfg2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FFC94D"/><stop offset="1" stop-color="#FFF1B8"/></linearGradient></defs><path class="f1" d="M43 4C50 26 74 38 74 66a31 31 0 0 1-62 0c0-14 7-22 13-28 1 10 6 15 11 17C34 40 32 22 43 4z" fill="url(#rfg)"/><path d="M44 46c4 12 16 18 16 32a16 16 0 0 1-32 0c0-8 4-12 7-15 1 5 4 8 6 9-1-9-1-17 3-26z" fill="url(#rfg2)"/></svg>`;
 const RS={racha:0,mejor:0,creditos:0,resp:{},liga:[],login:false,tab:'hoy',hint:{},msg:'',loaded:false};
-const RMIL=[[5,10],[10,25],[20,75],[30,120]];
+const RMIL=[[5,100],[10,300],[20,1000],[30,2000]];
+const fmtN=n=>Number(n||0).toLocaleString('es-VE');
 const RCOL=[['Clásica',5,'#856CFF','#F2EFFF'],['Llama',10,'#FF8A3D','#FFC94D'],['Noche',15,'#111827','#856CFF'],['Oro',20,'#E0A51C','#111111'],['Vinotinto',25,'#7A1E2E','#F2C200'],['Leyenda',30,'#F2EFFF','#4B34D6']];
 function rQs(){ return (DATA.racha||[]).filter(q=>q.day===DATA.date); }
 function rOpen(q){ return new Date(q.iso)>new Date(); }
@@ -2160,7 +2161,7 @@ async function rLoad(){ const sb=window.LC_SB; if(!sb) return; try{ const {data,
 function rTip(){ const t=$('rTip'); if(!t||!rOff()) { if(t) t.hidden=true; return; } const k='rtip-'+DATA.date; if(store.get(k)) return; setTimeout(()=>{ if(rOff()&&!$('rachaDlg').open){ t.hidden=false; store.set(k,'1'); } },2500); }
 function rHero(){ const nx=RMIL.find(m=>m[0]>RS.racha)||[RS.racha+10,0], pv=[0,...RMIL.map(m=>m[0])].filter(x=>x<=RS.racha).pop(), me=(RS.liga||[]).find(x=>x.yo);
   return `<div class="rhero cut${RS.racha?'':' off'}">${FLAME}<div class="rl">Tu racha</div><div class="rn num">${RS.racha}</div>
-   <div class="nx">${nx[1]?`Te faltan ${nx[0]-RS.racha} acierto${nx[0]-RS.racha===1?'':'s'} para la racha de ${nx[0]}: +${nx[1]} créditos`:'¡Sigue así!'}</div><div class="nb"><i style="width:${Math.round((RS.racha-pv)/(nx[0]-pv)*100)}%"></i></div>
+   <div class="nx">${nx[1]?`Te faltan ${nx[0]-RS.racha} acierto${nx[0]-RS.racha===1?'':'s'} para la racha de ${nx[0]}: +${fmtN(nx[1])} créditos`:'¡Sigue así!'}</div><div class="nb"><i style="width:${Math.round((RS.racha-pv)/(nx[0]-pv)*100)}%"></i></div>
    <div class="bs"><span>Mejor racha: <b>${RS.mejor}</b></span><span>${me?`Liga de la semana: puesto <b>${me.pos}</b>`:'Liga de la semana'}</span></div></div>`; }
 function rHoy(){ const qs=rQs(); if(!qs.length) return '<p class="info cut">Las preguntas de hoy salen en la mañana. Vuelve en un rato.</p>';
   return qs.map(q=>{ const a=RS.resp[q.id], open=rOpen(q), r=a&&a.result, cls=r===1?' won':r===0?' lost':'', si=a?a.si:null;
@@ -2169,18 +2170,18 @@ function rHoy(){ const qs=rQs(); if(!qs.length) return '<p class="info cut">Las 
    return `<article class="rq cut${cls}"><span class="col"></span><div class="rqb"><div class="rqm"><span><b>${esc(String(q.comp).split('·')[0].trim())}</b> · ${t}</span><span>${open?'Abierta':'Cerrada'}</span></div><div class="rqt">${esc(q.t)}</div>
     <div class="ryn"><button type="button" data-rq="${q.id}" data-rs="1" aria-pressed="${si===true}"${open?'':' disabled'}>SÍ</button><button type="button" data-rq="${q.id}" data-rs="0" aria-pressed="${si===false}"${open?'':' disabled'}>NO</button></div>
     <div class="rhint">${RS.hint[q.id]||!open?`<span>LA CASA dice <b>Sí ${Math.round(q.p*100)}%</b></span><span class="hb"><i style="width:${q.p*100}%"></i></span>`:`<button type="button" data-rh="${q.id}">Ver la pista de LA CASA</button>`}</div>${st}</div></article>`; }).join('')+
-   '<p class="rlegal">Cada acierto suma 1 a tu racha y un fallo la deja en 0. Las preguntas se cierran cuando empieza el partido y se califican con el marcador final.</p>'; }
-function rLiga(){ const L=RS.liga||[]; return `<p class="rlegal">Gana el que más acierta de lunes a domingo. Los 3 primeros reciben 30 créditos el lunes.</p><div class="rlg cut">${L.length?L.map(x=>`<div class="rlr${x.yo?' me':''}"><span class="p">${x.pos}</span><span>${esc(x.u)}</span><b>${x.ac} ✓</b></div>`).join(''):'<p class="rlegal" style="padding:12px 14px">Todavía nadie ha respondido esta semana. ¡Empieza tú!</p>'}</div>`; }
+   '<p class="rlegal">Cada acierto suma 1 a tu racha y 10 créditos; un fallo deja la racha en 0. Las preguntas se cierran cuando empieza el partido y se califican con el marcador final.</p>'; }
+function rLiga(){ const L=RS.liga||[]; return `<p class="rlegal">Gana el que más acierta de lunes a domingo. Los 3 primeros reciben 500 créditos el lunes.</p><div class="rlg cut">${L.length?L.map(x=>`<div class="rlr${x.yo?' me':''}"><span class="p">${x.pos}</span><span>${esc(x.u)}</span><b>${x.ac} ✓</b></div>`).join(''):'<p class="rlegal" style="padding:12px 14px">Todavía nadie ha respondido esta semana. ¡Empieza tú!</p>'}</div>`; }
 function rCol(){ return `<div class="rgrid">${RCOL.map(([n,need,a,b])=>`<div class="rit cut${RS.mejor>=need?'':' lock'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${SHIRT}" fill="${a}" stroke="${b}" stroke-width=".8"/></svg><b>${n}</b><span>${RS.mejor>=need?'Desbloqueada':'Racha de '+need}</span></div>`).join('')}</div><p class="rlegal">Las franelas se desbloquean con tu mejor racha.</p>`; }
-function rCan(){ return `<div class="rsp cut"><h3>1 mes · Plan Básico</h3><p>La Segura de cada deporte, todos los días.</p><button type="button" data-rc="basico"${RS.creditos<100?' disabled':''}><span class="coin"></span>100</button></div>
-  <div class="rsp cut"><h3>1 mes · Plan Completo</h3><p>Las 3 combinadas, el análisis completo y Arma la tuya.</p><button type="button" data-rc="completo"${RS.creditos<300?' disabled':''}><span class="coin"></span>300</button></div>
-  <p class="rlegal">Cómo se ganan: racha de 5 = 10 créditos · racha de 10 = 25 · racha de 20 = 75 · racha de 30 = 120 · top 3 de la liga semanal = 30. LA RACHA es gratis para todos. Los créditos solo se canjean por meses de LA CASA: no se cambian por dinero ni se transfieren.</p>`; }
+function rCan(){ return `<div class="rsp cut"><h3>1 mes · Plan Básico</h3><p>La Segura de cada deporte, todos los días.</p><button type="button" data-rc="basico"${RS.creditos<5000?' disabled':''}><span class="coin"></span>5.000</button></div>
+  <div class="rsp cut"><h3>1 mes · Plan Completo</h3><p>Las 3 combinadas, el análisis completo y Arma la tuya.</p><button type="button" data-rc="completo"${RS.creditos<15000?' disabled':''}><span class="coin"></span>15.000</button></div>
+  <p class="rlegal">Cómo se ganan: cada acierto = 10 créditos · racha de 5 = +100 · racha de 10 = +300 · racha de 20 = +1.000 · racha de 30 = +2.000 · top 3 de la liga semanal = +500. LA RACHA es gratis para todos. Los créditos solo se canjean por meses de LA CASA: no se cambian por dinero ni se transfieren.</p>`; }
 function rDraw(){ const b=$('rBody'); if(!b) return;
   b.innerHTML=`${rHero()}${RS.login||!window.LC_SB?'':`<div class="paywall cut"><div><b>Juega gratis</b><p>Crea tu cuenta para guardar tu racha, entrar a la liga y ganar créditos.</p></div><button type="button" class="btn-v cut" id="rLogin">Crear cuenta gratis</button></div>`}
    ${RS.msg?`<div class="msg ${RS.msg.k||''}">${RS.msg.t}</div>`:''}
    <div class="rtabs cut" role="tablist">${[['hoy','Hoy'],['liga','Liga'],['col','Colección'],['can','Canjear']].map(([k,l])=>`<button type="button" role="tab" data-rt="${k}" aria-selected="${RS.tab===k}">${l}</button>`).join('')}</div>
    <div style="display:flex;flex-direction:column;gap:10px">${RS.tab==='hoy'?rHoy():RS.tab==='liga'?rLiga():RS.tab==='col'?rCol():rCan()}</div>`;
-  $('rCr').textContent=RS.creditos; const l=$('rLogin'); if(l) l.onclick=()=>{ $('rachaDlg').close(); window.openAccount&&window.openAccount(); }; }
+  $('rCr').textContent=fmtN(RS.creditos); const l=$('rLogin'); if(l) l.onclick=()=>{ $('rachaDlg').close(); window.openAccount&&window.openAccount(); }; }
 function rOpenDlg(){ $('rTip').hidden=true; RS.msg=''; rDraw(); const d=$('rachaDlg'); if(!d.open) d.showModal(); rLoad(); }
 document.addEventListener('click',async ev=>{ const b=ev.target.closest('#flmBtn,#rTipGo,#rTipX,#rX,[data-rq],[data-rh],[data-rt],[data-rc]'); if(!b) return;
   if(b.id==='flmBtn'||b.id==='rTipGo') return rOpenDlg();
