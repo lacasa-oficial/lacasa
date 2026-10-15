@@ -1037,6 +1037,7 @@ nav.tabs button[aria-selected="true"] .tic{color:var(--on-v)}
   html.theming,html.theming *,html.theming *::before{transition:background-color .3s,color .3s,border-color .3s,fill .3s,stroke .3s,box-shadow .3s!important}
 }
 
+.ts{min-height:65px}.ts:empty{min-height:0}
 </style>
 
 </head>
@@ -2711,6 +2712,17 @@ if(PUBLIC){
   const fmt=d=>new Date(d).toLocaleDateString('es-VE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Caracas'});
   const active=()=>PROF&&PROF.paid_until&&new Date(PROF.paid_until)>new Date();
   const say=(el,txt,kind)=>{el.innerHTML=txt?`<div class="msg ${kind||''}">${txt}</div>`:'';};
+  /* verificación "no soy un robot" (Cloudflare Turnstile) */
+  const TS_KEY='0x4AAAAAAFXGp940qGDbSUFJ', TS={}; let tsP=null;
+  function tsLib(){ if(window.turnstile) return Promise.resolve(); if(tsP) return tsP;
+    tsP=new Promise((ok,ko)=>{const x=document.createElement('script');x.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';x.async=true;x.onload=()=>ok();x.onerror=()=>{tsP=null;ko();};document.head.appendChild(x);}); return tsP; }
+  function tsMount(id){ const el=$(id); if(!el) return; TS[id]={tok:null,w:null};
+    tsLib().then(()=>{ if(!document.contains(el)) return; try{ TS[id].w=turnstile.render(el,{sitekey:TS_KEY,theme:document.documentElement.getAttribute('data-theme')==='light'?'light':'dark',language:'es',size:'flexible',
+      callback:t=>{TS[id].tok=t;},'expired-callback':()=>{TS[id].tok=null;},'error-callback':()=>{TS[id].tok=null;}}); }catch(e){} }).catch(()=>{}); }
+  const tsTok=id=>TS[id]&&TS[id].tok||undefined;
+  const tsNeed=id=>!!window.turnstile&&!tsTok(id);
+  function tsReset(id){ const o=TS[id]; if(!o) return; o.tok=null; try{ if(o.w!=null) turnstile.reset(o.w); }catch(e){} }
+  const TS_MSG='Marca la casilla de verificación de seguridad y vuelve a intentar.';
 
   window.choosePlan=k=>{SEL=(k==='promo'&&!promoOn())?'completo':k;SEL_OPEN=true;TAB='plan';if(!ME)VIEW='signup';window.openAccount();};
   function paintBtn(){
@@ -2748,14 +2760,16 @@ if(PUBLIC){
       body.innerHTML=`<form id="fgForm" class="acct-in" style="padding:0;border:0;background:none;gap:14px;max-height:none;overflow:visible">
         <p class="note" style="margin:0">Escribe el correo de tu cuenta y te enviaremos un enlace para crear una contraseña nueva.</p>
         <div class="fld"><label for="fgEm">Correo</label><input id="fgEm" type="email" autocomplete="email" required></div>
+        <div class="ts" id="tsFg"></div>
         <div id="fgMsg"></div>
         <button class="btn-v cut" type="submit">Enviar enlace</button>
         <button type="button" class="linkbtn" id="fgBack">Volver a iniciar sesión</button></form>`;
-      $('fgBack').onclick=()=>{VIEW='login';render();};
+      $('fgBack').onclick=()=>{VIEW='login';render();}; tsMount('tsFg');
       $('fgForm').onsubmit=async e=>{
         e.preventDefault(); const m=$('fgMsg'), b=e.target.querySelector('button[type=submit]');
+        if(tsNeed('tsFg')){say(m,TS_MSG,'err');return;}
         b.disabled=true; say(m,'Un momento…');
-        const {error}=await sb.auth.resetPasswordForEmail($('fgEm').value.trim(),{redirectTo:location.origin+location.pathname});
+        const {error}=await sb.auth.resetPasswordForEmail($('fgEm').value.trim(),{redirectTo:location.origin+location.pathname,captchaToken:tsTok('tsFg')}); tsReset('tsFg');
         b.disabled=false;
         if(error&&/rate|seconds/i.test(error.message||'')){say(m,'Espera un minuto antes de pedir otro enlace.','err');return;}
         say(m,'Si ese correo tiene cuenta, te llegará un enlace en unos minutos. Revisa también la carpeta de spam.','ok');
@@ -2776,13 +2790,14 @@ if(PUBLIC){
         ${SU?`<div class="fld"><label>Términos y condiciones</label><div class="terms terms-box" tabindex="0">${$('tpl-terms').innerHTML}</div></div>
         <label class="chk"><input type="checkbox" id="tos" required><span>Leí y <b style="color:var(--ink)">acepto los términos y condiciones</b>. Entiendo que LA CASA es solo un programa de estadísticas, que no predice el futuro y que soy mayor de 18 años.</span></label>
         <label class="chk"><input type="checkbox" id="priv" required><span>Leí y <b style="color:var(--ink)">acepto la <a href="#" onclick="window.openLegal&&window.openLegal('tpl-priv','Política de privacidad');return false;" style="color:var(--v-hi)">política de privacidad</a></b> y autorizo el uso de mis datos como ahí se explica.</span></label>`:''}
+        <div class="ts" id="tsAuth"></div>
         <div id="authMsg"></div>
         <button class="btn-v cut" type="submit">${SU?'Siguiente':'Entrar'}</button>
         ${SU?'':'<button type="button" class="linkbtn" id="fgGo">¿Olvidaste tu contraseña?</button>'}
       </form>
       ${SU?'':'<p class="note">¿No tienes cuenta? Toca <b style="color:var(--ink)">Crear cuenta</b>. Después del registro eliges tu plan y pagas con Binance.</p>'}`;
       body.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{VIEW=b.dataset.v;render();});
-      if($('fgGo')) $('fgGo').onclick=()=>{VIEW='forgot';render();};
+      if($('fgGo')) $('fgGo').onclick=()=>{VIEW='forgot';render();}; tsMount('tsAuth');
       $('authForm').onsubmit=async e=>{
         e.preventDefault(); const m=$('authMsg'), sub=e.submitter||e.target.querySelector('button[type=submit]');
         const email=$('em').value.trim(), password=$('pw').value;
@@ -2794,9 +2809,10 @@ if(PUBLIC){
           if(tel.replace(/\D/g,'').length<10){say(m,'Escribe tu teléfono completo, con código de país.','err');return;}
           meta={nombre:$('fn').value.trim(),apellido:$('ln').value.trim(),usuario:$('un').value.trim().toLowerCase(),ubicacion:$('loc').value.trim(),telefono:tel,terminos_aceptados:new Date().toISOString(),terminos_version:'2026-10-14+priv'};
         }
+        if(tsNeed('tsAuth')){say(m,TS_MSG,'err');return;}
         sub.disabled=true; say(m,'Un momento…');
         if(SU){ const {data:libre}=await sb.rpc('usuario_disponible',{u:meta.usuario}); if(libre===false){sub.disabled=false;say(m,'Ese usuario ya está en uso. Elige otro.','err');return;} }
-        const r=SU?await sb.auth.signUp({email,password,options:{data:meta}}):await sb.auth.signInWithPassword({email,password});
+        const ct=tsTok('tsAuth'); const r=SU?await sb.auth.signUp({email,password,options:{data:meta,captchaToken:ct}}):await sb.auth.signInWithPassword({email,password,options:{captchaToken:ct}}); tsReset('tsAuth');
         sub.disabled=false;
         if(r.error){ const t=r.error.message||'';
           say(m, /Invalid login/i.test(t)?'Correo o contraseña incorrectos.':/already registered|already exists/i.test(t)?'Ese correo ya tiene cuenta. Inicia sesión.':/Password should/i.test(t)?'La contraseña es muy corta.':/Database error saving/i.test(t)?'Ese usuario ya está en uso o algún dato no es válido. Revisa e intenta de nuevo.':'No se pudo: '+esc(t),'err'); return; }
@@ -2864,9 +2880,9 @@ if(PUBLIC){
     $('payList').innerHTML=`<div class="pays"><h4>Mis pagos</h4>${rows.map(r=>`<div class="pay"><span>${fmt(r.tx_time)}</span><span>${esc(PN[r.plan]||r.plan||'')}${r.days?` · ${r.days} días`:' · sin acreditar'}</span><b class="num">${Number(r.amount)} ${esc(r.currency||'USDT')}</b></div>`).join('')}</div>`;
   }
   // comprueba la contraseña actual sin tocar la sesión abierta
-  async function checkPass(pw){
+  async function checkPass(pw,ct){
     try{ const tmp=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'lc-chk'}});
-      const {data,error}=await tmp.auth.signInWithPassword({email:ME.email,password:pw}); return !error&&!!data&&!!data.user&&data.user.id===ME.id; }catch(e){ return false; }
+      const {data,error}=await tmp.auth.signInWithPassword({email:ME.email,password:pw,options:{captchaToken:ct}}); return !error&&!!data&&!!data.user&&data.user.id===ME.id; }catch(e){ return false; }
   }
   function renderPanel(head,foot){
     const v=k=>esc(PROF&&PROF[k]||'');
@@ -2900,6 +2916,7 @@ if(PUBLIC){
         <div class="fld"><label for="pw0">Contraseña actual</label><input id="pw0" type="password" autocomplete="current-password" required></div>
         <div class="grid2"><div class="fld"><label for="pw1">Nueva contraseña</label><input id="pw1" type="password" minlength="8" autocomplete="new-password" required><small>Mínimo 8 caracteres.</small></div>
         <div class="fld"><label for="pw2">Repite la nueva</label><input id="pw2" type="password" minlength="8" autocomplete="new-password" required></div></div>
+        <div class="ts" id="tsPw"></div>
         <div id="pwMsg"></div>
         <button class="btn-v cut" type="submit">Cambiar contraseña</button></form>
       <div class="sec-box"><h4 class="sec-h">Sesiones</h4><p class="note">Si entraste desde otro teléfono o computadora y quieres cerrar todo, usa este botón. Tendrás que volver a iniciar sesión.</p>
@@ -2913,12 +2930,15 @@ if(PUBLIC){
           <div id="delMsg"></div>
           <div class="row2"><button type="submit" class="btn-g dz">Sí, eliminar definitivamente</button><button type="button" class="btn-g" id="delNo">Cancelar</button></div>
         </form></div>`+foot;
+    tsMount('tsPw');
     $('pwForm').onsubmit=async e=>{
       e.preventDefault(); const m=$('pwMsg'), b=e.target.querySelector('button[type=submit]'), a=$('pw1').value;
       if(a!==$('pw2').value){say(m,'Las dos contraseñas nuevas no coinciden.','err');return;}
       if(a===$('pw0').value){say(m,'La nueva contraseña debe ser distinta a la actual.','err');return;}
+      if(tsNeed('tsPw')){say(m,TS_MSG,'err');return;}
       b.disabled=true; say(m,'Un momento…');
-      if(!(await checkPass($('pw0').value))){b.disabled=false;say(m,'La contraseña actual no es correcta.','err');return;}
+      const okp=await checkPass($('pw0').value,tsTok('tsPw')); tsReset('tsPw');
+      if(!okp){b.disabled=false;say(m,'La contraseña actual no es correcta.','err');return;}
       const {error}=await sb.auth.updateUser({password:a}); b.disabled=false;
       if(error){say(m,/different from the old/i.test(error.message||'')?'La nueva contraseña debe ser distinta a la actual.':/Password should|weak/i.test(error.message||'')?'La contraseña es muy corta o muy fácil.':'No se pudo cambiar. Intenta de nuevo en un minuto.','err');return;}
       e.target.reset(); say(m,'Listo, tu contraseña quedó cambiada.','ok');
