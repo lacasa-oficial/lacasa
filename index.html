@@ -1566,7 +1566,7 @@ function pickCell(x,st){
   } const done=st.k==='fin'&&r&&(r.result===1||r.result===0);
   const cls=done?(r.result===1?'ok':'no'):'', q=split(x.g.pick);
   const base=done?(r.result===1?'Acertó':'Falló')+(r.bajo?' · no cuenta':''):x.g.free?'Muestra gratis':x.g.bajo?'Parejo · no cuenta':x.g.parejo&&!q.dc?'Partido parejo':'Pronóstico';
-  return `<div class="pick"><small>${lab(base,q.dc,done)}</small><b class="${cls}" title="${esc(x.g.pick)}">${esc(q.name)}</b><em>${pct(x.g.pick_p)}${q.dc?' · o empate':''}</em></div>`;
+  return `<div class="pick"><small>${lab(base,q.dc,done)}</small><b class="${cls}" title="${esc(x.g.pick)}">${esc(q.name)}</b><em>${pct(x.g.pick_p)}${q.dc?' · o empate':''}${x.g.lineups&&x.g.lineups.home&&x.g.lineups.home.confirmed&&x.g.lineups.away&&x.g.lineups.away.confirmed?' · <b style="color:var(--win)" title="Pronóstico actualizado con la alineación confirmada">XI ✓</b>':''}</em></div>`;
 }
 function probBar(x){
   const m=x.g.markets[0].items;
